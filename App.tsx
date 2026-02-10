@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Clock, Save, FileText, CheckCircle, Award, AlertTriangle, RotateCcw } from 'lucide-react';
+import { Clock, Save, FileText, CheckCircle, Award, AlertTriangle, RotateCcw, Lock } from 'lucide-react';
 import { EXAM_DATA } from './data';
 import { QuestionCard } from './components/QuestionCard';
 import { ExamState, UserAnswers, Question } from './types';
@@ -7,6 +7,7 @@ import { ExamState, UserAnswers, Question } from './types';
 // Constants
 const EXAM_DURATION = 3 * 60 * 60; // 3 hours in seconds
 const STORAGE_KEY = 'cbse-exam-state-v1';
+const LOCKED_QUESTIONS_KEY = 'cbse-exam-locked-v1';
 
 export default function App() {
   const [examState, setExamState] = useState<ExamState>({
@@ -17,6 +18,7 @@ export default function App() {
     isSubmitted: false
   });
 
+  const [lockedQuestions, setLockedQuestions] = useState<Set<string>>(new Set());
   const [hasLoaded, setHasLoaded] = useState(false);
 
   // Load from local storage on mount
@@ -30,6 +32,17 @@ export default function App() {
         console.error("Failed to load save state", e);
       }
     }
+    
+    const savedLocked = localStorage.getItem(LOCKED_QUESTIONS_KEY);
+    if (savedLocked) {
+      try {
+        const parsed = JSON.parse(savedLocked);
+        setLockedQuestions(new Set(parsed));
+      } catch (e) {
+        console.error("Failed to load locked questions", e);
+      }
+    }
+    
     setHasLoaded(true);
   }, []);
 
@@ -54,6 +67,10 @@ export default function App() {
 
   // Handler for saving answers
   const handleAnswerChange = (questionId: string, value: string | number) => {
+    if (lockedQuestions.has(questionId)) {
+      return; // Prevent changes to locked questions
+    }
+    
     setExamState(prev => {
       const newState = {
         ...prev,
@@ -61,6 +78,19 @@ export default function App() {
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(newState));
       return newState;
+    });
+  };
+
+  const handleLockToggle = (questionId: string) => {
+    setLockedQuestions(prev => {
+      const newLocked = new Set(prev);
+      if (newLocked.has(questionId)) {
+        newLocked.delete(questionId);
+      } else {
+        newLocked.add(questionId);
+      }
+      localStorage.setItem(LOCKED_QUESTIONS_KEY, JSON.stringify(Array.from(newLocked)));
+      return newLocked;
     });
   };
 
@@ -82,7 +112,9 @@ export default function App() {
         isSubmitted: false
       };
       setExamState(cleanState);
+      setLockedQuestions(new Set());
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanState));
+      localStorage.removeItem(LOCKED_QUESTIONS_KEY);
       window.scrollTo(0, 0);
     }
   };
@@ -198,6 +230,8 @@ export default function App() {
                       question={q}
                       selectedAnswer={examState.answers[q.id]}
                       onAnswerChange={(val) => handleAnswerChange(q.id, val)}
+                      isLocked={lockedQuestions.has(q.id)}
+                      onLockToggle={() => handleLockToggle(q.id)}
                     />
                   ))}
                 </div>
