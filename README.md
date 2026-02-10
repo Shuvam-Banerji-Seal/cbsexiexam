@@ -78,12 +78,42 @@ The application is automatically deployed to GitHub Pages using GitHub Actions:
 2. GitHub Actions workflow builds the application
 3. Deploys to GitHub Pages automatically
 
+**Live URL**: [https://shuvam-banerji-seal.github.io/cbsexiexam/](https://shuvam-banerji-seal.github.io/cbsexiexam/)
+
+### How It Works
+
+The deployment process:
+1. **Build**: Vite transpiles TypeScript/TSX files to JavaScript
+2. **Bundle**: All assets are bundled into the `dist/` folder with proper paths (`/cbsexiexam/`)
+3. **Deploy**: GitHub Actions uploads the `dist/` folder to GitHub Pages
+4. **Serve**: GitHub Pages serves the compiled JavaScript files (not the source `.tsx` files)
+
+This ensures proper MIME types and avoids the "disallowed MIME type" error that occurs when trying to load TypeScript files directly.
+
 ### Manual Deployment
 
 You can also trigger deployment manually:
 - Go to Actions tab in GitHub
 - Select "Deploy to GitHub Pages" workflow
 - Click "Run workflow"
+
+### GitHub Pages Configuration
+
+Ensure your repository settings are configured correctly:
+1. Go to **Settings** → **Pages**
+2. Under **Source**, select **GitHub Actions**
+3. The site will be published at `https://<username>.github.io/cbsexiexam/`
+
+### Troubleshooting
+
+**MIME Type Error**: If you see an error like "Loading module from ... was blocked because of a disallowed MIME type", it means:
+- The site is trying to load `.tsx` files directly instead of compiled `.js` files
+- **Solution**: Ensure the site is deployed from the GitHub Actions workflow (which deploys the `dist/` folder)
+- **Verify**: Check that GitHub Pages source is set to "GitHub Actions" in repository settings
+
+**404 Errors**: If you encounter 404 errors on deployed site:
+- Ensure the base path in `vite.config.ts` is set to `/cbsexiexam/`
+- Check that the workflow successfully completed in the Actions tab
 
 ## Technologies Used
 
