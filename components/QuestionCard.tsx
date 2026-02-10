@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Question } from '../types';
-import { CheckCircle, Code, HelpCircle } from 'lucide-react';
+import { CheckCircle, Code, HelpCircle, Lock, Unlock } from 'lucide-react';
 
 interface QuestionCardProps {
   question: Question;
   selectedAnswer: string | number | undefined;
   onAnswerChange: (answer: string | number) => void;
   isReadOnly?: boolean;
+  isLocked?: boolean;
+  onLockToggle?: () => void;
 }
 
 export const QuestionCard: React.FC<QuestionCardProps> = ({
@@ -14,7 +16,11 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   selectedAnswer,
   onAnswerChange,
   isReadOnly = false,
+  isLocked = false,
+  onLockToggle,
 }) => {
+  const hasAnswer = selectedAnswer !== undefined && selectedAnswer !== null && selectedAnswer !== '';
+  const isDisabled = isReadOnly || isLocked;
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 transition-all hover:shadow-md">
       <div className="flex items-start justify-between mb-4">
@@ -24,9 +30,24 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           </span>
           {question.text}
         </h3>
-        <span className="text-xs font-semibold bg-blue-50 text-blue-700 px-3 py-1 rounded-full whitespace-nowrap">
-          {question.marks} Marks
-        </span>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <span className="text-xs font-semibold bg-blue-50 text-blue-700 px-3 py-1 rounded-full whitespace-nowrap">
+            {question.marks} Marks
+          </span>
+          {!isReadOnly && hasAnswer && onLockToggle && (
+            <button
+              onClick={onLockToggle}
+              className={`p-2 rounded-lg transition-all ${
+                isLocked
+                  ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              }`}
+              title={isLocked ? 'Unlock answer' : 'Lock answer'}
+            >
+              {isLocked ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="ml-11">
@@ -42,7 +63,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                     ${isSelected 
                       ? 'border-blue-500 bg-blue-50/50' 
                       : 'border-slate-100 hover:border-slate-300 bg-slate-50'}
-                    ${isReadOnly ? 'cursor-default pointer-events-none' : ''}
+                    ${isDisabled ? 'cursor-default pointer-events-none opacity-75' : ''}
                   `}
                 >
                   <input
@@ -50,8 +71,8 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                     name={`question-${question.id}`}
                     className="hidden"
                     checked={isSelected}
-                    onChange={() => !isReadOnly && onAnswerChange(index)}
-                    disabled={isReadOnly}
+                    onChange={() => !isDisabled && onAnswerChange(index)}
+                    disabled={isDisabled}
                   />
                   <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${isSelected ? 'border-blue-500' : 'border-slate-300'}`}>
                     {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />}
@@ -72,18 +93,26 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                 <span>Python Editor</span>
              </div>
             <textarea
-              className="w-full h-48 font-mono text-sm bg-slate-900 text-slate-50 p-4 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+              className="w-full h-48 font-mono text-sm bg-slate-900 text-slate-50 p-4 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none disabled:opacity-75"
               placeholder="# Write your Python code here..."
               value={(selectedAnswer as string) || question.codeStarter || ''}
-              onChange={(e) => !isReadOnly && onAnswerChange(e.target.value)}
-              disabled={isReadOnly}
+              onChange={(e) => !isDisabled && onAnswerChange(e.target.value)}
+              disabled={isDisabled}
               spellCheck={false}
             />
             {!isReadOnly && (
-                <p className="text-xs text-slate-500 mt-2 flex items-center gap-1">
-                    <HelpCircle className="w-3 h-3" />
-                    Key logic checks will be applied to your code upon submission.
-                </p>
+                <div className="flex items-center justify-between mt-2">
+                    <p className="text-xs text-slate-500 flex items-center gap-1">
+                        <HelpCircle className="w-3 h-3" />
+                        Key logic checks will be applied to your code upon submission.
+                    </p>
+                    {isLocked && (
+                        <span className="text-xs text-green-600 font-medium flex items-center gap-1">
+                            <Lock className="w-3 h-3" />
+                            Answer Locked
+                        </span>
+                    )}
+                </div>
             )}
           </div>
         )}
