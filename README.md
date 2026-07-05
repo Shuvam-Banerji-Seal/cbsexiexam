@@ -67,3 +67,7 @@ Go to **Actions → Deploy to GitHub Pages → Run workflow**
 ## License
 
 For educational use only.
+
+---
+
+*Site designed and built by **Shuvam Banerji**.*

@@ -14,7 +14,7 @@ const QUESTION_BANK = {
       },
       {
         q: "What is the output of <code>type(3.0)</code> in Python?",
-        options: ["<class 'int'>", "<class 'float'>", "<class 'double'>", "<class 'number'>"],
+        options: ["&lt;class 'int'>", "&lt;class 'float'>", "&lt;class 'double'>", "&lt;class 'number'>"],
         answer: 1,
         explain: "<code>3.0</code> is a floating-point literal, so <code>type()</code> returns float.",
         diff: "E",
