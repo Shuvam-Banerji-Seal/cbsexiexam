@@ -67,6 +67,23 @@ function playSound(type) {
   } catch (e) { /* audio not available */ }
 }
 
+function confetti() {
+  const colors = ['#2B2521', '#A9812E', '#7A1F1F', '#5C4632', '#8C2F1E', '#55613C'];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDelay = Math.random() * 0.5 + 's';
+    c.style.animationDuration = (2 + Math.random() * 2) + 's';
+    c.style.width = (6 + Math.random() * 8) + 'px';
+    c.style.height = (6 + Math.random() * 8) + 'px';
+    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+}
+
 /* ==============================
    CONFIRM DIALOG
    ============================== */
