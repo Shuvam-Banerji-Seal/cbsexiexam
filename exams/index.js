@@ -1,0 +1,5 @@
+// Exam registry — the exam hall reads this to render package cards.
+window.EXAMS = [
+  { ...window.EXAM_JULY },
+  { ...window.EXAM_AUGUST },
+];

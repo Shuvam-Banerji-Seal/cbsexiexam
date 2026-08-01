@@ -806,7 +806,7 @@ const QUESTION_BANK = {
       },
       {
         q: "<pre>f = open(\"a.txt\", \"r\")\nprint(f.read(3))</pre>If a.txt contains 'Hello World', what is printed?",
-        options: ["Hel", "Hello", "Hello W", "Hel"],
+        options: ["Hel", "Hello", "Hello W", "ell"],
         answer: 0,
         explain: "<code>read(3)</code> reads only the first 3 characters → 'Hel'.",
         diff: "M",
