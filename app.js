@@ -295,8 +295,10 @@ function renderTopicOptions() {
   const container = $('#topicOptions');
   if (!container || !State.exam) return;
   container.innerHTML = State.exam.topics.map(t => `
-    <label class="topic-row" data-topic="${t.key}" onclick="toggleTopic('${t.key}', event)">
-      <input type="checkbox" />
+    <label class="topic-row" data-topic="${t.key}" tabindex="0" role="checkbox" aria-checked="false"
+           onclick="toggleTopic('${t.key}', event)"
+           onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();toggleTopic('${t.key}', event)}">
+      <input type="checkbox" tabindex="-1" aria-hidden="true" style="pointer-events:none" />
       <span>${t.name}</span>
       <span class="topic-count">${t.questions.length} q.</span>
     </label>`).join('');
@@ -315,10 +317,12 @@ function toggleTopic(key, event) {
     State.selectedTopics = State.selectedTopics.filter(k => k !== key);
     checkbox.checked = false;
     label.classList.remove('selected');
+    label.setAttribute('aria-checked', 'false');
   } else {
     State.selectedTopics.push(key);
     checkbox.checked = true;
     label.classList.add('selected');
+    label.setAttribute('aria-checked', 'true');
   }
 }
 

@@ -102,6 +102,64 @@ test('mobile: exam screen, table questions, and timer fit', async () => {
   await assertNoHorizontalOverflow('diagram question');
 });
 
+let touchPage;
+
+test('mobile touch: topic row selection is consistent everywhere (label, checkbox area, keyboard)', async () => {
+  touchPage = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+  await touchPage.goto(BASE + '/');
+  await touchPage.waitForSelector('.hall-card');
+  await touchPage.tap('.hall-card:nth-of-type(2) .btn-primary');
+  await touchPage.waitForSelector('.mode-card');
+
+  const rowState = (n) => touchPage.evaluate(i => {
+    const row = document.querySelectorAll('.topic-row')[i];
+    return {
+      selected: [...State.selectedTopics],
+      checked: row.querySelector('input').checked,
+      cls: row.classList.contains('selected'),
+      aria: row.getAttribute('aria-checked'),
+    };
+  }, n);
+
+  // tap exactly where the checkbox sits (left edge) — must behave like the label
+  const box = await touchPage.locator('.topic-row >> nth=0').boundingBox();
+  await touchPage.touchscreen.tap(box.x + 12, box.y + box.height / 2);
+  await touchPage.waitForTimeout(200);
+  let s = await rowState(0);
+  assert.ok(s.selected.includes('database-concepts'), 'state selected');
+  assert.equal(s.checked, true, 'checkbox visual checked');
+  assert.equal(s.cls, true, 'row highlighted');
+  assert.equal(s.aria, 'true', 'aria-checked synced');
+
+  await touchPage.touchscreen.tap(box.x + 12, box.y + box.height / 2);
+  await touchPage.waitForTimeout(200);
+  s = await rowState(0);
+  assert.equal(s.selected.length, 0, 'deselected');
+  assert.equal(s.checked, false, 'checkbox visual unchecked');
+
+  // plain label tap
+  await touchPage.tap('.topic-row >> nth=1');
+  await touchPage.waitForTimeout(200);
+  s = await rowState(1);
+  assert.ok(s.selected.includes('three-schema-architecture'), 'label tap selects');
+  assert.equal(s.checked, true, 'label tap checks box');
+
+  // keyboard: Space selects, Enter deselects
+  await touchPage.focus('.topic-row >> nth=2');
+  await touchPage.keyboard.press('Space');
+  await touchPage.waitForTimeout(200);
+  s = await rowState(2);
+  assert.ok(s.selected.includes('er-diagrams'), 'Space selects');
+  assert.equal(s.checked, true, 'Space checks box');
+  await touchPage.keyboard.press('Enter');
+  await touchPage.waitForTimeout(200);
+  s = await rowState(2);
+  assert.ok(!s.selected.includes('er-diagrams'), 'Enter deselects');
+  assert.equal(s.checked, false, 'Enter unchecks box');
+
+  await touchPage.close();
+});
+
 test('mobile: results page has no horizontal overflow', async () => {
   await startAugust();
   await page.evaluate(() => {
