@@ -66,7 +66,7 @@ test('mobile: exam hall has no horizontal overflow', async () => {
   await page.waitForSelector('.hall-card');
   await assertNoHorizontalOverflow('exam hall');
   const cards = await page.$$eval('.hall-card', els => els.length);
-  assert.equal(cards, 2);
+  assert.equal(cards, 3);
 });
 
 test('mobile: august setup screen has no horizontal overflow', async () => {

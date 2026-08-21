@@ -19,20 +19,26 @@ function loadExams() {
     .filter(f => f.endsWith('.js'))
     .sort()
     .forEach(f => run('exams/august/topics/' + f));
+  fs.readdirSync(path.join(ROOT, 'exams/august21/topics'))
+    .filter(f => f.endsWith('.js'))
+    .sort()
+    .forEach(f => run('exams/august21/topics/' + f));
   run('exams/july.js');
   run('exams/august.js');
+  run('exams/august21.js');
   run('exams/index.js');
   return sandbox.EXAMS;
 }
 
 const exams = loadExams();
 
-test('registry exposes both exam packages', () => {
+test('registry exposes all three exam packages', () => {
   assert.ok(Array.isArray(exams), 'EXAMS must be an array');
-  assert.equal(exams.length, 2);
+  assert.equal(exams.length, 3);
   const ids = exams.map(e => e.id);
   assert.ok(ids.includes('july'), 'july package present');
   assert.ok(ids.includes('august-01'), 'august-01 package present');
+  assert.ok(ids.includes('august-21'), 'august-21 package present');
 });
 
 test('July package keeps its original 120 questions, 4 topics, 2h, +4/-1', () => {
@@ -65,6 +71,44 @@ test('August covers all mandated syllabus areas', () => {
   assert.ok(names.some(n => n.includes('algebra')));
   assert.ok(names.some(n => n.includes('sql')));
   assert.ok(names.some(n => n.includes('sqlite') || n.includes('python')));
+});
+
+test('August 21 package: 120 questions, 6 topics, 2h, +4/-1, max 480', () => {
+  const a21 = exams.find(e => e.id === 'august-21');
+  const total = a21.topics.reduce((n, t) => n + t.questions.length, 0);
+  assert.equal(a21.topics.length, 6);
+  assert.equal(total, 120);
+  assert.equal(a21.duration, 7200);
+  assert.equal(a21.scoring.correct, 4);
+  assert.equal(a21.scoring.incorrect, -1);
+  assert.equal(total * a21.scoring.correct, 480);
+});
+
+test('August 21 covers all mandated file-handling syllabus areas', () => {
+  const a21 = exams.find(e => e.id === 'august-21');
+  const names = a21.topics.map(t => t.name.toLowerCase());
+  assert.ok(names.some(n => n.includes('fundamental') || n.includes('mode')));
+  assert.ok(names.some(n => n.includes('reading')));
+  assert.ok(names.some(n => n.includes('writing')));
+  assert.ok(names.some(n => n.includes('pointer') || n.includes('seek')));
+  assert.ok(names.some(n => n.includes('binary') || n.includes('pickle')));
+  assert.ok(names.some(n => n.includes('csv')));
+});
+
+test('August 21 diagrams are flowcharts with captions (SVG rendering covered in render.test.js)', () => {
+  const a21 = exams.find(e => e.id === 'august-21');
+  let diagrams = 0;
+  for (const topic of a21.topics) {
+    for (const [i, q] of topic.questions.entries()) {
+      if (!q.diagram) continue;
+      diagrams++;
+      assert.ok(q.diagram.startsWith('flowchart '), `${topic.key}#${i}: diagram must be a flowchart`);
+      assert.ok(q.diagram.length <= 2000, `${topic.key}#${i}: diagram too large`);
+      assert.ok(typeof q.diagramCaption === 'string' && q.diagramCaption.length > 0,
+        `${topic.key}#${i}: diagramCaption missing`);
+    }
+  }
+  assert.ok(diagrams >= 4, `expected >= 4 diagram questions, found ${diagrams}`);
 });
 
 test('every question is structurally valid', () => {

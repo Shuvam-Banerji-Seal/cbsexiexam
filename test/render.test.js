@@ -56,16 +56,20 @@ async function freshHall() {
   await page.waitForSelector('.hall-card');
 }
 
-test('exam hall lists both packages with correct metadata', async () => {
+test('exam hall lists all three packages with correct metadata', async () => {
   await freshHall();
   const cards = await page.$$eval('.hall-card', els => els.map(e => e.textContent));
-  assert.equal(cards.length, 2);
+  assert.equal(cards.length, 3);
   assert.ok(cards[0].includes('July Examination'));
   assert.ok(cards[0].includes('120 Questions'));
   assert.ok(cards[1].includes('August 01 Examination'));
   assert.ok(cards[1].includes('150 Questions'));
   assert.ok(cards[1].includes('2h 30m'));
   assert.ok(cards[1].includes('SQL'));
+  assert.ok(cards[2].includes('August 21 Examination'));
+  assert.ok(cards[2].includes('120 Questions'));
+  assert.ok(cards[2].includes('File'));
+  assert.ok(cards[2].includes('pickle'));
 });
 
 test('August flow: begin -> setup -> 150 questions with 2:30:00 timer', async () => {
@@ -91,6 +95,44 @@ test('every August diagram renders to a real SVG in the browser', async () => {
     State.questions.map((q, i) => (q.diagram ? i : -1)).filter(i => i >= 0));
 
   assert.ok(diagramIdx.length >= 12, `expected >= 12 diagram questions, got ${diagramIdx.length}`);
+
+  const failures = [];
+  for (const i of diagramIdx) {
+    await page.evaluate(idx => { State.currentIndex = idx; renderQuestion(); }, i);
+    try {
+      await page.waitForSelector('#qPanel .mermaid-frame svg', { timeout: 8000 });
+      const errored = await page.$$eval('#qPanel .mermaid-error', els => els.length);
+      if (errored > 0) failures.push(`Q${i + 1}: rendered with error class`);
+    } catch (e) {
+      failures.push(`Q${i + 1}: no SVG rendered`);
+    }
+  }
+  assert.deepEqual(failures, [], `diagram render failures: ${failures.join('; ')}`);
+});
+
+test('August 21 flow: begin -> setup -> 120 questions with 2:00:00 timer', async () => {
+  await freshHall();
+  await page.click('.hall-card:nth-of-type(3) .btn-primary');
+  await page.waitForSelector('.mode-card');
+  await page.click('.btn-primary'); // Proceed to Examination
+  await page.waitForSelector('.q-panel');
+  const qMeta = await page.textContent('.q-number');
+  assert.match(qMeta, /Question 1 of 120/);
+  const timer = await page.textContent('#timer');
+  assert.equal(timer, '2:00:00');
+});
+
+test('every August 21 diagram renders to a real SVG in the browser', async () => {
+  await freshHall();
+  await page.click('.hall-card:nth-of-type(3) .btn-primary');
+  await page.waitForSelector('.mode-card');
+  await page.click('.btn-primary');
+  await page.waitForSelector('.q-panel');
+
+  const diagramIdx = await page.evaluate(() =>
+    State.questions.map((q, i) => (q.diagram ? i : -1)).filter(i => i >= 0));
+
+  assert.ok(diagramIdx.length >= 4, `expected >= 4 diagram questions, got ${diagramIdx.length}`);
 
   const failures = [];
   for (const i of diagramIdx) {
