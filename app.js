@@ -854,10 +854,25 @@ function renderReviewList() {
     const diagram = q.diagram
       ? `<div class="diagram-block diagram-block--review"><pre class="mermaid">${escapeHTML(q.diagram)}</pre></div>`
       : '';
+
+    let optionsHtml = `<div class="options review-options">`;
+    q.options.forEach((opt, i) => {
+      let cls = 'opt disabled';
+      if (i === q.answer) cls += ' correct';
+      else if (ans !== undefined && i === ans) cls += ' incorrect';
+      optionsHtml += `
+        <div class="${cls}">
+          <div class="opt-letter">${String.fromCharCode(65 + i)}</div>
+          <div class="opt-text">${opt}</div>
+        </div>`;
+    });
+    optionsHtml += `</div>`;
+
     return `
       <div class="review-item">
         <div class="review-q"><strong style="color:var(--ink-black);margin-right:0.5rem;">Q${idx}.</strong> ${q.q}</div>
         ${diagram}
+        ${optionsHtml}
         <div class="review-tags">
           ${tag}
           <span class="rv-tag correct-ans">Ans: ${correctLetter}</span>
