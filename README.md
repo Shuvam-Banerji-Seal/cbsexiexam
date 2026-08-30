@@ -21,8 +21,25 @@ The landing page is an **Examination Hall** where students select which paper to
 - **SQL Commands** – 25 questions (CREATE/ALTER/INSERT/UPDATE/SELECT, ORDER BY, GROUP BY, HAVING, LIMIT, JOINs, subqueries)
 - **Python & SQLite Integration** – 25 questions (connect/cursor/execute, fetchone/fetchall, commit/rollback, parameterized queries)
 
+### August 21 Examination — Python File Programming (120 Qs · 2h)
+- **File Fundamentals & Opening Modes** – 20 questions
+- **Reading Text Files** – 20 questions
+- **Writing Text Files** – 20 questions
+- **File Pointer — seek() & tell()** – 20 questions
+- **Binary Files & Pickle** – 20 questions
+- **CSV Files** – 20 questions
+
+### August 30 Examination — Computer Networks (120 Qs · 2h)
+Full coverage of the CBSE Unit-2 syllabus:
+- **Evolution & Data Communication** – 20 questions (ARPANET/NSFNET/Internet, sender-receiver-message-media-protocols, bandwidth & data transfer rate, circuit vs packet switching, broadband)
+- **Network Types & Topologies** – 20 questions (PAN/LAN/MAN/WAN, Bus/Star/Tree plus mesh & ring, hybrid)
+- **Transmission Media** – 20 questions (twisted pair, co-axial, fibre optic; radio, microwave, infrared)
+- **Network Devices** – 20 questions (Modem, Ethernet card, RJ45, Repeater, Hub, Switch, Router, Gateway, WiFi card, MAC addresses)
+- **IP Addressing & DNS** – 20 questions (IPv4 structure, octets, classes A–C, private/public ranges, loopback, DNS resolution)
+- **Protocols & Web Services** – 20 questions (HTTP, HTTPS, FTP, PPP, SMTP, POP3, TCP/IP, TELNET, VoIP; WWW, HTML/XML, URL, browser, server, web hosting)
+
 ## Exam Mode
-- Countdown timer per paper (2h July / 2h30m August)
+- Countdown timer per paper (2h July / 2h30m August / 2h August 21 & 30)
 - JEE-style scoring: **+4** for correct, **–1** for incorrect
 - Auto-submit when time expires
 
@@ -68,9 +85,9 @@ npm test
 ```
 
 The suite (`node --test`) covers:
-- **Data integrity** — question counts (120/150), valid answers/options/difficulty, no duplicates, syllabus coverage
-- **Mermaid validation** — every `erDiagram` parsed with the real Mermaid parser
-- **Browser e2e (Playwright)** — exam hall renders, both flows work, all 22 August diagrams render to real SVGs, answers persist across reloads and resume correctly, submission stores history
+- **Data integrity** — question counts (120/150/120/120), valid answers/options/difficulty, no duplicates, full syllabus coverage per paper
+- **Mermaid validation** — every `erDiagram` parsed with the real Mermaid parser; flowchart diagrams structurally checked
+- **Browser e2e (Playwright)** — exam hall renders all four packages, every exam flow works, all diagrams render to real SVGs, answers persist across reloads and resume correctly, submission stores history
 
 ---
 

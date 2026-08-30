@@ -56,10 +56,10 @@ async function freshHall() {
   await page.waitForSelector('.hall-card');
 }
 
-test('exam hall lists all three packages with correct metadata', async () => {
+test('exam hall lists all four packages with correct metadata', async () => {
   await freshHall();
   const cards = await page.$$eval('.hall-card', els => els.map(e => e.textContent));
-  assert.equal(cards.length, 3);
+  assert.equal(cards.length, 4);
   assert.ok(cards[0].includes('July Examination'));
   assert.ok(cards[0].includes('120 Questions'));
   assert.ok(cards[1].includes('August 01 Examination'));
@@ -70,6 +70,10 @@ test('exam hall lists all three packages with correct metadata', async () => {
   assert.ok(cards[2].includes('120 Questions'));
   assert.ok(cards[2].includes('File'));
   assert.ok(cards[2].includes('pickle'));
+  assert.ok(cards[3].includes('August 30 Examination'));
+  assert.ok(cards[3].includes('120 Questions'));
+  assert.ok(cards[3].includes('Computer Networks'));
+  assert.ok(cards[3].includes('2h'));
 });
 
 test('August flow: begin -> setup -> 150 questions with 2:30:00 timer', async () => {

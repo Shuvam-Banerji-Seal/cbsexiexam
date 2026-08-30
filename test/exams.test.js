@@ -23,22 +23,28 @@ function loadExams() {
     .filter(f => f.endsWith('.js'))
     .sort()
     .forEach(f => run('exams/august21/topics/' + f));
+  fs.readdirSync(path.join(ROOT, 'exams/august30/topics'))
+    .filter(f => f.endsWith('.js'))
+    .sort()
+    .forEach(f => run('exams/august30/topics/' + f));
   run('exams/july.js');
   run('exams/august.js');
   run('exams/august21.js');
+  run('exams/august30.js');
   run('exams/index.js');
   return sandbox.EXAMS;
 }
 
 const exams = loadExams();
 
-test('registry exposes all three exam packages', () => {
+test('registry exposes all four exam packages', () => {
   assert.ok(Array.isArray(exams), 'EXAMS must be an array');
-  assert.equal(exams.length, 3);
+  assert.equal(exams.length, 4);
   const ids = exams.map(e => e.id);
   assert.ok(ids.includes('july'), 'july package present');
   assert.ok(ids.includes('august-01'), 'august-01 package present');
   assert.ok(ids.includes('august-21'), 'august-21 package present');
+  assert.ok(ids.includes('august-30'), 'august-30 package present');
 });
 
 test('July package keeps its original 120 questions, 4 topics, 2h, +4/-1', () => {
@@ -106,6 +112,64 @@ test('August 21 diagrams are flowcharts with captions (SVG rendering covered in 
       assert.ok(q.diagram.length <= 2000, `${topic.key}#${i}: diagram too large`);
       assert.ok(typeof q.diagramCaption === 'string' && q.diagramCaption.length > 0,
         `${topic.key}#${i}: diagramCaption missing`);
+    }
+  }
+  assert.ok(diagrams >= 4, `expected >= 4 diagram questions, found ${diagrams}`);
+});
+
+test('August 30 package: 120 questions, 6 topics, 2h, +4/-1, max 480', () => {
+  const a30 = exams.find(e => e.id === 'august-30');
+  const total = a30.topics.reduce((n, t) => n + t.questions.length, 0);
+  assert.equal(a30.topics.length, 6);
+  assert.equal(total, 120);
+  assert.equal(a30.duration, 7200);
+  assert.equal(a30.scoring.correct, 4);
+  assert.equal(a30.scoring.incorrect, -1);
+  assert.equal(total * a30.scoring.correct, 480);
+});
+
+test('August 30 covers the full CBSE Unit-2 networking syllabus', () => {
+  const a30 = exams.find(e => e.id === 'august-30');
+  const names = a30.topics.map(t => t.name.toLowerCase());
+  assert.ok(names.some(n => n.includes('evolution') || n.includes('communication')), 'evolution + data communication');
+  assert.ok(names.some(n => n.includes('type') && n.includes('topolog')), 'network types & topologies');
+  assert.ok(names.some(n => n.includes('media')), 'transmission media');
+  assert.ok(names.some(n => n.includes('device')), 'network devices');
+  assert.ok(names.some(n => n.includes('ip') || n.includes('dns')), 'IP addressing & DNS');
+  assert.ok(names.some(n => n.includes('protocol') || n.includes('web')), 'protocols & web services');
+
+  // Every mandated protocol appears somewhere in the paper (question, options, or explanation)
+  const allText = a30.topics
+    .flatMap(t => t.questions.map(q => q.q + ' ' + q.options.join(' ') + ' ' + q.explain))
+    .join(' ').toLowerCase();
+  for (const p of ['http', 'ftp', 'smtp', 'tcp/ip', 'pop3', 'telnet', 'voip']) {
+    assert.ok(allText.includes(p), `protocol ${p} covered`);
+  }
+  // Key syllabus nouns covered
+  for (const noun of ['arpanet', 'nsfnet', 'pan', 'lan', 'man', 'wan', 'bus', 'star', 'tree',
+    'twisted pair', 'co-axial', 'fibre', 'radio', 'microwave', 'infrared',
+    'modem', 'repeater', 'hub', 'switch', 'router', 'gateway', 'rj45',
+    'bandwidth', 'circuit switching', 'packet switching', 'ipv4', 'mac address', 'dns',
+    'www', 'html', 'xml', 'url', 'web browser', 'web server', 'web hosting']) {
+    assert.ok(allText.includes(noun), `syllabus noun "${noun}" covered`);
+  }
+});
+
+test('August 30 diagrams are flowcharts with captions', () => {
+  const a30 = exams.find(e => e.id === 'august-30');
+  let diagrams = 0;
+  for (const topic of a30.topics) {
+    for (const [i, q] of topic.questions.entries()) {
+      if (!q.diagram) continue;
+      diagrams++;
+      assert.ok(q.diagram.startsWith('flowchart '), `${topic.key}#${i}: diagram must be a flowchart`);
+      assert.ok(q.diagram.length <= 2000, `${topic.key}#${i}: diagram too large`);
+      assert.ok(typeof q.diagramCaption === 'string' && q.diagramCaption.length > 0,
+        `${topic.key}#${i}: diagramCaption missing`);
+      // Options must not contain raw '<' (innerHTML safety — the Q2-bug class)
+      q.options.forEach((o, oi) => {
+        assert.ok(!o.includes('<'), `${topic.key}#${i} option[${oi}]: raw '<' in option`);
+      });
     }
   }
   assert.ok(diagrams >= 4, `expected >= 4 diagram questions, found ${diagrams}`);
