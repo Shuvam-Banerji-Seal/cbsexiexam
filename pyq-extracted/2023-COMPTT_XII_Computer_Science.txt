@@ -1,0 +1,898 @@
+91
+Page 1 of 19
+P.T.O.
+Series HEFG/C
+Set-4
+Q.P. Code
+Roll No.
+COMPUTER SCIENCE (NEW)
+Time allowed : 3 hours
+Maximum Marks : 70
+Please check that this question paper contains 19 printed pages.
+Q.P. Code given on the right hand side of the question paper should be
+written on the title page of the answer-book by the candidate.
+Please check that this question paper contains 35 questions.
+Please write down the serial number of the question in the
+answer-book before attempting it.
+15 minute time has been allotted to read this question paper. The
+question paper will be distributed at 10.15 a.m. From 10.15 a.m. to
+10.30 a.m., the students will read the question paper only and will not
+write any answer on the answer-book during this period.
+General Instructions :
+This question paper contains five sections, Section A to E.
+All questions are compulsory.
+Section A has 18 questions carrying 1 mark each.
+Section B has 7 Very Short Answer (VSA) type questions carrying 2 marks each.
+Section C has 5 Short Answer (SA) type questions carrying 3 marks each.
+Section D has 3 Long Answer (LA) type question carrying 5 marks each.
+Section E has 2 questions carrying 4 marks each. One internal choice is given
+in Q 35 against part C only.
+All programming questions are to be answered using Python Language only.
+91
+$*
+^
+91
+Page 2 of 19
+SECTION A
+All questions carrying 1 mark each.
+18 1=18
+1.
+State True or False.
+2.
+Which of the following is not a sequential datatype in Python ?
+(a)
+Dictionary
+(b)
+String
+(c)
+List
+(d)
+Tuple
+3.
+Given the following dictionary
+Day={1:"Monday", 2: "Tuesday", 3: "Wednesday"}
+Which statement will return "Tuesday".
+(a)
+Day.pop()
+(b)
+Day.pop(2)
+(c)
+Day.pop(1)
+(d)
+Day.pop("Tuesday")
+4.
+Consider the given expression :
+7<4 or 6>3 and not 10==10 or 17>4
+Which of the following will be the correct output if the given expression is
+evaluated ?
+(a)
+True
+(b)
+False
+(c)
+NONE
+(d)
+NULL
+91
+Page 3 of 19
+P.T.O.
+5.
+Select the correct output of the code :
+S="Amrit Mahotsav @ 75"
+A=S.split(" ",2)
+print(A)
+(a)
+('Amrit', 'Mahotsav', '@', '75')
+(b)
+['Amrit', 'Mahotsav', '@ 75']
+(c)
+('Amrit', 'Mahotsav', '@ 75')
+(d)
+['Amrit', 'Mahotsav', '@', '75']
+6.
+Which of the following modes in Python creates a new file, if file does not
+exist and overwrites the content, if the file exists ?
+(a)
+r+
+(b)
+r
+(c)
+w
+(d)
+a
+7.
+Fill in the blank :
+___________ is not a valid built-in function for list manipulations.
+(a)
+count()
+(b)
+length()
+(c)
+append()
+(d)
+extend()
+8.
+Which of the following is an example of identity operators of Python ?
+(a)
+is
+(b)
+on
+(c)
+in
+(d)
+not in
+9.
+Which of the following statement(s) would give an error after executing
+the following code ?
+S="Happy"
+# Statement 1
+print(S*2)
+# Statement 2
+S+="Independence"
+# Statement 3
+S.append("Day")
+# Statement 4
+print(S)
+# Statement 5
+(a)
+Statement 2
+(b)
+Statement 3
+(c)
+Statement 4
+(d)
+Statement 3 and 4
+91
+Page 4 of 19
+10.
+Fill in the blank :
+In a relational model, tables are called _________, that store data for
+different columns.
+(a)
+Attributes
+(b)
+Degrees
+(c)
+Relations
+(d)
+Tuples
+11.
+The correct syntax of tell() is :
+(a)
+tell.file_object()
+(b)
+file_object.tell()
+(c)
+tell.file_object(1)
+(d)
+file_object.tell(1)
+12.
+Fill in the blank :
+_________ statement of SQL is used to insert new records in a table.
+(a)
+ALTER
+(b)
+UPDATE
+(c)
+INSERT
+(d)
+CREATE
+13.
+Fill in the blank :
+In _________ switching, before a communication starts, a dedicated path
+is identified between the sender and the receiver.
+(a)
+Packet
+(b)
+Graph
+(c)
+Circuit
+(d)
+Plot
+91
+Page 5 of 19
+P.T.O.
+14.
+What will the following expression be evaluated to in Python ?
+print(6/3 + 4**3//8 4)
+(a)
+6.5
+(b)
+4.0
+(c)
+6.0
+(d)
+4
+15.
+Which of the following functions is a valid built-in function for both list
+and dictionary datatype ?
+(a)
+items()
+(b)
+len()
+(c)
+update()
+(d)
+values()
+16.
+fetchone() method fetches only one row in a ResultSet and returns a
+__________.
+(a)
+Tuple
+(b)
+List
+(c)
+Dictionary
+(d)
+String
+Q. 17 and 18 are Assertion (A) and Reasoning (R) based questions. Mark
+the correct choice as
+(a)
+Both (A) and (R) are true and (R) is the correct explanation for (A).
+(b)
+Both (A) and (R) are true and (R) is not the correct explanation for
+(A).
+(c)
+(A) is true but (R) is false.
+(d)
+(A) is false but (R) is true.
+91
+Page 6 of 19
+17.
+Assertion (A) :
+In Python, a stack can be implemented using a list.
+Reasoning (R) :
+A stack is an ordered linear list of elements that works
+on the principle of First In First Out (FIFO).
+18.
+Assertion (A) :
+readlines() reads all the lines from a text file and
+returns the lines along with newline as a list of strings.
+Reasoning (R) :
+readline() can read the entire text file line by line
+without using any looping statements.
+SECTION B
+19.
+Ravi, a Python programmer, is working on a project in which he wants to
+write a function to count the number of even and odd values in the list.
+He has written the following code but his code is having errors. Rewrite
+the correct code and underline the corrections made.
+2
+define EOCOUNT(L):
+even_no=odd_no=0
+for i in range(0,len(L))
+if L[i]%2=0:
+even_no+=1
+Else:
+odd_no+=1
+print(even_no, odd_no)
+20.
+(a)
+Write any two differences between Fiber-optic cable and Coaxial
+cable.
+2
+OR
+(b)
+Write one advantage and one disadvantage of wired over wireless
+communication.
+2
+91
+Page 7 of 19
+P.T.O.
+21.
+(a)
+Given is a Python string declaration :
+1
+NAME = "Learning Python is Fun"
+Write the output of : print(NAME[-5:-10:-1])
+(b)
+Write the output of the code given below :
+1
+dict1={1:["Rohit",20], 2:["Siya",90]}
+dict2={1:["Rahul",95], 5:["Rajan",80]}
+dict1.update(dict2)
+print(dict1.values())
+22.
+Explain the usage of HAVING clause in GROUP BY command in RDBMS
+with the help of an example.
+2
+23.
+(a)
+Write the full forms of the following :
+1
+(i)
+XML
+(ii)
+HTTPS
+(b)
+What is the use of FTP ?
+1
+24.
+(a)
+Write the output of the Python code given below :
+2
+g=0
+def fun1(x,y):
+global g
+g=x+y
+return g
+def fun2(m,n):
+global g
+g=m-n
+return g
+k=fun1(2,3)
+fun2(k,7)
+print(g)
+OR
+91
+Page 8 of 19
+(b)
+Write the output of the Python code given below :
+2
+a=15
+def update(x):
+global a
+a+=2
+if x%2==0:
+a*=x
+else:
+a//=x
+a=a+5
+print(a,end="$")
+update(5)
+print(a)
+25.
+(a)
+Differentiate between IN and BETWEEN operators in SQL with
+appropriate examples.
+2
+OR
+(b)
+Which of the following is NOT a DML command.
+2
+DELETE, DROP, INSERT, UPDATE
+SECTION C
+26.
+(a)
+Consider the following tables Student and Sport :
+Table : Student
+ADMNO
+NAME
+CLASS
+1100
+MEENA
+X
+1101
+VANI
+XI
+Table : Sport
+ADMNO
+GAME
+1100
+CRICKET
+1103
+FOOTBALL
+What will be the output of the following statement ?
+1
+SELECT * FROM Student, Sport;
+91
+Page 9 of 19
+P.T.O.
+(b)
+Write the output of the queries (i) to (iv) based on the table,
+GARMENT given below :
+2
+TABLE : GARMENT
+GCODE
+TYPE
+PRICE
+FCODE
+ODR_DATE
+G101
+EVENING GOWN
+850
+F03
+2008-12-19
+G102
+SLACKS
+750
+F02
+2020-10-20
+G103
+FROCK
+1000
+F01
+2021-09-09
+G104
+TULIP SKIRT
+1550
+F01
+2021-08-10
+G105
+BABY TOP
+1500
+F02
+2020-03-31
+G106
+FORMAL PANT
+1250
+F01
+2019-01-06
+(i)
+SELECT DISTINCT(COUNT(FCODE))FROM GARMENT;
+(ii)
+SELECT
+FCODE,
+COUNT(*),
+MIN(PRICE)
+FROM
+GARMENT GROUP BY FCODE HAVING COUNT(*)>1;
+(iii)
+SELECT
+TYPE
+FROM
+GARMENT
+WHERE
+ODR_DATE
+>'2021-02-01' AND PRICE <1500;
+(iv)
+SELECT * FROM GARMENT WHERE TYPE LIKE 'F%';
+27.
+(a)
+Write a function in Python that displays the book names having
+y in their name from a text file Bookname.t
+3
+Example :
+s the names of following books :
+One Hundred Years of Solitude
+The Diary of a Young Girl
+On the Road
+After execution, the output will be :
+One Hundred Years of Solitude
+The Diary of a Young Girl
+OR
+91
+Page 10 of 19
+(b)
+Write a function RevString()
+prints the words
+The rest of the
+content is displayed normally.
+3
+Example :
+If content in the text file is :
+UBUNTU IS AN OPEN SOURCE OPERATING SYSTEM
+Output will be :
+UBUNTU IS AN NEPO SOURCE GNITAREPO SYSTEM
+28.
+Write the output of any three SQL queries (i) to (iv) based on the tables
+COMPANY and CUSTOMER given below :
+3
+Table : COMPANY
+CID
+C_NAME
+CITY
+PRODUCTNAME
+111
+SONY
+DELHI
+TV
+222
+NOKIA
+MUMBAI
+MOBILE
+333
+ONIDA
+DELHI
+TV
+444
+SONY
+MUMBAI
+MOBILE
+555
+BLACKBERRY CHENNAI
+MOBILE
+666
+DELL
+DELHI
+LAPTOP
+Table : CUSTOMER
+CUSTID
+CID
+NAME
+PRICE
+QTY
+C01
+222
+ROHIT SHARMA
+70000
+20
+C02
+666
+DEEPIKA KUMARI
+50000
+10
+C03
+111
+MOHAN KUMAR
+30000
+5
+C04
+555
+RADHA MOHAN
+30000
+11
+(i)
+SELECT PRODUCTNAME, COUNT(*)FROM COMPANY GROUP BY
+PRODUCTNAME HAVING COUNT(*)> 2;
+(ii)
+SELECT NAME, PRICE, PRODUCTNAME FROM COMPANY C,
+CUSTOMER CT WHERE C.CID = CU.CID AND C_NAME = 'SONY';
+(iii)
+SELECT DISTINCT CITY FROM COMPANY;
+(iv)
+SELECT * FROM COMPANY WHERE C_NAME LIKE '%ON%';
+91
+Page 11 of 19
+P.T.O.
+29.
+Write a function search_replace() in Python which accepts a list L of
+numbers and a number to be searched. If the number exists, it is replaced
+by 0 and if the number does not exist, an appropriate message is
+displayed.
+3
+Example :
+L = [10,20,30,10,40]
+Number to be searched = 10
+List after replacement :
+L = [0,20,30,0,40]
+30.
+A list contains following record of course details for a University :
+[Course_name, Fees, Duration]
+Write the following user defined functions to perform given operations on
+the stack named 'Univ' :
+3
+(i)
+Push_element()
+To
+push
+an
+object
+containing
+the
+Course_name, Fees and Duration of a course, which has fees
+greater than 100000 to the stack.
+(ii)
+Pop_element() To pop the object from the stack and display it.
+For example :
+If the lists of courses details are :
+3]
+2]
+3]
+The stack should contain :
+2]
+3]
+91
+Page 12 of 19
+SECTION D
+31.
+ABC Consultants are setting up a secure network for their office campus
+at Noida for their day-to-day office and web-based activities. They are
+planning to have connectivity between three buildings and the head office
+situated in Bengaluru. As a network consultant, give solutions to the
+questions (i) to (v), after going through the building locations and other
+details which are given below :
+NOIDA BRANCH
+BENGALURU BRANCH
+Distance between various blocks/locations :
+Building
+Distance
+Building 1 to Building 3
+120 m
+Building 1 to Building 2
+50 m
+Building 2 to Building 3
+65 m
+Noida Branch to Head Office
+1500 km
+Number of computers
+Building
+Number of Computers
+Building 1
+25
+Building 2
+51
+Building 3
+150
+Head Office
+10
+(i)
+Suggest the most suitable place to install the server for this
+organization. Also, give reason to justify your suggested location.
+1
+(ii)
+Suggest the cable layout of connections between the buildings
+inside the campus.
+1
+BUILDING 1
+BUILDING 2
+BUILDING 3
+HEAD OFFICE
+91
+Page 13 of 19
+P.T.O.
+(iii)
+Suggest the placement of the following devices with justification :
+1
+Switch
+Repeater
+(iv)
+The organization is planning to provide a high-speed link with the
+head office situated in Bengaluru, using a wired connection.
+Suggest a suitable wired medium for the same.
+1
+(v)
+The System Administrator does remote login to any PC, if any
+requirement arises. Name the protocol, which is used for the same.
+1
+32.
+(a)
+(i)
+What possible output(s) are expected to be displayed on
+screen at the time of execution of the following code ?
+2
+import random
+S=["Pen","Pencil","Eraser","Bag","Book"]
+for i in range (1,2):
+f=random.randint(i,3)
+s=random.randint(i+1,4)
+print(S[f],S[s],sep=":")
+Options :
+(I) Pencil:Book
+(II) Pencil:Book
+Eraser:Bag
+(III) Pen:Book
+Bag:Book
+(IV) Bag:Eraser
+91
+Page 14 of 19
+(ii)
+The table Bookshop in MySQL contains the following
+attributes :
+B_code Integer
+B_name String
+Qty Integer
+Price Integer
+Note the following to establish connectivity between Python
+and MySQL
+o
+:
+Username is shop
+Password is Book
+The table exists in a MySQL database named
+Bstore.
+The code given below updates the records from the table
+Bookshop in MySQL.
+3
+Statement 1 to form the cursor object.
+Statement 2 to execute the query that updates the Qty to
+20 of the records whose B_code is 105 in the table.
+Statement 3
+to make the changes permanent in the
+database.
+import mysql.connector as mysql
+def update_book():
+mydb=mysql.connect(host="localhost",
+user="shop",passwd="Book",database="Bstore")
+mycursor=__________
+# Statement 1
+qry= "update Bookshop set Qty=20 where
+B_code=105"
+___________________
+# Statement 2
+___________________
+# Statement 3
+OR
+91
+Page 15 of 19
+P.T.O.
+(b)
+(i)
+Predict the output of the code given below :
+2
+text="LearningCS"
+L=len(text)
+ntext=""
+for i in range (0,L):
+if text[i].islower():
+ntext=ntext+text[i].upper()
+elif text [i].isalnum():
+ntext=ntext+text[i 1]
+else:
+ntext=ntext+'&&'
+print(ntext)
+(ii)
+The table Bookshop in MySQL contains the following
+attributes :
+B_code Integer
+B_name String
+Qty Integer
+Price Integer
+Note the following to establish connectivity between Python
+and MySQL
+o
+:
+Username is shop
+Password is Book
+The table exists in a MySQL database named
+Bstore.
+The code given below reads the records from the table
+Bookshop and displays all the records :
+3
+Statement 1 to form the cursor object.
+Statement 2 to write the query to display all the records
+from the table.
+91
+Page 16 of 19
+Statement 3 to read the complete result of the query into
+the object named B_Details, from the table Bookshop in
+the database.
+import mysql.connector as mysql
+def Display_book():
+mydb=mysql.connect(host="localhost",
+user="shop",passwd="Book",database="Bstore")
+mycursor=___________
+# Statement 1
+mycursor.execute("_________") # Statement 2
+B_Details=__________
+# Statement 3
+for i in B_Details:
+print(i)
+33.
+(a)
+Write a point of difference between append (a) and write (w)
+modes in a text file.
+5
+Write a program in Python that defines and calls the following
+user defined functions :
+(i)
+Add_Teacher() : It accepts the values from the user and
+inserts
+record consists of a list with field elements as T_id, Tname
+and desig to store teacher ID, teacher name and
+designation respectively.
+(ii)
+Search_Teacher() : To display the records of all the PGT
+(designation) teachers.
+OR
+(b)
+Write one point of difference between seek() and tell()
+functions in file handling. Write a program in Python that defines
+and calls the following user defined functions :
+5
+(i)
+Add_Device() : The function accepts and adds records of the
+consists of a list with field elements as P_id, P_name and
+Price to store peripheral device ID, device name, and price
+respectively.
+(ii)
+Count_Device() : To count and display number of peripheral
+devices, whose price is less than < 1000.
+91
+Page 17 of 19
+P.T.O.
+SECTION E
+34.
+The ABC Company is considering to maintain their salespersons records
+using SQL to store data. As a database administrator, Alia created the
+table Salesperson and also entered the data of 5 Salespersons.
+Table : Salesperson
+S_ID
+S_NAME
+AGE
+S_AMOUNT
+REGION
+S001
+SHYAM
+35
+20000
+NORTH
+S002
+RISHABH
+30
+25000
+EAST
+S003
+SUNIL
+29
+21000
+NORTH
+S004
+RAHIL
+39
+22000
+WEST
+S005
+AMIT
+40
+23000
+EAST
+Based on the data given above, answer the following questions :
+(i)
+Identify the attribute that is best suited to be the Primary Key and
+why ?
+1
+(ii)
+The Company has asked Alia to add another attribute in the table.
+What will be the new degree and cardinality of the above table ?
+1
+(iii)
+Write the statements to :
+2
+(a)
+Insert details of one salesman with appropriate data.
+(b)
+SHYAM
+SOUTH
+table Salesperson.
+OR (Option for part iii only)
+(iii)
+Write the statement to :
+2
+(a)
+Delete the record of salesman RISHABH, as he has left the
+company.
+(b)
+Remove an attribute REGION from the table.
+91
+Page 18 of 19
+35.
+Atharva is a programmer, who has recently been given a task to write a
+Python code to perform the following binary file operation with the help
+of a user defined function/module :
+Copy_new() : to create a binary file new_items.dat and write all
+the item details stored in the binary file, items.dat, except for
+the item whose item_id is 101. The data is stored in the following
+format :
+{item_id:[item_name,amount]}
+import ___________
+# Statement 1
+def Copy_new():
+f1=_____________
+# Statement 2
+f2=_____________
+# Statement 3
+item_id=int(input("Enter the item id"))
+item_detail=___________
+# Statement 4
+for key in item_detail:
+if _______________:
+# Statement 5
+pickle.___________
+# Statement 6
+f1.close()
+f2.close()
+He has succeeded in writing partial code and has missed out certain
+statements. Therefore, as a Python expert, help him to complete the code
+based on the given requirements :
+91
+Page 19 of 19
+P.T.O.
+(i)
+Which module should be imported in the program ? (Statement 1)
+1
+(ii)
+Write the correct statement required to open the binary file
+"items.dat". (Statement 2)
+1
+(iii)
+Which statement should Atharva fill in Statement 3 to open the
+binary file "new_items.dat" and in Statement 4 to read all the
+details from the binary file "items.dat".
+2
+OR (Option for part iii only)
+(iii)
+What should Atharva write in Statement 5 to apply the given
+condition and in Statement 6 to write data in the binary file
+"new_items.dat".
+2

@@ -1,0 +1,285 @@
+TI-TA BIS Q
+Q.P. Code
+vot 11 1L LL! Candidates must write the Q.P. Code
+na No.
+on the title page of the answer-book.
+37h 7 He Se Se Se XS pS 2S Pe 3S Se XS PSH 7 Pe 3 Sf 7 SP SS Pe S77 eX SSH 3S Pe a Se Se SS pe SH
+AZ SLL SS SH SH
+e
+Please check that this question paper contains 12 printed pages.
+Q.P. Code given on the right hand side of the question paper should be written
+on the title page of the answer-book by the candidate.
+Please check that this question paper contains 13 questions.
+Please write down the Serial Number of the question in the answer-book
+before attempting it.
+15 minutes time has been allotted to read this question paper. The question
+paper will be distributed at 10.15 a.m. From 10.15 a.m. to 10.30 a.m., the
+candidates will read the question paper only and will not write any answer on
+the answer-book during this period. *
+j
+4
+4
+j
+3
+4
+4
+j
+4
+4
+3
+3
+4
+4
+3
+j
+4
+4
+3
+3
+4
+;
+;
+4
+4
+4
+j
+4
+sa - COMPUTER SCIENCE ||
+Time allowed : 2 hours Maximum Marks : 35
+91
+318 Page 1 P.T.O.
+J
+TZ He a XS Se SH Se SA SS HAS Xk He SH XS
+=
+General Isnstructions :
+(i) This question paper is divided into 3 Sections — A, B and C.
+(it) Section A, consists of 7 questions (1-7). Each question carries 2 marks.
+(it) Section B, consists of 3 questions (8-10). Each question carries
+3 marks.
+(tv) Section C, consists of 3 questions (11-13). Each question carries
+4 marks.
+(v) Internal choices have been given for question numbers — 7, 8 and 12.
+SECTION -A
+(Each question carries 2 marks)
+1. “Stack is a linear data structure which follows a particular order in which
+the operations are performed.”
+What is the order in which the operations are performed in a Stack ?
+Name the List method/function available in Python which is used to
+remove the last element from a list implemented stack.
+Also write an example using Python statements for removing the last
+element of the list.
+2. (i) Expand the following :
+VoIP, PPP
+(ii) Riya wants to transfer pictures from her mobile phone to her laptop.
+She uses Bluetooth technology to connect two devices. Which type of
+network (PAN/LAN/MAN/WAN) will be formed in this case ?
+ox IMINTVMIMNMUA Page 2
+nia
+3.
+4.
+91
+Differentiate between the terms Attribute and Domain in the context of
+Relational Data Model. 2
+Consider the following SQL table MEMBER in a SQL Database CLUB : 2
+Table : MEMBER
+M ID NAME ACTIVITY
+pases fom
+Assume that the required library for establishing the connection between
+Python and MYSQL is already imported in the given Python code. Also
+assume that DB is the name of the database connection for table
+MEMBER stored in the database CLUB.
+Predict the output of the following code :
+MYCUR = DB.cursor()
+MYCUR.execute ("USE CLUB")
+MYCUR.execute ("SELECT * FROM MEMBER WHERE ACTIVITY= 'GYM' ")
+R=MYCUR. fetchone ()
+for i in range (2)
+R=MYCUR. fetchone ()
+print (R[O], R[1], sep = "#")
+UIMQUT MIA Page 3 P.T.0.
+Er
+aes
+5. Write the output of SQL queries (a) to (d) based on the table
+VACCINATION_DATA given below :
+TABLE : VACCINATION DATA
+Harjot 55 2021-07-1 2021-10-14 | Mumbai
+Srikanth 43 2021-04-18 | 2021-07-20 | Delhi
+(a) SELECT Name, Age FROM VACCINATION DATA
+WHERE Dose2 IS NOT NULL AND Age > 40;
+(bo) SELECT City, COUNT(*) FROM VACCINATION DATA GROUP BY City;
+(c) SELECT DISTINCT City FROM VACCINATION DATA;
+(d) SELECT MAX (Dosel), MIN (Dose2) FROM VACCINATION DATA;
+6. Write the output of SQL queries (a) and (b) based on the following two
+tables DOCTOR and PATIENT belonging to the same database :
+Table : DOCTOR
+AMITABH 1500
+NIKHI
+1500
+ov MMi MIiMiMi ti Page 4
+ANIKET 1000
+:
+Table : PATIENT
+me [mmm [amare [om
+(a) SELECT DNAME, PNAME FROM DOCTOR
+NATURAL JOIN PATIENT ;
+(bo) SELECT PNAME, ADMDATE, FEES
+FROM PATIENT P, DOCTOR D
+WHERE D.DNO = P.DNO AND FEES > 1000;
+Differentiate between Candidate Key and Primary Key in the context of
+Relational Database Model.
+OR
+Consider the following table PLAYER :
+Table : PLAYER
+HUSSAI
+UIMONT AMIE Page 5
+P.T.O.
+=
+El
+(a)
+(b)
+Identify and write the name of the most appropriate column from the
+given table PLAYER that can be used as a Primary key.
+Define the term Degree in relational data model. What is the Degree
+of the given table PLAYER ?
+SECTION -B
+(Each question carries 3 marks)
+Write the definition of a user defined function PushNV(N) which
+accepts a list of strings in the parameter N and pushes all strings
+which have no vowels present in it, into a list named NoVowel.
+Write a program in Python to input 5 words and push them one by
+one into a list named All.
+The program should then use the function PushNv() to create a
+stack of words in the list NoVowel so that it stores only those words
+which do not have any vowel present in it, from the list A111.
+Thereafter, pop each word from the list NoVowel and display the
+popped word. When the stack is empty display the message
+"EmptyStack".
+For example :
+If the Words accepted and pushed into the list All are
+['DRY', 'LIKE', 'RHYTHM', 'WORK', 'GYM']
+ox IMINTVMIMNMUA Page 6
+=
+El
+Then the stack NoVowel should store
+['DRY', 'RHYTHM', 'GYM']
+And the output should be displayed as
+GYM RHYTHM DRY EmptyStack
+OR
+e Write the definition of a user defined function Push3_5(N) which
+accepts a list of integers in a parameter N and pushes all those
+integers which are divisible by 3 or divisible by 5 from the list N
+into a list named Only3_5.
+e Write a program in Python to input 5 integers into a list named NUM.
+The program should then use the function Push 3_5() to create the
+stack of the list Only3_5. Thereafter pop each integer from the list
+Only3_5 and display the popped value. When the list is empty,
+display the message "StackEmpty" .
+For example :
+If the integers input into the list NUM are :
+[10, 6, 14, 18, 30]
+Then the stack Only3_5 should store
+[10, 6, 18, 30]
+And the output should be displayed as
+30 18 6 10 StackEmpty
+ox IMINTVMIMNMUA Page 7 P.T.0.
+10.
+11.
+91
+a) ASQL table ITEMS contains the following columns :
+INO, INAME, QUANTITY, PRICE, DISCOUNT
+Write the SQL command to remove the column DISCOUNT from the
+table.
+(ii) Categorize the following SQL commands into DDL and DML:
+CREATE, UPDATE, INSERT, DROP
+Rohan is learning to work upon Relational Database Management System
+(RDBMS) application. Help him to perform following tasks :
+(a) To open the database named "LIBRARY".
+(b) To display the names of all the tables stored in the opened database.
+(c) To display the structure of the table "BOOKS" existing in the already
+opened database "LIBRARY".
+SECTION - C
+(Each question carries 4 marks)
+Write SQL queries for (a) to (d) based on the tables PASSENGER and
+FLIGHT given below :
+Table : PASSENGER
+1004 FEMALE
+UIMONT AMIE Page
+Table :; FLIGHT
+mo [ame ee
+F101 MUMBAI CHENNAT
+F102 MUMBAI BENGALURU
+F103 DELHI CHENNAI
+F104 KOLKATA | MUMBAT
+F105 DELHI BENGALURU 2021-01-15 5000
+(a)
+(b)
+(c)
+(d)
+12. @
+(ai)
+ox IMINTVMIMNMUA Page 9 P.T.0.
+Write a query to change the fare to 6000 of the flight whose FNO is
+F104.
+Write a query to display the total number of MALE and FEMALE
+PASSENGERS.
+Write a query to display the NAME, corresponding FARE and F_DATE
+of all PASSENGERS who have a flight to START from DELHI.
+Write a query to delete the records of flights which end at Mumbai.
+Differentiate between Bus Topology and Tree Topology. Also, write
+one advantage of each of them.
+OR
+Differentiate between HTML and XML.
+What is a web browser ? Write the names of any two commonly used
+web browsers.
+EE
+ae
+13. Galaxy Provider Ltd. is planning to connect its office in Texas, USA with
+its branch at Mumbai. The Mumbai branch has 3 Offices in three blocks
+located at some distance from each other for different operations —
+ADMIN, SALES and ACCOUNTS.
+As a network consultant, you have to suggest the best network related
+solutions for the issues/problems raised in (a) to (d), keeping in mind the
+distances between various locations and other given parameters.
+Layout of the Offices in the Mumbai branch :
+Admin
+Block
+Sales
+Block
+Accounts
+Block
+Shortest distances between various locations :
+ADMIN Block to SALES Block
+SALES Block to ACCOUNTS Block
+ADMIN Block to ACCOUNTS Block
+MUMBAI Branch to TEXAS Head Office 14000 km
+ox IMINTVMIMNMUA Page 10
+Number of Computers installed at various locations are as follows :
+ADMIN Block
+ACCOUNTS Block
+SALES Block 30
+TEXAS Head Office 90
+It is observed that there is a huge data loss during the process of
+(b)
+(c)
+(d)
+data transfer from one block to another. Suggest the most
+appropriate networking device out of the following, which needs to be
+placed along the path of the wire connecting one block office with
+another to refresh the signal and forward it ahead.
+(i) MODEM (Gi) ETHERNET CARD
+(iii) REPEATER (iv) HUB
+Which hardware networking device out of the following, will you
+suggest to connect all the computers within each block ?
+G) SWITCH (ii) MODEM
+(iii) REPEATER (iv) ROUTER
+Which service/protocol out of the following will be most helpful to
+conduct live interactions of employees from Mumbai Branch and
+their counterparts in Texas ?
+a) FTP (ii) PPP
+(ii) SMTP (iv) VolP
+Draw the cable layout (block to block) to efficiently connect the three
+offices of the Mumbai branch.
+UIMONT AMIE Page 11
+n
+o
+ox IMINTVMIMNMUA Page 12

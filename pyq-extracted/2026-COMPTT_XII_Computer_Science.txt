@@ -1,0 +1,1587 @@
+91/7
+1 *
+[ P.T.O. ]
+Candidates must write the Q.P. Code
+on the title page of the answer-book.
+Series : S7PQR
+SET~4
+Q.P. Code
+Roll No.
+NOTE
+(I)
+Please check that this question paper
+contains 47 printed pages.
+(II) Q.P. Code given on the right hand
+side of the question paper should be
+written on the title page of the
+answer-book by the candidate.
+(III) Please check that this question paper
+contains 37 questions.
+(IV) Please write down the Serial
+Number of the question in the
+answer-book at the given place
+before attempting it.
+(V) 15 minute time has been allotted to
+read
+this
+question
+paper.
+The
+question paper will be distributed
+at 10.15 a.m. From 10.15 a.m. to
+10.30
+a.m.,
+the
+candidates
+will
+read the question paper only and
+will not write any answer on the
+answer-book during this period.
+COMPUTER SCIENCE
+Time allowed : 3 hours
+Maximum Marks : 70
+91/7
+91/7
+2 *
+(i)
+(ii)
+(iii)
+(iv)
+(v)
+(vi)
+(ix)
+(x)
+21 1=21
+1.
+1
+(A)
+Break
+(B)
+None
+(C)
+For
+(D)
+Class
+2.
+1
+print(18/3 == 18//3)
+(A)
+0
+(B)
+False
+(C)
+1
+(D)
+True
+3.
+1
+D={"A":"MUMBAI", "B":"CHENNAI"}
+print("C" in D)
+(A)
+False
+(B)
+0
+(C)
+True
+(D)
+1
+91/7
+3 *
+[ P.T.O. ]
+General Instructions :
+(i)
+This question paper contains 37 questions.
+(ii)
+All questions are compulsory. However, internal choices have been
+provided in some questions. Attempt only one of the choices in such
+questions.
+(iii)
+The paper is divided into 5 Sections – A, B, C, D and E.
+(iv)
+Section A, consists of 21 questions (1 to 21). Each question carries
+1 mark.
+(v)
+Section B, consists of 7 questions (22 to 28). Each question carries
+2 marks.
+(vi)
+Section C, consists of 3 questions (29 to 31). Each question carries
+3 marks.
+(vii)
+Section D, consists of 4 questions (32 to 35). Each question carries
+4 marks.
+(viii) Section E, consists of 2 questions (36 and 37). Each question carries
+5 marks.
+(ix)
+All programming questions are to be answered using Python Language
+only.
+(x)
+In case of MCQs, text of the correct answer should also be written.
+SECTION A
+21 1= 21
+1.
+Which of the following is a keyword in Python ?
+1
+(A)
+Break
+(B)
+None
+(C)
+For
+(D)
+Class
+2.
+What will be the output of the following statement ?
+1
+print(18/3 == 18//3)
+(A)
+0
+(B)
+False
+(C)
+1
+(D)
+True
+3.
+Consider the statements given below and then choose the correct output
+from the given options :
+1
+D={"A":"MUMBAI", "B":"CHENNAI"}
+print("C" in D)
+(A)
+False
+(B)
+0
+(C)
+True
+(D)
+1
+91/7
+4 *
+4.
+1
+try:
+num = 5
+text = "15"
+result = str(num) + text
+print(result)
+except:
+print("Error")
+(A)
+Error
+(B)
+515
+(C)
+20
+(D)
+75
+5.
+1
+print("X"* 2,"Y",end = 2 * "X", sep = "#")
+(A)
+Error
+(B)
+YY#XX
+(C)
+XXYY#
+(D)
+XX#YXX
+6.
+1
+(A)
+L +'Hello'
+(B)
+L + []
+(C)
+L + [2]
+(D)
+L * 2
+7.
+1
+(A)
+"STRING"[:-3]
+(B)
+"STRING"[-3::-1]
+(C)
+"STRING"[3:]
+(D)
+"STRING".startswith(3)
+91/7
+5 *
+[ P.T.O. ]
+4.
+What will be the output of the following Python code ?
+1
+try:
+num = 5
+text = "15"
+result = str(num) + text
+print(result)
+except:
+print("Error")
+(A)
+Error
+(B)
+515
+(C)
+20
+(D)
+75
+5.
+What will be the output of the following statement ?
+1
+print("X"* 2,"Y",end = 2 * "X", sep = "#")
+(A)
+Error
+(B)
+YY#XX
+(C)
+XXYY#
+(D)
+XX#YXX
+6.
+If L is an empty list, then which of the following expressions are invalid ?
+1
+(A)
+L +'Hello'
+(B)
+L + []
+(C)
+L + [2]
+(D)
+L * 2
+7.
+Which of the following statements will return the substring "STR" (i.e.
+the first 3 characters) from the string "STRING" ?
+1
+(A)
+"STRING"[:-3]
+(B)
+"STRING"[-3::-1]
+(C)
+"STRING"[3:]
+(D)
+"STRING".startswith(3)
+91/7
+6 *
+8.
+1
+K=('A','B')
+V='TEST'
+D = dict.fromkeys(K, V)
+print(D)
+(A)
+{'A':'TEST', 'B': None}
+(B)
+{'A': None, 'B':'TEST'}
+(C)
+{'A':'TEST', 'B':'TEST'}
+(D)
+Error
+9.
+1
+(A)
+(B)
+(C)
+(D)
+10.
+1
+L = ["A", "B"]
+S=['C','D']
+L.extend(S)
+print(L)
+(A)
+['A', 'B', 'C', 'D']
+(B)
+['A', 'B', 'CD']
+(C)
+['A', 'B', ['CD']]
+(D)
+['A', 'B', ['C','D']]
+91/7
+7 *
+[ P.T.O. ]
+8.
+Consider the statements given below and then choose the correct output
+from the given options :
+1
+K=('A','B')
+V='TEST'
+D = dict.fromkeys(K, V)
+print(D)
+(A)
+{'A':'TEST', 'B': None}
+(B)
+{'A': None, 'B':'TEST'}
+(C)
+{'A':'TEST', 'B':'TEST'}
+(D)
+Error
+9.
+Which of the following is true about clear() in Python ?
+1
+(A)
+It deletes the dictionary itself with all its elements.
+(B)
+It deletes all items of the dictionary resulting in an empty
+dictionary.
+(C)
+If D is a dictionary, then clear (D) is the correct statement.
+(D)
+No such function/method exists in Python.
+10.
+Consider the statements given below and then choose the correct output
+from the given options :
+1
+L = ["A", "B"]
+S=['C','D']
+L.extend(S)
+print(L)
+(A)
+['A', 'B', 'C', 'D']
+(B)
+['A', 'B', 'CD']
+(C)
+['A', 'B', ['CD']]
+(D)
+['A', 'B', ['C','D']]
+91/7
+8 *
+11.
+1
+(A)
+'rb'
+(B)
+'ab'
+(C)
+'w'
+(D)
+'r'
+12.
+1
+13.
+1
+(A)
+(B)
+A + B
+(C)
+A - B
+(D)
+A / B
+14.
+1
+(A)
+(B)
+(C)
+(D)
+15.
+1
+(A)
+INSERT
+(B)
+MODIFY
+(C)
+UPDATE
+(D)
+ALTER
+91/7
+9 *
+[ P.T.O. ]
+11.
+Which of the following options is the correct mode to open a binary pickled
+file to add more data in a previously existing binary pickled file ?
+1
+(A)
+'rb'
+(B)
+'ab'
+(C)
+'w'
+(D)
+'r'
+12.
+State True or False :
+1
+In SQL, the UNIQUE constraint on an attribute ensures that values in it
+are not left empty.
+13.
+The degree of the resulting relation after the Cartesian Product of two
+SQL tables with degrees A and B will be :
+1
+(A)
+(B)
+A + B
+(C)
+A - B
+(D)
+A / B
+14.
+Which of the following is not true about SQL ?
+1
+(A)
+SQL is case sensitive.
+(B)
+An SQL statement will always end with a colon (:).
+(C)
+SQL stands for Structured Query Language.
+(D)
+SQL is used to retrieve data from tables through queries.
+15.
+Which of the following is used to add a primary key to a column in a table
+created in MySQL ?
+1
+(A)
+INSERT
+(B)
+MODIFY
+(C)
+UPDATE
+(D)
+ALTER
+91/7
+10 *
+16.
+1
+(A)
+DISTINCT
+(B)
+IN
+(C)
+LIKE
+(D)
+NOT
+17.
+1
+(A)
+(B)
+(C)
+(D)
+18.
+(protocol) ?
+1
+(A)
+HTTP
+(B)
+FTP
+(C)
+VoIP
+(D)
+SMTP
+19.
+1
+(A)
+(B)
+(C)
+(D)
+91/7
+11 *
+[ P.T.O. ]
+16.
+In MySQL, which of the following operator is used with WHERE clause and
+returns a True if the value belongs to the set of specified values ?
+1
+(A)
+DISTINCT
+(B)
+IN
+(C)
+LIKE
+(D)
+NOT
+17.
+Which of the following networking medium is uni-directional and most
+appropriate to be used for long distance wireless communication ?
+1
+(A)
+Radio waves
+(B)
+Infrared
+(C)
+Bluetooth
+(D)
+Microwaves
+18.
+Which of the following is the correct protocol used for accessing a Web
+page ?
+1
+(A)
+HTTP
+(B)
+FTP
+(C)
+VoIP
+(D)
+SMTP
+19.
+Which of the following options is true about XML ?
+1
+(A)
+It stands for Expert Manipulating Language.
+(B)
+It is a programming language.
+(C)
+It is a dynamic language used to store and transport data through
+web pages.
+(D)
+It is same as HTML.
+91/7
+12 *
+(A)
+(B)
+(C)
+(D)
+20.
+1
+21.
+1
+91/7
+13 *
+[ P.T.O. ]
+Questions 20 and 21 are Assertion (A) and Reason (R) based questions. Mark the
+correct choice as :
+(A)
+Both Assertion (A) and Reason (R) are true and Reason (R) is the
+correct explanation of the Assertion (A).
+(B)
+Both Assertion (A) and Reason (R) are true, but Reason (R) is not
+the correct explanation of the Assertion (A).
+(C)
+Assertion (A) is true, but Reason (R) is false.
+(D)
+Assertion (A) is false, but Reason (R) is true.
+20.
+Assertion (A) : The upper() function/method in Python returns the string
+with all lowercase letters of the given string converted to
+uppercase.
+Reason (R) :
+Strings are mutable objects in Python.
+1
+21.
+Assertion (A) : If we define an attribute of a table as a Foreign key, then
+UNIQUE and NOT NULL constraints are automatically
+applied to it.
+Reason (R) : The Foreign key column of a table takes its values from the
+Primary key of another table.
+1
+91/7
+14 *
+22.
+2
+23.
+2
+24.
+(I)
+2
+PRICE = (100, 55, 72, 65, 85, 90)
+(II)
+S = "time is precious"
+t_me _s prec_ous
+91/7
+15 *
+[ P.T.O. ]
+SECTION B
+22.
+Differentiate between find() and index() with respect to strings in
+Python. Give supporting examples for both.
+2
+23.
+What are default parameters in Python functions ? Explain with the help
+of an example.
+2
+24.
+(I)
+Consider the following tuple named PRICE :
+2
+PRICE = (100, 55, 72, 65, 85, 90)
+(a)
+Write a single line statement in Python that displays the
+contents of the tuple PRICE in ascending order of the
+values.
+OR
+(b)
+Write a single line statement in Python to find and display
+the average PRICE of all the values in the given tuple.
+(II)
+(a)
+Write a single line Python statement using built-in
+functions/methods to display the content of a string S such
+that every occurrence of the alphabet 'i' of the string S is
+replaced with an underscore, i.e '_'.
+For example, if the string S is :
+S = "time is precious"
+then the statement should display the output as :
+t_me _s prec_ous
+OR
+(b)
+Write a Python statement using built-in function/method to
+delete the first occurrence of element 25 from the list named
+myList.
+91/7
+16 *
+25.
+2
+import random
+ITEMS={1:"PEN", 2: "ERASER", 3: "PENCIL"}
+for i in range(len(ITEMS)):
+print(ITEMS[random.randint(0,i)+1],end="*")
+(A)
+PEN*PENCIL*PENCIL*
+(B)
+PENCIL*PEN*ERASER*
+(C)
+PEN*PENCIL*ERASER*
+(D)
+PEN*ERASER*PEN*
+26.
+2
+define display(L):
+for i in range(0,len(L))
+if i % 7 = = 0:
+break
+else:
+print(L[i])
+numbers = [11,21,33,42,55]
+display(numbers)
+91/7
+17 *
+[ P.T.O. ]
+25.
+What possible output from the given options is expected to be displayed
+when the following code is executed ? Justify your answer.
+2
+import random
+ITEMS={1:"PEN", 2: "ERASER", 3: "PENCIL"}
+for i in range(len(ITEMS)):
+print(ITEMS[random.randint(0,i)+1],end="*")
+(A)
+PEN*PENCIL*PENCIL*
+(B)
+PENCIL*PEN*ERASER*
+(C)
+PEN*PENCIL*ERASER*
+(D)
+PEN*ERASER*PEN*
+26.
+The code given below is intended to display all numbers not divisible by 7
+from the given list. However, there are syntax and logical errors in the
+code. Rewrite it after removing all errors. Also, underline all the
+corrections made.
+2
+define display(L):
+for i in range(0,len(L))
+if i % 7 = = 0:
+break
+else:
+print(L[i])
+numbers = [11,21,33,42,55]
+display(numbers)
+91/7
+18 *
+27.
+PlantingID, CropType, PlantingDate, FieldLocation.
+HarvestID,
+PlantingID,
+YieldQuantity,
+YieldQuality,
+HarvestDate.
+2
+(I)
+(II)
+PlantingID 'PL005'
+91/7
+19 *
+[ P.T.O. ]
+27.
+EcoHarvest Solutions Co. is an agricultural technology firm specializing
+in farm management and crop optimization. The company stores crop
+planting details in a database table called PLANTINGS with attributes
+such as :
+PlantingID, CropType, PlantingDate, FieldLocation.
+Details of each harvest, including yield quantity and quality, are stored
+in another table named HARVESTS with attributes like.
+HarvestID,
+PlantingID,
+YieldQuantity,
+YieldQuality,
+HarvestDate.
+2
+(I)
+(a)
+Identify the attribute which should be considered as the
+FOREIGN KEY for joining the two tables.
+OR
+(b)
+Which constraint should be applied to the attribute
+HarvestID such that it can be used to uniquely identify
+every harvest record for all crops ?
+(II)
+(a)
+Write
+the
+SQL
+command
+to
+change
+the
+value
+of
+FieldLocation of the Planting whose PlantingID is
+'PL005' to 'North Field 3'.
+OR
+(b)
+Write the SQL command to display the records from the
+table HARVESTS for all records which have excellent
+YieldQuality.
+91/7
+20 *
+28.
+(I)
+2
+(II)
+29.
+3
+INFO: System startup complete.
+WARNING: Disk space low on drive C:.
+ERROR: Failed to connect to database.
+INFO: User 'admin' logged in.
+DEBUG: Processing request 'GET /data'.
+ERROR: Invalid input received from client.
+SUCCESS: Data saved.
+ERROR: Failed to connect to database.
+ERROR: Invalid input received from client.
+91/7
+21 *
+[ P.T.O. ]
+28.
+(I)
+(a)
+Define the term web server.
+(b)
+Write one difference between Circuit Switching and Packet
+Switching techniques used in Computer Networks.
+2
+OR
+(II)
+Differentiate between FTP and SMTP. Give any two points.
+SECTION C
+29.
+(a)
+Write a user-defined function in Python named Find_Pattern()
+which reads the contents of a text file named LOGS.TXT and
+displays all such lines that begin with the word "ERROR"
+(case-sensitive).
+3
+For example, if the content of file LOGS.TXT is as follows :
+INFO: System startup complete.
+WARNING: Disk space low on drive C:.
+ERROR: Failed to connect to database.
+INFO: User 'admin' logged in.
+DEBUG: Processing request 'GET /data'.
+ERROR: Invalid input received from client.
+SUCCESS: Data saved.
+Then the function should display the lines :
+ERROR: Failed to connect to database.
+ERROR: Invalid input received from client.
+OR
+91/7
+22 *
+"A brown fox quickly jumped over the dog. It loves
+to frolic."
+brown
+fox
+over
+dog.
+loves
+to
+frolic.
+30.
+(dictionary)
+EMPLOYEE_PERFORMANCE = {
+"E101": 85,
+"E102": 92,
+"E103": 78,
+"E104": 95,
+"E105": 80,
+"E106": 70
+}
+91/7
+23 *
+[ P.T.O. ]
+(b)
+Write a user-defined function in Python named ContainsChar()
+which reads the contents of a text file named DOCUMENT.TXT
+and displays all such words that contain the letter 'o'
+(case-insensitive).
+For example, if the content of file DOCUMENT.TXT is as follows :
+"A brown fox quickly jumped over the dog. It loves
+to frolic."
+Then the function should display the following words:
+brown
+fox
+over
+dog.
+loves
+to
+frolic.
+30.
+(a)
+Consider
+a
+globally
+declared
+dictionary
+named
+EMPLOYEE_PERFORMANCE which contains employee IDs and their
+respective performance scores (out of 100) as key:value pairs. For
+example, the dictionary EMPLOYEE_PERFORMANCE may contain
+items as follows :
+EMPLOYEE_PERFORMANCE = {
+"E101": 85,
+"E102": 92,
+"E103": 78,
+"E104": 95,
+"E105": 80,
+"E106": 70
+}
+91/7
+24 *
+(I)
+(II)
+(message) "Stack Underflow: No top performer to
+91/7
+25 *
+[ P.T.O. ]
+Write the following user-defined functions to perform the following
+given operations on a globally declared list implementing a stack
+named TOP_PERFORMERS_LIST :
+(I)
+PushHighPerformers(): This function should push all
+employee IDs from the dictionary EMPLOYEE_PERFORMANCE
+whose performance score is greater than or equal to 90 into
+the
+stack
+TOP_PERFORMERS_LIST.
+For
+example,
+on
+execution of the PushHighPerformers() function, the
+stack TOP_PERFORMERS_LIST should contain ["E102",
+"E104"] (assuming the order of insertion is E102 then
+E104) from the above considered example of the dictionary
+EMPLOYEE_PERFORMANCE.
+(II)
+IsPerformanceListEmpty(): This function should check
+whether the stack TOP_PERFORMERS_LIST is empty or not.
+If it is empty, the function should return True; otherwise, it
+should return False.
+(III) PopPerformer(): This function should pop and return
+the
+topmost
+employee
+ID
+from
+the
+stack
+TOP_PERFORMERS_LIST. If the stack is already empty
+(check using the IsPerformanceListEmpty() function),
+then the function should display the message "Stack
+Underflow: No top performer to pop."
+OR
+91/7
+26 *
+PRODUCT_PRICES = [ 150.75, 85.00, 299.99, 50.50,
+120.00, 99.95, 450.00 ]
+(I)
+(II)
+91/7
+27 *
+[ P.T.O. ]
+(b)
+Consider a globally declared list of product prices named
+PRODUCT_PRICES as follows :
+PRODUCT_PRICES = [ 150.75, 85.00, 299.99, 50.50,
+120.00, 99.95, 450.00 ]
+Write the following user-defined functions to perform the following
+given operations on a globally declared list implementing a stack
+named DISCOUNT_PRICES :
+(I)
+PushDiscPrices(): This function should push all those
+prices from the list PRODUCT_PRICES which are less than or
+equal to 100.00 into the stack DISCOUNT_PRICES. For
+example, on execution of the PushDiscPrices() function,
+the stack DISCOUNT_PRICES should contain [85.00,
+50.50, 99.95] (assuming this order of pushing is based on
+appearance in the PRODUCT_PRICES list) from the above
+considered example of the list PRODUCT_PRICES.
+(II)
+PopDiscPrices(): This function should pop and display
+the last (topmost) price from the stack DISCOUNT_PRICES. If
+the stack is already empty, then the function should display
+the message "No More Discount Prices to Pop" and
+return None.
+(III) ShowDiscPrices(): This function should display all the
+prices from the stack DISCOUNT_PRICES without deleting
+any price from the stack. The content of DISCOUNT_PRICES
+should be displayed as per stack LIFO rule (i.e., last price to
+first price). If there are no prices in the stack, then display
+the message "Stack is Empty: No discount prices
+to show".
+91/7
+28 *
+31.
+3
+SCORES = [5, 12, 7, 20, 10, 18]
+for X in range(len(SCORES)):
+if SCORES[X] % 4 == 0:
+SCORES[X] = SCORES[X] + SCORES[X-1]
+elif SCORES[X] % 3 == 0:
+SCORES[X] = SCORES[len(SCORES) - 1 - X] + 5
+else:
+SCORES[X] = SCORES[X] // 2
+for Y in range(0, len(SCORES), 2):
+if Y + 1 < len(SCORES):
+print(SCORES[Y], SCORES[Y+1], sep="$")
+else:
+print(SCORES[Y], sep="$")
+def Transform(D_A, D_B):
+D_C = {}
+D_C.update(D_A)
+D_A.update(D_B)
+D_B.update(D_C)
+return D_C
+Init_Stock = {"Chocolate": 100, "Cookie": 50}
+New_Arriv = {"Cookie": 60, "Chocolate": 120}
+T_Data = Transform(Init_Stock, New_Arriv)
+print(Init_Stock)
+print(New_Arriv)
+print(T_Data)
+91/7
+29 *
+[ P.T.O. ]
+31.
+(a)
+Predict the output on execution of the following Python code :
+3
+SCORES = [5, 12, 7, 20, 10, 18]
+for X in range(len(SCORES)):
+if SCORES[X] % 4 == 0:
+SCORES[X] = SCORES[X] + SCORES[X-1]
+elif SCORES[X] % 3 == 0:
+SCORES[X] = SCORES[len(SCORES) - 1 - X] + 5
+else:
+SCORES[X] = SCORES[X] // 2
+for Y in range(0, len(SCORES), 2):
+if Y + 1 < len(SCORES):
+print(SCORES[Y], SCORES[Y+1], sep="$")
+else:
+print(SCORES[Y], sep="$")
+OR
+(b)
+Predict the output on execution of the following Python code :
+def Transform(D_A, D_B):
+D_C = {}
+D_C.update(D_A)
+D_A.update(D_B)
+D_B.update(D_C)
+return D_C
+Init_Stock = {"Chocolate": 100, "Cookie": 50}
+New_Arriv = {"Cookie": 60, "Chocolate": 120}
+T_Data = Transform(Init_Stock, New_Arriv)
+print(Init_Stock)
+print(New_Arriv)
+print(T_Data)
+91/7
+30 *
+32.
+(attributes) PID, PName, Category, Price, Quantity,
+Table : PRODUCTS
+PID PName
+Category
+Price
+Quantity LastUpdated
+101 Laptop Pro
+Electronics
+1200
+50 2024-01-10
+102 Gaming
+Mouse
+Peripherals
+45.99
+200 2023-11-25
+103 Ergonomic
+Keyboard
+Peripherals
+75
+150 2024-02-01
+104 Smart
+Speaker
+Electronics
+89.99
+100 2024-01-15
+105 USB-C Hub
+Accessories
+29.5
+300 2023-12-05
+106 External
+SSD 1TB
+Storage
+99
+75 2024-03-01
+107 Wireless
+Earbuds
+Audio
+129.99
+120 2024-02-10
+108 Desk Lamp
+Home
+35
+180 2023-10-20
+109 Web
+Camera
+HD
+Peripherals
+60
+NULL 2024-01-25
+110 Portable
+Charger
+Accessories
+49.99
+250 2023-12-15
+91/7
+31 *
+[ P.T.O. ]
+SECTION D
+32.
+TechMart Inc. manages its product inventory using an SQL table
+named PRODUCTS. The table consists of the attributes PID, PName,
+Category, Price, Quantity, and LastUpdated, and contains the
+following records:
+Table : PRODUCTS
+PID PName
+Category
+Price
+Quantity LastUpdated
+101 Laptop Pro
+Electronics
+1200
+50 2024-01-10
+102 Gaming
+Mouse
+Peripherals
+45.99
+200 2023-11-25
+103 Ergonomic
+Keyboard
+Peripherals
+75
+150 2024-02-01
+104 Smart
+Speaker
+Electronics
+89.99
+100 2024-01-15
+105 USB-C Hub
+Accessories
+29.5
+300 2023-12-05
+106 External
+SSD 1TB
+Storage
+99
+75 2024-03-01
+107 Wireless
+Earbuds
+Audio
+129.99
+120 2024-02-10
+108 Desk Lamp
+Home
+35
+180 2023-10-20
+109 Web
+Camera
+HD
+Peripherals
+60
+NULL 2024-01-25
+110 Portable
+Charger
+Accessories
+49.99
+250 2023-12-15
+91/7
+32 *
+(I)
+(II)
+(I)
+SELECT Avg(Quantity) FROM PRODUCTS
+WHERE Category = 'Peripherals';
+(II)
+SELECT DISTINCT Category FROM PRODUCTS;
+(III) SELECT COUNT(PID) FROM PRODUCTS
+WHERE Quantity < 100;
+(IV)
+SELECT PName, Category FROM PRODUCTS
+WHERE PName LIKE '%Speaker%';
+91/7
+33 *
+[ P.T.O. ]
+(a)
+Based on the data given above answer the following questions : 4 1=4
+(I)
+Write the SQL statement to display the PName and Price of
+those PRODUCTS that belong to the 'Electronics'
+category and have a Price greater than 100.00.
+(II)
+Write the SQL statement to display the Category and the
+total number of products in each category.
+(III) Write the SQL statement to display the entire PRODUCTS
+table content, in ascending order of Last date of
+Updation (showing the earliest updates first).
+(IV)
+Write the SQL statement to make the Price of all
+PRODUCTS whose quantity is not known, to 0.
+OR
+(b)
+Considering the above given table PRODUCTS, write the output on
+execution of the following SQL commands:
+(I)
+SELECT Avg(Quantity) FROM PRODUCTS
+WHERE Category = 'Peripherals';
+(II)
+SELECT DISTINCT Category FROM PRODUCTS;
+(III) SELECT COUNT(PID) FROM PRODUCTS
+WHERE Quantity < 100;
+(IV)
+SELECT PName, Category FROM PRODUCTS
+WHERE PName LIKE '%Speaker%';
+91/7
+34 *
+33.
+2+2=4
+[OrderID, CustomerID, OrderDate, TotalAmount, OrderStatus]
+['ORD001','C101','2024-05-20',150.75,'Shipped']
+(i)
+(ii)
+34.
+Table : PUBLISHERS
+PublID
+Name
+Country
+Genre
+101
+Grand Books
+USA
+Fiction
+102
+World Lit Press
+UK
+Non-Fiction
+103
+Tech Tome
+Germany
+Sci-Fi
+104
+Story Weaver
+USA
+Fiction
+105
+Global Insights
+Canada
+Non-Fiction
+91/7
+35 *
+[ P.T.O. ]
+33.
+A CSV file named "ORDERS.CSV" contains records of customer orders
+placed on an e-commerce platform. The structure of each record is as
+follows :
+2+2=4
+[OrderID, CustomerID, OrderDate, TotalAmount, OrderStatus]
+A sample row for the CSV file is given below for reference :
+['ORD001','C101','2024-05-20',150.75,'Shipped']
+Write the following Python function definitions to perform the specified
+tasks with the CSV file :
+(i)
+RecentOrders(): This function should read the rows from the
+CSV file and display the OrderID and TotalAmount for all orders
+placed in the year '2024'.
+(ii)
+AddOrder(newOrder): This function should write data at the
+end of the CSV file. The record is passed as argument to the
+function.
+34.
+Consider a database LIBRARY_CATALOG containing the following two
+tables – PUBLISHERS and BOOKS given below :
+Table : PUBLISHERS
+PublID
+Name
+Country
+Genre
+101
+Grand Books
+USA
+Fiction
+102
+World Lit Press
+UK
+Non-Fiction
+103
+Tech Tome
+Germany
+Sci-Fi
+104
+Story Weaver
+USA
+Fiction
+105
+Global Insights
+Canada
+Non-Fiction
+91/7
+36 *
+Table : BOOKS
+BookID Title
+PublID PublYear
+Pages
+3001
+The Last Horizon
+101
+2018
+450
+3002
+Echoes of Tomorrow
+103
+2020
+320
+3003
+A Brief History
+102
+2015
+580
+3004
+Whispers in the Wind
+101
+2019
+280
+3005
+Starship Odyssey
+103
+2021
+400
+3006
+The Silent Shore
+104
+2022
+350
+3007
+Understanding AI
+103
+2019
+290
+(I)
+91/7
+37 *
+[ P.T.O. ]
+Table : BOOKS
+BookID Title
+PublID PublYear
+Pages
+3001
+The Last Horizon
+101
+2018
+450
+3002
+Echoes of Tomorrow
+103
+2020
+320
+3003
+A Brief History
+102
+2015
+580
+3004
+Whispers in the Wind
+101
+2019
+280
+3005
+Starship Odyssey
+103
+2021
+400
+3006
+The Silent Shore
+104
+2022
+350
+3007
+Understanding AI
+103
+2019
+290
+Note : The attribute Pages in the table BOOKS represents the total
+number of pages in a book, PublID represents the Publisher’s
+Identification Number, PublYear represents the Year of Publication.
+Write the SQL queries for the following :
+(I)
+(a)
+To display Title of all BOOKS and their corresponding
+PublYear which belong to the 'Fiction' type of Genre
+(from PUBLISHERS table) through Equi Join.
+OR
+(b)
+To display Title of all BOOKS and their corresponding
+PublYear which belong to the 'Fiction' type of Genre
+(from PUBLISHERS table) through Natural Join.
+91/7
+38 *
+(II)
+35.
+4
+Field
+Type
+Remarks
+Code
+Char(6)
+Code of stock
+Name
+Varchar(15)
+Name of stock
+Exchange
+Char(3)
+Name of exchange
+LTP
+Float
+Last traded Price
+Volume
+int
+Amount of stock
+•
+Host
+–
+localhost
+•
+User
+–
+Finman
+•
+Password
+–
+Stk2026
+91/7
+39 *
+[ P.T.O. ]
+(II)
+To display Name of all PUBLISHERS and their corresponding Title
+of BOOKS in ascending order of PublYear.
+(III) To delete all records from the table BOOKS whose PublYear is
+older than 2020.
+(IV)
+To open the database LIBRARY_CATALOG and then display the
+names of all tables present in the database.
+35.
+A table named EQUITY in INVESTMENT database has the following
+structure :
+4
+Field
+Type
+Remarks
+Code
+Char(6)
+Code of stock
+Name
+Varchar(15)
+Name of stock
+Exchange
+Char(3)
+Name of exchange
+LTP
+Float
+Last traded Price
+Volume
+int
+Amount of stock
+Write a function in Python to display all the records where Exchange is
+BSE from the EQUITY table. Also display the total number of such
+records.
+Assume the following for Python database connectivity :
+•
+Host
+–
+localhost
+•
+User
+–
+Finman
+•
+Password
+–
+Stk2026
+91/7
+40 *
+36.
+[TRIAL_ID,
+PATIENT_NAME,
+DRUG_TESTED,
+DOSAGE_MG,
+OUTCOME_SCORE]
+•
+•
+"DrugX", "DrugY", "Placebo")
+•
+•
+2+3=5
+(I)
+(II)
+91/7
+41 *
+[ P.T.O. ]
+SECTION E
+36.
+A file CLINICAL_TRIALS.DAT stores records of the following structure :
+[TRIAL_ID,
+PATIENT_NAME,
+DRUG_TESTED,
+DOSAGE_MG,
+OUTCOME_SCORE]
+Where :
+•
+TRIAL_ID - Unique identifier for the clinical trial participant (string
+type)
+•
+PATIENT_NAME - Name of the patient (string type)
+•
+DRUG_TESTED - Name of the drug administered (string type, e.g.,
+"DrugX", "DrugY", "Placebo")
+•
+DOSAGE_MG - Dosage of the drug in milligrams (integer type)
+•
+OUTCOME_SCORE - Numerical score indicating the treatment
+outcome (float type, higher score means better outcome)
+Write user-defined functions in Python for the following tasks :
+2+3=5
+(I)
+RecordTrialData():
+This
+function
+should
+input
+data
+for clinical trial participants and write it to the binary file
+CLINICAL_TRIALS.DAT.
+(II)
+AdjustLowDosage():
+This
+function
+should
+increase
+the
+DOSAGE_MG of all participants whose OUTCOME_SCORE is below
+0.5 by 20% and rewrite the updated records into the file
+CLINICAL_TRIALS.DAT.
+91/7
+42 *
+37.
+•
+•
+•
+91/7
+43 *
+[ P.T.O. ]
+37.
+You are the lead network architect for ‘‘The Green Sprout Institute,’’ a
+rapidly expanding agricultural research and development organization
+with its head office located in Guwahati, Assam. The Green Sprout
+Institute is undergoing significant expansion, which includes :
+•
+Acquiring a new, larger central research campus in Kolkata, to
+house advanced laboratory equipment and a large administrative
+and research staff.
+•
+Integrating four smaller remote field-testing stations across
+various agricultural regions in Assam : These stations will
+primarily focus on automated sensor data collection and transfer
+the data securely to the central research campus in Kolkata.
+•
+The new Kolkata Research Campus will comprise of three distinct
+sections/blocks : Advanced Labs, Data Analysis Centre, and
+Administrative Hub, as shown in the conceptual layout below :
+91/7
+44 *
+100
+60
+150
+91/7
+45 *
+[ P.T.O. ]
+Distance between the sections of Proposed Kolkata Research Campus :
+Section to Section
+Distance
+Advanced Labs to Data Analysis Centre
+280 metres
+Data Analysis Centre to Administrative Hub
+320 metres
+Administrative Hub to Advanced Labs
+250 metres
+•
+Each section in the Kolkata Research Campus will have the following
+number of computers/devices :
+Section
+Number of computers/devices
+Advanced Labs
+100
+Data Analysis Centre
+60
+Administrative Hub
+150
+Existing
+Guwahati Head
+Office
+Proposed
+Kolkata Research
+Campus
+Administration
+Hub
+Data Analysis
+Centre
+Advanced Labs
+91/7
+46 *
+(I)
+(II)
+(V)
+91/7
+47 *
+[ P.T.O. ]
+As the lead network architect, you need to propose a comprehensive
+network design and implementation plan that addresses all the key
+issues of The Green Sprout Institute’s expansion goals. Answer the
+questions given below in this respect :
+(I)
+Suggest a device to be installed in each of the sections of the
+Kolkata Research Campus to connect the cables of individual
+computers/devices within that section.
+(II)
+Suggest the most appropriate location (Section) to install the
+SERVER in the Kolkata campus (out of the 3 sections) to get the
+best and most effective connectivity and security for critical
+research data. Justify your answer.
+(III) Draw the cable layout to reliably connect various sections within
+the Kolkata Campus.
+(IV)
+What type of network out of PAN, LAN, MAN, WAN will be set up
+when the central Guwahati Head Office is connected with the new
+Kolkata Research Campus ?
+(V)
+(a)
+Which secure and high-bandwidth wired transmission
+medium should preferably be used to connect the Guwahati
+Head Office with the Kolkata Research Campus for
+transferring large datasets and research files ?
+OR
+(b)
+Which specific protocol will be used if researchers at the
+Guwahati HQ need to have Collaborative Research Sessions
+using video conferencing with Kolkata Research Centre ?

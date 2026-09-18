@@ -1,0 +1,456 @@
+eee” ~—
+Set-4
+Series &RQPS weq-va SE 9]
+Q.P. Code
+tet a. PT] tt ptt] Candidates must write the Q.P. Code
+Roll No. on the title page of the answer-book.
+EG
+wn!
+COMPUTER SCIENCE
+Time allowed : 3 hours Maximum Marks : 70
+NOTE
+(I) Please check that this question paper contains 15 printed pages.
+(II) Please check that this question paper contains 35 questions.
+(IIT) Q.P. Code given on the right hand side of the question paper should be written
+on the title page of the answer-book by the candidate.
+(IV) Please write down the serial number of the question in the answer-book
+before attempting it.
+(V) 15 minute time has been allotted to read this question paper. The question
+paper will be distributed at 10.15 a.m. From 10.15 a.m. to 10.30 a.m., the
+candidates will read the question paper only and will not write any answer
+on the answer-book during this period.
+2191 1 P.T.O.
+eee” ~—
+General Instructions :
+2191
+(i) Please check this question paper contains 35 questions.
+(i) The paper is divided into 5 Sections — A, B, C, Dand E.
+(ut) Section A, consists of 18 questions (1 to 18). Each question carries
+1 mark.
+(iv) Section B, consists of 7 questions (19 to 25). Each question carries
+2 marks.
+(v) Section C, consists of 5 questions (26 to 30). Each question carries
+3 marks.
+(vi) Section D, consists of 2 questions (31 to 32). Each question carries
+4 marks.
+(vit) Section E, consists of 3 questions (83 to 35). Each question carries
+5 marks.
+(vit) All programming questions are to be answered using Python Language
+only.
+SECTION -A
+State True or False :
+While defining a function in Python, the positional parameters in the
+function header must always be written after the default parameters.
+The SELECT statement when combined with clause, returns
+records without repetition.
+(a) DISTINCT (b) DESCRIBE
+(c) UNIQUE (d) NULL
+What will be the output of the following statement :
+print (16*5/4*2/5-8)
+(a) -3.33 (b) 6.0
+(c) 0.0 (d) -13.33
+What possible output from the given options is expected to be displayed
+when the following Python code is executed ?
+import random
+Signal = ['RED', 'YELLOW', 'GREEN']
+for K in range(2, 0, -1)
+R = random. randrange (K)
+print (Signal[R], end = '#')
+(a) YELLOW # RED # (b) RED # GREEN #
+(c) GREEN # RED # (d) YELLOW # GREEN #
+2
+eee” ~—
+10.
+2191
+In SQL, the aggregate function which will display the cardinality of the
+table is
+(a) sum() (b) count (*)
+(c) avg() (d) sum(*)
+Which protocol out of the following is used to send and receive emails over
+a computer network ?
+(a) PPP (b) HTTP
+(c) FTP (d) SMTP
+Identify the invalid Python statement from the following :
+(a) d = dict() (b) e = {}
+() =(] (d) g = dict{}
+Consider the statements given below and then choose the correct output
+from the given options :
+myStr="MISSISSIPPI"
+print (myStr[:4]+"#"+myStr[-5:])
+(a) MISSI#SIPPI (b) MISS#SIPPI
+(c) MISS#IPPIS (d) MISSI#IPPIS
+Identify the statement from the following which will raise an error :
+(a) print("A"*3) (b) print (5*3)
+(c) print("15" + 3) (d) print("15" + "13")
+Select the correct output of the following code :
+event="G620 Presidency@2023"
+L=event.split(' ')
+print (L[::-2])
+(a) 'G20' (b) ['Presidency@2023']
+(c) ['G20'] (d) 'Presidency@2023'
+3 P.T.O.
+eee” ~—
+11. Which of the following options is the correct unit of measurement for
+network bandwidth ? 1
+(a) KB (b) Bit
+(c) Hz (d) Km
+12. Observe the given Python code carefully : 1
+a=20
+def convert (a):
+b=20
+a=atb
+convert (10)
+print (a)
+Select the correct output from the given options :
+(a) 10 (b) 20
+(c) 30 (d) Error
+13. State whether the following statement is True or False : 1
+While handling exceptions in Python, name of the exception has to be
+compulsorily added with except clause.
+14. Which of the following is not a DDL command in SQL ? 1
+(a) DROP (b) CREATE
+(c) UPDATE (d) ALTER
+15. Fillin the blank : 1
+is a set of rules that needs to be followed by the communicating
+parties in order to have a successful and reliable data communication over
+a network.
+2191 4
+eee” ~—
+16.
+17.
+18.
+19.
+2191
+Consider the following Python statement : 1
+F=open ('CONTENT.TXT' )
+Which of the following is an invalid statement in Python ?
+(a) F.seek(1,0) (b) F.seek (0,1)
+(c) F.seek(0,-1) (d) F.seek (0,2)
+Q. 17 and 18 are ASSERTION (A) and REASONING (R) based questions.
+Mark the correct choice as
+(a) Both (A) and (R) are true and (R) is the correct explanation for (A).
+(b) Both (A) and (R) are true and (R) is not the correct explanation for
+(A).
+(c) (A) is true but (R) is false.
+(d) (A) is false but (R) is true.
+Assertion (A) : CSV file is a human readable text file where each line
+has a number of fields, separated by comma or some
+other delimiter. 1
+Reason (R) : wxriterow() method is used to write a single row ina
+CSV file.
+Assertion (A) : The expression "HELLO".sort() in Python will give
+an error. 1
+Reason (R) : sort() does not exist as a method/function for strings
+in Python.
+SECTION - B
+(A) () Expand the following terms : 1+1=2
+XML, PPP
+(ii) Give one difference between circuit switching and packet
+switching.
+OR
+(B) (i) Define the term web hosting.
+(1) Name any two web browsers.
+5 P.T.O.
+eee” ~—
+20. The code given below accepts five numbers and displays whether they are
+even or odd :
+Observe the following code carefully and rewrite it after removing all
+syntax and logical errors :
+Underline all the corrections made.
+def EvenOdd ()
+for i in range(5):
+num=int (input ("Enter a number")
+if num/2==0:
+print ("Even")
+else:
+print ("Odd")
+EvenOdd ()
+21. (A) Write a user defined function in Python named showGrades (S)
+which takes the dictionary S as an argument. The dictionary,
+S contains Name: [Eng,Math,Science] as key:value pairs. The
+function displays the corresponding grade obtained by the students
+according to the following grading rules :
+Average of Eng,Math, Science
+>=90
+<90 but >=60
+<60
+For example : Consider the following dictionary
+S={"AMIT" : [92,86,64],"NAGMA": [65, 42,43], "DAVID": [92, 90,88] }
+The output should be :
+AMIT - B
+NAGMA —- C
+DAVID -—A
+OR
+2191 6
+eee” ~—
+22.
+23.
+2191
+(B) Write a user defined function in Python named Puzzle (W,N) which
+takes the argument W as an English word and N as an integer and
+returns the string where every N‘ alphabet of the word Wis replaced
+with an underscore ("_").
+For example : if W contains the word "TELEVISION" and N is 3, then
+the function should return the string "TE_EV_SI_N". Likewise for the
+word "TELEVISION" if N is 4, then the function should return
+"TEL _VIS_ON".
+Write the output displayed on execution of the following Python code : 2
+LS=["HIMALAYA", "NILGIRI", "ALASKA", "ALPS"]
+D={}
+for S in LS :
+if len(S)%4 == 0:
+D[S] = len(S)
+for KinD :
+print(K,D[K], sep = "#")
+(A) Write the Python statement for each of the following tasks using
+built-in functions/methods only : 1+1=2
+(i) To remove the item whose key is "NISHA" from a dictionary
+named Students.
+For example, if the dictionary Students’ contains
+{"ANITA":90, "NISHA":76, "ASHA":92}, then after removal
+the dictionary should contain {"ANITA":90, "ASHA":92}
+(ii) To display the number of occurrences of the substring "is" ina
+string named message.
+For example if the string message contains "This is his
+book", then the output will be 38.
+OR
+(B) A tuple named subject stores the names of different subjects. Write
+the Python commands to convert the given tuple to a list and
+thereafter delete the last element of the list.
+7 P.T.O.
+eee” ~—
+24.
+25.
+2191
+(A)
+(B)
+Ms. Veda created a table named Sports in a MySQL database,
+containing columns Game_id, P_Age and G name.
+After creating the table, she realized that the attribute, Category
+has to be added. Help her to write a command to add the Category
+column. Thereafter, write the command to insert the following record
+in the table :
+Game_id : G42
+P_ Age: Above 18
+G_name : Chess
+Category : Senior
+OR
+Write the SQL commands to perform the following tasks :
+(i) View the list of tables in the database, Exam.
+(ii) View the structure of the table, Term1.
+Predict the output of the following code :
+def callon (b=20,a=10) :
+b=b+a
+a=b-a
+print (b, "#",a)
+return b
+x=100
+y=200
+x=callon (x,y)
+print (x,"@",y)
+y=callon (y)
+print (x,"@",y)
+—————— eee” —
+SECTION - C
+26. Write the output on execution of the following Python code : 3
+S="Racecar Car Radar"
+L=S.split()
+for WinL =:
+x=W. upper ()
+if x==x[::-1]:
+for I in x:
+print (I,end="*")
+else:
+for I in W:
+print (I,end="#")
+print ()
+27. Consider the table ORDERS given below and write the output of the SQL
+queries that follow : 1x3=3
+[omono| sme [om [ae | oman
+[aos [ ace [as [azo | soascanci7
+[soon [wae [ae [ os | sonecas
+[soos [wae [a7 [ss [aeons
+[soe7 [wane [as [ oo | soneoeae,
+(i) SELECT ITEM, SUM(QTY) FROM ORDERS GROUP BY ITEM;
+(ii) SELECT ITEM, QTY FROM ORDERS WHERE ORDATE BETWEEN
+'2023-11-01' AND '2023-12-31';
+(iil) SELECT ORDNO, ORDATE FROM ORDERS WHERE ITEM = 'WHEAT'
+AND RATE>=60;.
+2191 9 P.T.O.
+—————— eee” —
+28. (A) Write a user defined function in Python named showInLines ()
+which reads contents of a text file named STORY.TXT and displays
+every sentence in a separate line. 3
+Assume that a sentence ends with a full stop (.), a question mark (?),
+or an exclamation mark (!).
+For example, if the content of file STORY. TXT is as follows :
+Our parents told us that we must eat vegetables to be
+healthy. And it turns out, our parents were right! So,
+what else did our parents tell?
+Then the function should display the file's content as follows :
+Our parents told us that we must eat vegetables to be
+healthy.
+And it turns out, our parents were right!
+So, what else did our parents tell?
+OR
+(B) Write a function, c_words()in Python that separately counts and
+displays the number of uppercase and lowercase alphabets in a text
+file, Words. txt.
+29. Consider the table Projects given below : 1x3=3
+Table : Projects
+POOL |School Management Python 2023-01-12 | 2023-04-03
+System
+Hotel Management C++ 2022-12-01 | 2023-02-02
+System
+PO004 |Payroll Management |Python 2023-03-12 | 2023-06-02
+System
+Based on the given table, write SQL queries for the following :
+(i) Add the constraint, primary key to column P_id in the existing
+table Projects.
+(ii) To change the language to Python of the project whose id is POO2.
+(ii1) To delete the table Projects from MySQL database along with its
+data.
+2191 10
+—————— eee” —
+30. Consider a list named Nums which contains random integers.
+Write the following user defined functions in Python and perform the
+specified operations on a stack named BigNums. 3
+(i) PushBig() : It checks every number from the list Nums and pushes
+all such numbers which have 5 or more digits into the stack,
+BigNums.
+(ii) PopBig() : It pops the numbers from the stack, BigNums and
+displays them. The function should also display "Stack Empty"
+when there are no more numbers left in the stack.
+For example: If the list Nums contains the following data :
+Nums = [213,10025,167,254923,14,1297653, 31498, 386, 92765]
+Then on execution of PushBig(), the stack BigNums should store :
+[10025, 254923, 1297653, 31498, 92765]
+And on execution of PopBig() , the following output should be displayed :
+92765
+31498
+1297653
+254923
+10025
+Stack Empty
+SECTION - D
+31. Consider the tables Admin and Transport given below : 1x4=4
+Table : Admin
+sia | Siene | Addzess [Seype
+[S008 [atharva [Rampur [Day Boarder
+2191 11 P.T.O.
+eee” ~—
+32.
+2191
+Table : Transport
+a8 [oeene [See name
+| S005 | TSS10 Kamla Nagar
+Write SQL queries for the following :
+(i) Display the student name and their stop name from the tables
+Admin and Transport.
+(ii) Display the number of students whose S_type is not known.
+(iii) Display all details of the students whose name starts with 'v' .
+(iv) Display student id and address in alphabetical order of student
+name, from the table Admin.
+Sangeeta is a Python programmer working in a computer hardware
+company. She has to maintain the records of the peripheral devices. She
+created a csv file named Peripheral.csv, to store the details. The
+structure of Peripheral.csv is:
+[P_id, P_name, Price]
+where
+P_id is Peripheral device ID (integer)
+P_name is Peripheral device name (String)
+Price is Peripheral device price (integer)
+Sangeeta wants to write the following user defined functions :
+Add _Device() : to accept a record from the user and add it to a csv file,
+Peripheral.csv.
+Count_Device() : To count and display number of peripheral devices
+whose price is less than 1000.
+12
+eee” —
+SECTION - E
+33. Infotainment Ltd. is an event management company with its prime office
+located in Bengaluru. The company is planning to open its new division at
+three different locations in Chennai named as - Vajra, Trishula and
+Sudershana. 1x5=5
+You, as a networking expert need to suggest solutions to the questions in
+part (1) to (v), keeping in mind the distances and other given parameters.
+Bengaluru
+Office
+Chennai Division
+LA L
+Distances between various locations :
+Number of computers installed at various locations :
+Bengaluru Office
+(i) Suggest and draw the cable layout to efficiently connect various
+locations in Chennai division for connecting the digital devices.
+(ii) Which block in Chennai division should host the server ? Justify your
+answer.
+(ii1) Which fast and effective wired transmission medium should be used
+to connect the prime office at Bengaluru with the Chennai division ?
+2191 13 P.T.O.
+eee” ~—
+(iv) Which network device will be used to connect the digital devices
+within each location of Chennai division so that they may
+communicate with each other ?
+(v) A considerable amount of data loss is noticed between different
+locations of the Chennai division, which are connected in the
+network. Suggest a networking device that should be installed to
+refresh the data and reduce the data loss during transmission to and
+from different locations of Chennai division.
+34. (A) @) Differentiate between 'w' and 'a' file modesin Python. 2+3=5
+(ii) Consider a binary file, items .dat, containing records stored in
+the given format :
+{item_id: [item_name, amount] }
+Write a function, Copy_new(), that copies all records whose
+amount is greater than 1000 from items.dat to new_items.
+dat.
+OR
+(B) (i) What is the advantage of using with clause while opening a data
+file in Python ? Also give syntax of with clause.
+(ii) A binary file, EMP.DAT has the following structure :
+[Emp Id, Name, Salary]
+where
+Emp Id : Employee id
+Name : Employee Name
+Salary : Employee Salary
+Write a user defined function, disp Detail (), that would read
+the contents of the file EMP.DAT and display the details of those
+employees whose salary is below 25000.
+2191 14
+—————— eee” —
+35.
+2191
+(A) @
+(il)
+(B) @
+(il)
+Define cartesian product with respect to RDBMS. 1+4=5
+Sunil wants to write a program in Python to update the
+quantity to 20 of the records whose item code is 111 in the table
+named shop in MySQL database named Keeper.
+The table shop in MySQL contains the following attributes :
+e Item code: Item code (Integer)
+e Item name: Name of item (String)
+e Qty: Quantity of item (Integer)
+e Price: Price of item (Integer)
+Consider the following to establish connectivity between Python and
+MySQL:
+e Username : admin
+e Password : Shopping
+e Host : localhost
+OR
+Give any two features of SQL.
+Sumit wants to write a code in Python to display all the details
+of the passengers from the table flight in MySQL database,
+Travel. The table contains the following attributes :
+F_code: Flight code (String)
+F_name: Name of flight (String)
+Source: Departure city of flight (String)
+Destination: Destination city of flight (String)
+Consider the following to establish connectivity between Python
+and MySQL :
+e Username : root
+e Password : airplane
+e Host : localhost
+15
+2191

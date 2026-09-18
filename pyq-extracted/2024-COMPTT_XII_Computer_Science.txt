@@ -1,0 +1,697 @@
+91/S
+1
+P.T.O.
+Candidates must write the Q.P. Code
+on the title page of the answer-book.
+Set-4
+>
+Q.P. Code
+Roll No.
+COMPUTER SCIENCE
+Time allowed : 3 hours
+Maximum Marks : 70
+NOTE
+(I)
+Please check that this question paper contains 15 printed pages.
+(II)
+Please check that this question paper contains 35 questions.
+(III) Q.P. Code given on the right hand side of the question paper should be written on
+the title page of the answer-book by the candidate.
+(IV) Please write down the serial number of the question in the answer-book
+before attempting it.
+(V)
+15 minute time has been allotted to read this question paper. The question paper
+will be distributed at 10.15 a.m. From 10.15 a.m. to 10.30 a.m., the students will
+read the question paper only and will not write any answer on the answer-book
+during this period.
+Series &RQPS/S
+91/S
+91/S
+2
+General Instructions :
+Please read the instructions carefully.
+·
+This question paper has 5 Sections : Sections A, B, C, D, E.
+·
+All questions are compulsory. However, an internal choice of approximately
+30% is provided.
+·
+Section A has 18 questions carrying 1 mark each.
+·
+Section B has 7 Very Short Answer (VSA) type questions carrying 2 marks
+each.
+·
+Section C has 5 Short Answer (SA) type questions carrying 3 marks each.
+·
+Section D has 2 Long Answer (LA) type question carrying 4 marks.
+·
+Section E has 3 Source-based/Case-based/Passage-based questions carrying
+5 marks each.
+SECTION A
+18´1=18
+1.
+State True or False :
+1
+“In Python, tuple is a mutable data type”.
+2.
+The primary key is selected from the set of ___________ .
+1
+(A)
+composite keys
+(B) alternate keys
+(C)
+candidate keys
+(D) foreign keys
+3.
+What will be the output of the following statement ?
+1
+print(6+5/4**2//5+8)
+(A)
+–14.0
+(B) 14.0
+(C)
+14
+(D) –14
+4.
+Select the correct output of the code :
+1
+S = "text#next"
+print(S.strip("t"))
+(A)
+ext#nex
+(B) ex#nex
+(C)
+text#nex
+(D) ext#next
+91/S
+3
+P.T.O.
+5.
+In SQL, which command will be used to add a new record in a table ?
+1
+(A)
+UPDATE
+(B)
+ADD
+(C)
+INSERT
+(D)
+ALTER TABLE
+6.
+‘L’ in HTML stands for :
+1
+(A)
+Large
+(B) Language
+(C)
+Long
+(D) Laser
+7.
+Identify the valid Python identifier from the following :
+1
+(A)
+2user
+(B) user@2
+(C)
+user_2
+(D) user 2
+8.
+Consider the statements given below and then choose the correct output
+from the given options :
+1
+Game="World Cup 2023"
+print(Game[-6::-1])
+(A)
+CdrW
+(B) ce o
+(C)
+puC dlroW
+(D) Error
+9.
+Predict the output of the following Python statements :
+1
+>>>import statistics as s
+>>>s.mode ([10, 20, 10, 30, 10, 20, 30])
+(A)
+30
+(B)
+20
+(C)
+10
+(D)
+18.57
+91/S
+4
+10. Which of the following output will never be obtained when the given code
+is executed ?
+1
+import random
+Shuffle = random.randrange(10)+1
+Draw = 10*random.randrange(5)
+print ("Shuffle", Shuffle, end="#")
+print ("Draw", Draw)
+(A)
+Shuffle 1 # Draw 0
+(B)
+Shuffle 10 # Draw 10
+(C)
+Shuffle 10 # Draw 0
+(D)
+Shuffle 11 # Draw 50
+11. Ethernet card is also known as :
+1
+(A)
+LIC
+(B) MIC
+(C)
+NIC
+(D) OIC
+12. What will be the output of the given code ?
+1
+a=10
+def convert(b=20):
+a=30
+c=a+b
+print(a,c)
+convert(30)
+print(a)
+13. For the following Python statement :
+1
+N = (25)
+What shall be the type of N ?
+(A)
+Integer
+(B)
+String
+(C)
+Tuple
+(D)
+List
+91/S
+5
+P.T.O.
+14. Mr. Ravi is creating a field that contains alphanumeric values and fixed
+lengths. Which MySQL data type should he choose for the same ?
+1
+(A)
+VARCHAR
+(B)
+CHAR
+(C)
+LONG
+(D)
+NUMBER
+15. Fill in the blank :
+1
+The full form of WWW is __________.
+16. __________ files are stored in a computer in a sequence of bytes.
+1
+(A)
+Text
+(B)
+Binary
+(C)
+CSV
+(D)
+Notepad
+Questions No.17 and 18 are Assertion and Reason type questions. Each question
+consists of two statements, namely, Assertion (A) and Reason (R). Select the most
+suitable option considering the Assertion and Reason.
+17. Assertion (A) : Global variables are accessible in the whole program.
+1
+Reason (R) : Local variables are accessible only within a function or block
+in which it is declared.
+(A)
+Both Assertion (A) and Reason (R) are true and Reason (R) is the
+correct explanation of Assertion (A).
+(B)
+Both Assertion (A) and Reason (R) are true, but Reason (R) is not the
+correct explanation of Assertion (A).
+(C)
+Assertion (A) is true, but Reason (R) is false.
+(D)
+Assertion (A) is false, but Reason (R) is true.
+91/S
+6
+18. Assertion (A) : If numeric data are to be written to a text file, the data
+needs to be converted into a string before writing to the file.
+1
+Reason (R) :
+write() method takes a string as an argument and writes it
+to the text file.
+(A)
+Both Assertion (A) and Reason (R) are true and Reason (R) is the
+correct explanation of Assertion (A).
+(B)
+Both Assertion (A) and Reason (R) are true, but Reason (R) is not the
+correct explanation of Assertion (A).
+(C)
+Assertion (A) is true, but Reason (R) is false.
+(D)
+Assertion (A) is false, but Reason (R) is true.
+SECTION B
+7´2=14
+19.
+(a) (i)
+Expand the following terms :
+1+1=2
+URL, XML
+(ii)
+Give one difference between HTTP and FTP.
+OR
+(b) (i)
+Define the term IP address with respect to network.
+(ii)
+What is the main purpose of a Router ?
+1+1=2
+20.
+Observe the following code carefully and rewrite it after removing
+all syntactical errors. Underline all the corrections made.
+2
+def 1func():
+a=input("Enter a number"))
+if a>=33
+print("Promoted to next class")
+ELSE:
+print("Repeat")
+91/S
+7
+P.T.O.
+21.
+(a) Write the definition of a method/function SearchOut(Teachers,
+TName) to search for TName from a list Teachers, and display the
+position of its presence.
+2
+For example :
+If the Teachers contain ["Ankit", "Siddharth", "Rahul",
+"Sangeeta", "rahul"]
+and TName contains "Rahul"
+The function should display
+Rahul at 2
+rahul at 4
+OR
+(b) Write the definition of a method/function Copy_Prime(lst) to copy
+all the prime numbers from the list lst to another list lst_prime.
+2
+22. Predict the output of the following code :
+2
+d={"IND":"DEL","SRI:"COL","CHI":"BEI"}
+str1=""
+for i in d:
+str1=strl+str(d[i])+"@"
+str2=str1[:–1]
+print (str2)
+23.
+(a) Write the Python statement for each of the following tasks using
+BUILT-IN functions/methods only :
+1+1=2
+(i)
+To delete an element 10 from the list lst.
+(ii)
+To replace the string "This" with "That" in the string str1.
+OR
+(b) A dictionary dict2 is copied into the dictionary dict1 such that the
+common key’s value gets updated. Write the Python commands to do
+the task and after that empty the dictionary dict1.
+2
+91/S
+8
+24.
+(a) Mr. Atharva is given a task to create a database, Admin. He has to
+create a table, users in the database with the following columns :
+1+1=2
+User_id – int
+User_name – varchar(20)
+Password – varchar(10)
+Help him by writing SQL queries for both tasks.
+OR
+(b) Ms. Rita is a database administrator at a school. She is working on
+the table, student containing the columns like Stud_id, Name,
+Class and Stream. She has been asked by the Principal to strike off
+the record of a student named Rahul with student_id as 100 from
+the school records and add another student who has been admitted
+with the following details :
+1+1=2
+Stud_id – 123
+Name – Rajeev
+Class – 12
+Stream – Science
+Help her by writing SQL queries for both tasks.
+25. Predict the output of the following code :
+2
+def Total (Num=10):
+Sum=0
+for C in range(1,Num+1):
+if C%2!=0:
+continue
+Sum+=C
+return Sum
+print(Total(4),end="$")
+print(Total(),sep="@")
+91/S
+9
+P.T.O.
+SECTION C 5´3=15
+26. Predict the output of the Python code given below :
+3
+s="India Growing"
+n = len(s)
+m=""
+for i in range (0, n) :
+if (s[i] >= 'a' and s[i] <= 'm') :
+m = m + s [i].upper()
+elif (s[i] >= 'O' and s[i] <= 'z') :
+m = m +s [i-1]
+elif (s[i].isupper()):
+m = m + s[i].lower()
+else:
+m = m + '@'
+print (m)
+27. Consider the table Stationery given below and write the output of the
+SQL queries that follow.
+3
+Table : Stationery
+ITEMNO ITEM
+DISTRIBUTOR
+QTY
+PRICE
+401
+Ball Pen 0.5
+Reliable Stationers
+100
+16
+402
+Gel Pen Premium
+Classic Plastics
+150
+20
+403
+Eraser Big
+Clear Deals
+210
+10
+404
+Eraser Small
+Clear Deals
+200
+5
+405
+Sharpener Classic Classic Plastics
+150
+8
+406
+Gel Pen Classic
+Classic Plastics
+100
+15
+(i)
+SELECT DISTRIBUTOR, SUM(QTY) FROM STATIONERY GROUP
+BY DISTRIBUTOR;
+(ii)
+SELECT
+ITEMNO,
+ITEM
+FROM
+STATIONERY
+WHERE
+DISTRIBUTOR = "Classic Plastics" AND PRICE > 10;
+(iii) SELCET ITEM, QTY * PRICE AS "AMOUNT" FROM STATIONERY
+WHERE ITEMNO = 402;
+91/S
+10
+28.
+(a) Write a method/function COUNTWORDS() in Python to read contents
+from a text file DECODE.TXT, to count and return the occurrence of
+those words, which are having 5 or more characters.
+3
+OR
+(b) Write a method/function COUNTLINES() in Python to read lines from
+a text file CONTENT.TXT, and display those lines, which have
+@ anywhere in the line.
+3
+For example :
+If the content of the file is :
+Had an amazing time at the concert last night with
+@MusicLoversCrew.
+Excited to announce the launch of our new website!
+G20 @ India
+The method/function should display
+Had an amazing time at the concert last night with
+@MusicLoversCrew
+G20 @ India
+29. Consider the table Rent_cab, given below :
+Table : Rent_cab
+Vcode
+VName
+Make
+Color
+Charges
+101
+Big car
+Carus
+White
+15
+102
+Small car
+Polestar
+Silver
+10
+103
+Family car
+Windspeed
+Black
+20
+104
+Classic
+Studio
+White
+30
+105
+Luxury
+Trona
+Red
+9
+Based on the given table, write SQL queries for the following :
+3
+(i)
+Add a primary key to a column name Vcode.
+(ii)
+Increase the charges of all the cabs by 10%.
+(iii) Delete all the cabs whose maker name is "Carus".
+91/S
+11
+P.T.O.
+30. A dictionary, d_city contains the records in the following format :
+{state:city}
+Define the following functions with the given specifications :
+3
+(i)
+push_city(d_city): It takes the dictionary as an argument and
+pushes all the cities in the stack CITY whose states are of more than
+4 characters.
+(ii) pop_city(): This function pops the cities and displays "Stack
+empty" when there are no more cities in the stack.
+SECTION D 2´4=8
+31. Consider the tables GAMES and PLAYERS given below :
+Table : GAMES
+GCode GameName
+Type
+Number PrizeMoney
+101
+Carrom Board Indoor
+2
+5000
+102
+Badminton
+Outdoor 2
+12000
+103
+Table Tennis
+Indoor
+4
+NULL
+104
+Chess
+Indoor
+2
+9000
+105
+Lawn Tennis
+Outdoor 4
+25000
+Table : PLAYERS
+PCode
+Name
+GCode
+1
+Nabi Ahmad
+101
+2
+Ravi Sahai
+108
+3
+Jatin
+101
+4
+Nazneen
+103
+Write SQL queries for the following :
+4
+(i)
+Display the game type and average number of games played in each
+type.
+(ii)
+Display prize money, name of the game, and name of the players from
+the tables Games and Players.
+(iii) Display the types of games without repetition.
+(iv) Display the name of the game and prize money of those games whose
+prize money is known.
+91/S
+12
+32. Mr. Mahesh is a Python Programmer working in a school. He has to
+maintain the records of the sports students. He has created a csv file
+named sports.csv, to store the details. The structure of sports.csv is :
+[sport_id, competition, prize_won]
+where
+sport_id, is Sport id (integer)
+competition is competition name (string)
+prize_won is (“Gold”, “Silver”, “Bronze”)
+Mr. Mahesh wants to write the following user-defined functions :
+Add_detail(): to accept the detail of a student and add to a csv file,
+"sports.csv".
+Count_Medal(): to display the name of competitions in which students
+have won "Gold" medal.
+Help him in writing the code of both the functions.
+4
+SECTION E 3´5=15
+33. Logistic Technologies Ltd. is a Delhi based organization which is expanding
+its office set-up to Ambala. At Ambala office campus, they are planning to
+have 3 different blocks for HR, Accounts and Logistics related work. Each
+block has a number of computers, which are required to be connected to a
+network for communication, data and resource sharing.
+91/S
+13
+P.T.O.
+As a network consultant, you have to suggest the best network related
+solutions for them for issues/problems raised in (i) to (v), keeping in mind
+the distances between various block/locations and other given parameters.
+Distances between various blocks/locations :
+HR Block to Accounts Blocks
+400 meters
+Accounts Block to Logistics Block
+200 meters
+Logistics Block to HR Block
+150 meters
+Delhi Head Office to Ambala Office
+220 Km
+Number of computers installed at various blocks are as follows :
+HR Block
+70
+Accounts Block
+40
+Logistics Block
+30
+(i)
+Suggest the most appropriate block/location to house the SERVER in
+the Ambala office. Justify your answer.
+(ii)
+Suggest the best wired medium to efficiently connect various blocks
+within the Ambala office compound.
+(iii) Draw an ideal cable layout (Block to Block) for connecting these blocks
+for wired connectivity.
+(iv) The company wants to schedule an online conference between the
+managers of Delhi and Ambala offices. Which protocol will be used for
+effective voice communication over the Internet ?
+(v)
+Which kind of network will it be between Delhi office and Ambala
+office ?
+5
+91/S
+14
+34.
+(a) (i)
+What is the main purpose of seek() and tell() method ?
+(ii)
+Consider a binary file, Cinema.dat containing information in
+the following structure :
+[Mno, Mname, Mtype]
+Write a function, search_copy(), that reads the content from
+the file Cinema.dat and copies all the details of the "Comedy"
+movie type to file named movie.dat.
+5
+OR
+(b) (i)
+Give one difference between write() and writeline()
+function in text file.
+(ii)
+A Binary file, "Items.dat" has the following structure :
+[Icode, Description, Price]
+Where
+Icode – Item code
+Description – Detail of item
+Price – Price of item
+Write
+a
+function
+Add_data(),
+that
+takes
+Icode,
+Description and Price from the user and writes the
+information in the binary file "Items.dat".
+5
+35.
+(a) (i)
+Define the term foreign key with respect to RDBMS.
+(ii)
+Sangeeta wants to write a program in Python to delete the
+record of a candidate “Raman” from the table named
+Placement in MySQL database, Agency:
+The table Placement in MySQL contains the following
+attributes :
+CName – String
+Dept – String
+Place – String
+Salary – integer
+Note the following to establish connectivity between Python
+and MySQL :
+·
+Username – root
+·
+Password – job
+·
+Host – localhost
+Help Sangeeta to write the program in Python for the above
+mentioned task.
+5
+OR
+91/S
+15
+P.T.O.
+(b) (i)
+Give one difference between CHAR and VARCHAR datatype in
+MySQL.
+(ii)
+Rahim wants to write a program in Python to insert the
+following record in the table named Bank_Account in MySQL
+database, Bank :
+·
+Accno – integer
+·
+Cname – string
+·
+Atype – string
+·
+Amount – float
+Note the following to establish connectivity between Python
+and MySQL :
+·
+Username – admin
+·
+Password – root
+·
+Host – localhost
+The values of fields Accno, Cname, Atype and Amount have
+to be accepted from the user. Help Rahim to write the program
+in Python.
+5

@@ -1570,3 +1570,209 @@ pre.mermaid.mermaid-offline {
 ::-webkit-scrollbar-track { background: var(--paper-dark); }
 ::-webkit-scrollbar-thumb { background: rgba(43,37,33,0.3); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(43,37,33,0.5); }
+
+/* ==============================
+   WRITTEN QUESTIONS — answer production & sheet
+   ============================== */
+.written-block {
+  margin-top: 0.5rem;
+}
+
+.written-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.marks-tag {
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: 0.72rem;
+  padding: 0.25rem 0.6rem;
+  background: var(--paper-dark);
+  border: 1px solid rgba(43,37,33,0.25);
+  border-radius: 1px;
+  color: var(--ink-black);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.written-hint {
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: var(--ink-sepia);
+}
+
+.answer-area {
+  width: 100%;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ink-black);
+  background: var(--paper-light);
+  border: 1.5px solid rgba(43,37,33,0.25);
+  border-radius: 2px;
+  padding: 0.9rem 1rem;
+  resize: vertical;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(43,37,33,0.08);
+}
+
+.answer-area:focus {
+  border-color: var(--ink-black);
+  box-shadow: inset 0 1px 3px rgba(43,37,33,0.08), 0 0 0 2px rgba(43,37,33,0.12);
+}
+
+.written-count {
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: 0.7rem;
+  color: var(--ink-sepia);
+  margin-top: 0.35rem;
+  text-align: right;
+  opacity: 0.8;
+}
+
+/* palette marker for written questions */
+.p-btn.written-q {
+  border-style: dotted;
+  border-color: rgba(43,37,33,0.45);
+}
+
+.p-btn.written-q.answered {
+  border-style: solid;
+  background: rgba(169,129,46,0.18);
+  border-color: var(--brass);
+  color: #6b4f1a;
+}
+
+.p-btn.written-q.current {
+  border-style: solid;
+}
+
+/* results note */
+.written-note {
+  margin-top: 1.25rem;
+  padding: 0.9rem 1.1rem;
+  background: rgba(169,129,46,0.12);
+  border-left: 3px solid var(--brass);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 0.9rem;
+  color: var(--ink-sepia);
+  line-height: 1.55;
+}
+
+/* written answer sheet */
+.written-sheet {
+  padding: 2rem 2.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.student-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.student-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: var(--ink-sepia);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.student-input {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--ink-black);
+  background: var(--paper-light);
+  border: 1.5px solid rgba(43,37,33,0.25);
+  border-radius: 2px;
+  padding: 0.55rem 0.75rem;
+  outline: none;
+}
+
+.student-input:focus { border-color: var(--ink-black); }
+
+.sheet-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.sheet-actions .btn-submit {
+  width: auto;
+  margin-top: 0;
+  flex: 1 1 auto;
+}
+
+.sheet-hint {
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: 0.72rem;
+  color: var(--ink-sepia);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.written-list { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.written-item {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(43,37,33,0.12);
+}
+
+.written-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.written-item-q {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 0.95rem;
+  color: var(--ink-sepia);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.written-item-q pre {
+  background: rgba(43,37,33,0.03);
+  border: 1px solid rgba(43,37,33,0.08);
+  border-radius: 2px;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: 0.85rem;
+  overflow-x: auto;
+}
+
+.sheet-area { background: var(--paper-base); }
+
+/* written review block */
+.review-written {
+  margin-top: 0.75rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--paper-light);
+  border-left: 3px solid var(--brass);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 0.9rem;
+  color: var(--ink-sepia);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 640px) {
+  .written-sheet { padding: 1.25rem 1rem; }
+  .student-row { grid-template-columns: 1fr; }
+  .sheet-actions { flex-direction: column; }
+  .sheet-actions .btn-submit,
+  .sheet-actions .btn-ghost { width: 100%; }
+}

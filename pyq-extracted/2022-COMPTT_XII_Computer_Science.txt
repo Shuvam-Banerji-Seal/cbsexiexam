@@ -1,0 +1,447 @@
+91
+Page 1
+P.T.O.
+Candidates must write the Q.P. Code on
+the title page of the answer-book.
+Series %BAB%/C
+Q.P. Code
+Roll No.
+Please check that this question paper contains 9 printed pages.
+Q.P. Code given on the right hand side of the question paper should be written
+on the title page of the answer-book by the candidate.
+Please check that this question paper contains 13 questions.
+Please write down the serial number of the question in the
+answer-book before attempting it.
+15 minute time has been allotted to read this question paper. The question
+paper will be distributed at 10.15 a.m. From 10.15 a.m. to 10.30 a.m., the
+students will read the question paper only and will not write any answer on
+the answer-book during this period.
+COMPUTER SCIENCE
+Time allowed : 2 hours
+Maximum Marks : 35
+General Instructions :
+(i) This question paper is divided into 3 sections A, B and C.
+(ii) Section A, consists 7 questions (1 7). Each question carries 2 marks.
+(iii) Section B, consists 3 questions (8 10). Each question carries 3 marks.
+(iv) Section C, consists 3 questions (11 13). Each question carries 4 marks.
+(v) Internal choices have been given for questions number 7, 8 and 12.
+91
+SET-4
+91
+Page 2
+SECTION A
+(Each question carries 2 marks)
+1.
+Differentiate between Push and Pop operations in the context of stacks.
+2
+2.
+(a)
+Expand FTP.
+1
+(b)
+Out of the following, which has the largest network coverage area ?
+1
+LAN, MAN, PAN, WAN
+3.
+Differentiate between Degree and Cardinality in the context of Relational
+Data Model.
+2
+4.
+Consider the following table EMPLOYEE in a Database COMPANY :
+Table : EMPLOYEE
+E_ID
+NAME
+DEPT
+H1001
+Avneet
+AC
+A1002
+Rakesh
+HR
+A1003
+Amina
+AC
+H1002
+Simon
+HR
+A1004
+Pratik
+AC
+Assume that the required library for establishing the connection between
+Python and MySQL is already imported in the given Python code.
+Also assume that DB is the name of the database connection for the given
+table EMPLOYEE stored in the database COMPANY.
+Predict the output of the following Python code :
+2
+CUR=DB.cursor()
+CUR.execute("USE COMPANY")
+CUR.execute("SELECT * FROM EMPLOYEE WHERE DEPT = 'AC' ")
+for i in range(2) :
+R=CUR.fetchone()
+print(R[0], R[1], sep ="#")
+91
+Page 3
+P.T.O.
+5.
+Write the output of the SQL queries (a) to (d) based on the table TRAVEL
+given below :
+2
+Table : TRAVEL
+T_ID
+START
+END
+T_DATE
+FARE
+101
+DELHI
+CHENNAI
+2021-12-25
+4500
+102
+DELHI
+BENGALURU
+2021-11-20
+4000
+103
+MUMBAI
+CHENNAI
+2020-12-10
+5500
+104
+DELHI
+MUMBAI
+2019-12-20
+4500
+105
+MUMBAI
+BENGALURU
+2022-01-15
+5000
+(a)
+SELECT START, END FROM TRAVEL
+WHERE FARE <= 4000 ;
+(b)
+SELECT T_ID, FARE FROM TRAVEL
+WHERE T_DATE LIKE '2021-12-%' ;
+(c)
+SELECT T_ID, T_DATE FROM TRAVEL WHERE END = 'CHENNAI'
+ORDER BY FARE ;
+(d)
+SELECT START, MIN(FARE)
+FROM TRAVEL GROUP BY START ;
+6.
+Write the output of the SQL queries (a) and (b) based on the following two
+tables FLIGHT and PASSENGER belonging to the same database :
+2
+Table : FLIGHT
+FNO
+DEPART
+ARRIVE
+FARE
+F101
+DELHI
+CHENNAI
+4500
+F102
+DELHI
+BENGALURU
+4000
+F103
+MUMBAI
+CHENNAI
+5500
+F104
+DELHI
+MUMBAI
+4500
+F105
+MUMBAI
+BENGALURU
+5000
+91
+Page 4
+Table : PASSENGER
+PNO
+NAME
+FLIGHTDATE
+FNO
+P1
+PRAKASH
+2021-12-25
+F101
+P2
+NOOR
+2021-11-20
+F103
+P3
+HARMEET
+2020-12-10
+NULL
+P4
+ANNIE
+2019-12-20
+F105
+(a)
+SELECT NAME, DEPART FROM FLIGHT
+NATURAL JOIN PASSENGER ;
+(b)
+SELECT NAME, FARE
+FROM PASSENGER P, FLIGHT F
+WHERE F.FNO = P.FNO AND F.DEPART = 'MUMBAI' ;
+7.
+(a)
+Explain Primary Key in the context of Relational Database Model.
+Support your answer with suitable example.
+2
+OR
+(b)
+Consider the following table BATSMEN :
+Table : BATSMEN
+PNO
+NAME
+SCORE
+P1
+RISHABH
+52
+P2
+HUSSAIN
+45
+P3
+ARNOLD
+23
+P4
+ARNAV
+18
+P5
+GURSHARAN
+52
+(i)
+Identify and write the name of the Candidate Keys in the
+given table BATSMEN.
+(ii)
+How many tuples are there in the given table BATSMEN ?
+2
+91
+Page 5
+P.T.O.
+SECTION B
+(Each question carries 3 marks)
+8.
+(a) Write separate user defined functions for the following :
+3
+(i)
+PUSH(N) This function accepts a list of names, N as parameter.
+It then pushes only those names in the stack named OnlyA
+which contain the letter 'A'.
+(ii) POPA(OnlyA) This function pops each name from the stack
+OnlyA and displays it. When the stack is empty, the message
+"EMPTY" is displayed.
+For example :
+If the names in the list N are
+['ANKITA', 'NITISH', 'ANWAR', 'DIMPLE', 'HARKIRAT']
+Then the stack OnlyA should store
+['ANKITA', 'ANWAR', 'HARKIRAT']
+And the output should be displayed as
+HARKIRAT ANWAR ANKITA EMPTY
+OR
+(b) Write the following user defined functions :
+3
+(i)
+pushEven(N) This function accepts a list of integers named N
+as parameter. It then pushes only even numbers into the stack
+named EVEN.
+(ii) popEven(EVEN) This function pops each integer from the
+stack EVEN and displays the popped value. When the stack is
+empty, the message "Stack Empty" is displayed.
+For example :
+If the list N contains
+[10,5,3,8,15,4]
+Then the stack, EVEN should store
+[10,8,4]
+And the output should be
+4 8 10 Stack Empty
+91
+Page 6
+9.
+(a)
+A SQL table BOOKS contains the following column names :
+BOOKNO, BOOKNAME, QUANTITY, PRICE, AUTHOR
+Write the SQL statement to add a new column REVIEW to store the
+reviews of the book.
+1
+(b)
+Write the names of any two commands of DDL and any two
+commands of DML in SQL.
+2
+10. Rashmi has forgotten the names of the databases, tables and the structure
+of the tables that she had created in Relational Database Management
+System (RDBMS) on her computer.
+(a)
+Write the SQL statement to display the names of all the databases
+present in RDBMS application on her computer.
+(b)
+Write the statement which she should execute to open the database
+named "STOCK".
+(c)
+Write the statement which she should execute to display the
+structure of the table "ITEMS" existing in the above opened
+database "STOCK".
+3
+SECTION C
+(Each question carries 4 marks)
+11. Write SQL queries for (a) to (d) based on the tables CUSTOMER and
+TRANSACT given below :
+4
+Table : CUSTOMER
+CNO
+NAME
+GENDER ADDRESS
+PHONE
+1001 Suresh
+MALE
+A-123, West Street
+9310010010
+1002 Anita
+FEMALE C-24, Court Lane
+9121211212
+1003 Harjas
+MALE
+T-1, Woods Avenue
+9820021001
+Table : TRANSACT
+TNO
+CNO
+AMOUNT
+TTYPE
+TDATE
+T1
+1002
+2000
+DEBIT
+2021-09-25
+T2
+1003
+1500
+CREDIT
+2022-01-28
+T3
+1002
+3500
+CREDIT
+2021-12-31
+T4
+1001
+1000
+DEBIT
+2022-01-10
+91
+Page 7
+P.T.O.
+(a)
+Write the SQL statements to delete the records from table
+TRANSACT whose amount is less than 1000.
+(b)
+Write a query to display the total AMOUNT of all DEBITs and all
+CREDITs.
+(c)
+Write a query to display the NAME and corresponding AMOUNT of all
+CUSTOMERs who made a transaction type (TTYPE) of CREDIT.
+(d)
+Write the SQL statement to change the Phone number of customer
+whose CNO is 1002 to 9988117700 in the table CUSTOMER.
+12. (a)
+(i)
+Mention any two characteristics of BUS Topology.
+2
+OR
+(ii)
+Differentiate between the terms Domain Name and URL in
+the context of World Wide Web.
+2
+(b)
+Write the names of two wired and two wireless data transmission
+mediums.
+2
+13. The government has planned to develop digital awareness in the rural
+areas of the nation. According to the plan, an initiative is taken to set up
+Digital Training Centers in villages across the country with its Head
+Office in the nearest cities. The committee has hired a networking
+consultancy to create a model of the network in which each City Head
+Office is connected to the Training Centers situated in 3 nearby villages.
+As a network expert in the consultancy, you have to suggest the best
+network-related solutions for the issues/problems raised in (a) to (d),
+keeping in mind the distance between various locations and other given
+parameters.
+4
+91
+Page 8
+Layout of the City Head Office and Village Training Centers :
+Shortest distances between various Centers :
+Village 1 Training Center to City Head Office
+2 KM
+Village 2 Training Center to City Head Office
+1·5 KM
+Village 3 Training Center to City Head Office
+3 KM
+Village 1 Training Center to Village 2 Training Center
+3·5 KM
+Village 1 Training Center to Village 3 Training Center
+4·5 KM
+Village 2 Training Center to Village 3 Training Center
+3·5 KM
+Number of Computers installed at various centers are as follows :
+Village 1 Training Center
+10
+Village 2 Training Center
+15
+Village 3 Training Center
+15
+City Head Office
+100
+City Head
+Office
+Village 1
+Training
+Center
+Village 3
+Training
+Center
+Village 2
+Training
+Center
+91
+Page 9
+P.T.O.
+(a)
+It is observed that there is a huge data loss during the process of
+data transfer from one village to another. Suggest the most
+appropriate networking device out of the following, which needs to
+be placed along the path of the wire connecting one village with
+another to refresh the signal and forward it ahead.
+(i)
+MODEM
+(ii) ETHERNET CARD
+(iii) REPEATER
+(iv) HUB
+(b)
+Draw the cable layout (location-to-location) to efficiently connect
+various Village Training Centers and the City Head Office for the
+above shown layout.
+(c)
+Which hardware networking device, out of the following, will you
+suggest to connect all the computers within the premises of every
+Village Training Center ?
+(i)
+SWITCH
+(ii) MODEM
+(iii) REPEATER
+(iv) ROUTER
+(d)
+Which protocol, out of the following, will be most helpful to conduct
+online interactions of Experts from the City Head Office and people
+at the three Village Training Centers ?
+(i)
+FTP
+(ii) PPP
+(iii) SMTP
+(iv) VoIP

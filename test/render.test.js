@@ -56,10 +56,10 @@ async function freshHall() {
   await page.waitForSelector('.hall-card');
 }
 
-test('exam hall lists all four packages with correct metadata', async () => {
+test('exam hall lists all five packages with correct metadata', async () => {
   await freshHall();
   const cards = await page.$$eval('.hall-card', els => els.map(e => e.textContent));
-  assert.equal(cards.length, 4);
+  assert.equal(cards.length, 5);
   assert.ok(cards[0].includes('July Examination'));
   assert.ok(cards[0].includes('120 Questions'));
   assert.ok(cards[1].includes('August 01 Examination'));
@@ -74,6 +74,10 @@ test('exam hall lists all four packages with correct metadata', async () => {
   assert.ok(cards[3].includes('120 Questions'));
   assert.ok(cards[3].includes('Computer Networks'));
   assert.ok(cards[3].includes('2h'));
+  assert.ok(cards[4].includes('September 18 Examination'));
+  assert.ok(cards[4].includes('70 Questions'));
+  assert.ok(cards[4].includes('PYQ'));
+  assert.ok(cards[4].includes('3h'));
 });
 
 test('August flow: begin -> setup -> 150 questions with 2:30:00 timer', async () => {
@@ -211,4 +215,62 @@ test('submission produces a scorecard and stores history', async () => {
   const historyText = await page.$$eval('.hall-card:nth-of-type(2) .hall-history', els =>
     els.map(e => e.textContent).join(' '));
   assert.ok(historyText.includes('600'), 'history shows best score');
+});
+
+test('September 18 flow: 70 questions (50 MCQ + 20 written), 3h timer, written sheet + mailto', async () => {
+  await freshHall();
+  await page.click('.hall-card:nth-of-type(5) .btn-primary');
+  await page.waitForSelector('.mode-card');
+  await page.click('.btn-primary');
+  await page.waitForSelector('.q-panel');
+
+  const qMeta = await page.textContent('.q-number');
+  assert.match(qMeta, /Question 1 of 70/);
+  const timer = await page.textContent('#timer');
+  assert.equal(timer, '3:00:00');
+
+  // jump to the first written question (Q51) and verify textarea renders
+  await page.evaluate(() => jumpTo(50));
+  await page.waitForSelector('.answer-area');
+  const marks = await page.textContent('.marks-tag');
+  assert.ok(marks.includes('2 mark'), 'marks tag shows 2 marks');
+
+  // type a written answer
+  await page.click('.answer-area');
+  await page.type('.answer-area', 'Push adds on top; Pop removes the topmost element.');
+  const stored = await page.evaluate(() => Object.keys(State.written).length);
+  assert.equal(stored, 1, 'written answer stored');
+
+  // answer all MCQs correctly, then submit
+  await page.evaluate(() => {
+    State.questions.filter(q => q.type !== 'written').forEach(q => { State.answers[q.globalIndex] = q.answer; });
+  });
+  await page.evaluate(() => submit());
+  await page.waitForSelector('.score-main');
+
+  // objective score: 50 MCQs x 4 = 200
+  const score = await page.textContent('.score-main');
+  assert.equal(score, '200');
+
+  // written sheet with email action appears, prefilled email address on the button
+  await page.waitForSelector('.written-sheet');
+  const btn = await page.textContent('.sheet-actions .btn-submit');
+  assert.ok(btn.includes('sbs22ms076@iiserkol.ac.in'), 'email button shows the evaluation address');
+  const answerInSheet = await page.inputValue('.sheet-area');
+  assert.ok(answerInSheet.includes('Push adds on top'), 'written answer pre-loaded in the sheet');
+
+  // mailto generation contains the address and subject
+  const mailto = await page.evaluate(() => {
+    return { email: State.exam.writtenSubmissionEmail, text: buildAnswerSheetText() };
+  });
+  assert.equal(mailto.email, 'sbs22ms076@iiserkol.ac.in');
+  assert.ok(mailto.text.includes('Q51'), 'answer sheet numbers the written questions');
+  assert.ok(mailto.text.includes('Name:'), 'answer sheet has a name field');
+
+  // history keeps the written answers for the teacher/student record
+  const storedWritten = await page.evaluate(() => {
+    const h = JSON.parse(localStorage.getItem('cbsexam:september-18:history') || '[]');
+    return h.length && Object.keys(h[0].written || {}).length;
+  });
+  assert.ok(storedWritten >= 1, 'history stores written answers');
 });

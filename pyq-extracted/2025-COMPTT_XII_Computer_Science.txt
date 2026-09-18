@@ -1,0 +1,1220 @@
+91/S
+Page 1 of 27
+P.T.O.
+Candidates must write the Q.P. Code
+on the title page of the answer-book.
+Series : WXYZ/S
+Set – 4
+Q.P. Code
+Roll No.
+COMPUTER SCIENCE
+Time allowed : 3 hours
+Maximum Marks : 70
+•
+• Please check that this question paper contains 27 printed pages.
+• Please check that this question paper contains 37 questions.
+• Q.P. Code given on the right hand side of the question paper should be
+written on the title page of the answer-book by the candidate.
+• Please write down the Serial Number of the question in the
+answer-book at the given place before attempting it.
+• 15 minute time has been allotted to read this question paper. The question
+paper will be distributed at 10.15 a.m. From 10.15 a.m. to 10.30 a.m., the
+candidates will read the question paper only and will not write any answer
+on the answer-book during this period.
+91/S
+*COMPUTER SCIENCE*
+91/S
+Page 2 of 27
+#
+(i)
+(ii)
+(iii)
+(iv)
+(v)
+(vi)
+(ix)
+(x)
+
+21 1=21
+1.
+1
+2.
+1
+s = "an apple. a toy."
+s=s.find('a',2)
+print(s)
+(A)
+0
+(B)
+1
+(C)
+3
+(D)
+'a'
+3.
+1
+3 + 3·00, 3**3·0
+(A)
+[6·0, 27·0]
+(B)
+(6·0, 9·0)
+(C)
+(6, 27)
+(D)
+(6·0, 27·0)
+4.
+1
+Sports="Paralympic Games"
+print (Sports.split("m"))
+(A)
+['Paraly','m','pic Ga','m','es']
+(B)
+('Paraly','m','pic Games')
+(C)
+('Paraly','pic Ga','es')
+(D)
+['Paraly','pic Ga','es']
+91/S
+Page 3 of 27
+P.T.O.
+General Instructions :
+(i)
+This question paper contains 37 questions.
+(ii)
+All questions are compulsory. However, internal choices have been
+provided in some questions. Attempt only one of the choices in such
+questions.
+(iii)
+The paper is divided into 5 Sections – A, B, C, D and E.
+(iv)
+Section A, consists of 21 questions (1 to 21). Each question carries
+1 mark.
+(v)
+Section B, consists of 7 questions (22 to 28). Each question carries
+2 marks.
+(vi)
+Section C, consists of 3 questions (29 to 31). Each question carries
+3 marks.
+(vii)
+Section D, consists of 4 questions (32 to 35). Each question carries
+4 marks.
+(viii) Section E, consists of 2 questions (36 to 37). Each question carries
+5 marks.
+(ix)
+All programming questions are to be answered using Python Language
+only.
+(x)
+In case of MCQs, text of the correct answer should also be written.
+SECTION A
+21 1= 21
+1.
+State if following statement is True or False :
+If T is a tuple and L is a list, then T+L is a valid statement in Python.
+1
+2.
+Identify the output of the following code segment :
+1
+s = "an apple. a toy."
+s=s.find('a',2)
+print(s)
+(A)
+0
+(B)
+1
+(C)
+3
+(D)
+'a'
+3.
+What is the value of the following expression ?
+1
+3 + 3·00, 3**3·0
+(A)
+[6·0, 27·0]
+(B)
+(6·0, 9·0)
+(C)
+(6, 27)
+(D)
+(6·0, 27·0)
+4.
+What is the output of the following expression ?
+1
+Sports="Paralympic Games"
+print (Sports.split("m"))
+(A)
+['Paraly','m','pic Ga','m','es']
+(B)
+('Paraly','m','pic Games')
+(C)
+('Paraly','pic Ga','es')
+(D)
+['Paraly','pic Ga','es']
+91/S
+Page 4 of 27
+#
+5.
+1
+p=list("Session 2024–25")
+print(p[10:20:])
+6.
+1
+(A)
+ (List)
+(B)
+(C)
+(D)
+7.
+1
+D1={1:'a',2:'b'}
+(A)
+D1.get(1)
+(B)
+D1.get(3)
+(C)
+D1.del(1)
+(D)
+D1.clear()
+8.
+1
+(A)
+append()
+(B)
+extend()
+(C)
+insert()
+(D)
+pop()
+9.
+1
+10.
+1
+Life goes on as it never ends
+f1=open("song.txt","r")
+s1=f1.read(5)
+s2=f1.readline(4)
+s3=f1.read(3)
+print(s1,s3,sep="#")
+(A)
+goes# on
+(B)
+Life #goes# on
+(C)
+Life # on
+(D)
+Error
+11.
+1
+91/S
+Page 5 of 27
+P.T.O.
+5.
+What will be the output of the following code segment ?
+1
+p=list("Session 2024–25")
+print(p[10:20:])
+6.
+Which of the following is a mapped data type ?
+1
+(A)
+List
+(B)
+Sets
+(C)
+Dictionary
+(D)
+Boolean
+7.
+If the dictionary D1 is defined as :
+1
+D1={1:'a',2:'b'}
+then which of the following statements is incorrect and hence will result
+in an error ?
+(A)
+D1.get(1)
+(B)
+D1.get(3)
+(C)
+D1.del(1)
+(D)
+D1.clear()
+8.
+Which of the following list methods accepts exactly 2 parameters ?
+1
+(A)
+append()
+(B)
+extend()
+(C)
+insert()
+(D)
+pop()
+9.
+In a particular examination, there are 50 candidates with roll numbers
+from 997601 to 997650. The data of these candidates is stored in a table in
+a database. What is the domain of the column which stores the roll
+numbers of the candidates ?
+1
+10.
+A text file song.txt contains the following contents in it :
+1
+Life goes on as it never ends
+What will be the output of the following code snippet ?
+f1=open("song.txt","r")
+s1=f1.read(5)
+s2=f1.readline(4)
+s3=f1.read(3)
+print(s1,s3,sep="#")
+(A)
+goes# on
+(B)
+Life #goes# on
+(C)
+Life # on
+(D)
+Error
+11.
+State whether the following statement is True or False.
+In Python, the print() evaluates the expression before displaying it on
+the screen.
+1
+91/S
+Page 6 of 27
+#
+12.
+1
+a=5
+def func_1(b=10):
+global a
+a=b–10
+b+=a
+print(a,b)
+func_1(a)
+(A)
+0 5
+(B)
+5 0
+(C)
+0 –5
+(D)
+–5 0
+13.
+1
+14.
+(relational operator) - ?
+1
+(A)
+>
+(B)
+<=
+(C)
+=>
+(D)
+<>
+15.
+1
+(A)
+DD-MM-YYYY
+(B)
+MM-DD-YYYY
+(C)
+YYYY-MM-DD
+(D)
+YYYY-DD-MM
+16.
+Table : Scores
+PLAYER
+SCORE
+Ranveer
+50
+Sukesh
+35
+Mirza
+10
+John
+51
+Murugan
+70
+(A)
+SELECT MAX(Score) FROM Scores;
+(B)
+SELECT MIN(Score) FROM Scores;
+(C)
+SELECT SUM(Score) FROM Scores;
+(D)
+SELECT AVG(Score) FROM Scores;
+91/S
+Page 7 of 27
+P.T.O.
+12.
+What will be the output of the following code segment ?
+1
+a=5
+def func_1(b=10):
+global a
+a=b–10
+b+=a
+print(a,b)
+func_1(a)
+(A)
+0 5
+(B)
+5 0
+(C)
+0 –5
+(D)
+–5 0
+13.
+Write any two DDL commands.
+1
+14.
+Which of the following is not a valid relational operator used with WHERE
+clause in SQL ?
+1
+(A)
+>
+(B)
+<=
+(C)
+=>
+(D)
+<>
+15.
+What is the default format of date in MySQL ?
+1
+(A)
+DD-MM-YYYY
+(B)
+MM-DD-YYYY
+(C)
+YYYY-MM-DD
+(D)
+YYYY-DD-MM
+16.
+Ginni has created a table, SCORES in MySQL to store runs scored by
+players in a cricket match. The table contains the following records :
+1
+Table : Scores
+PLAYER
+SCORE
+Ranveer
+50
+Sukesh
+35
+Mirza
+10
+John
+51
+Murugan
+70
+Which of the following statements will give 10 as output ?
+(A)
+SELECT MAX(Score) FROM Scores;
+(B)
+SELECT MIN(Score) FROM Scores;
+(C)
+SELECT SUM(Score) FROM Scores;
+(D)
+SELECT AVG(Score) FROM Scores;
+91/S
+Page 8 of 27
+#
+17.
+1
+(A)
+(B)
+(C)
+(D)
+18.
+1
+(A)
+(B)
+(C)
+ (Switch)
+(D)
+19.
+1
+(A)
+122.94.96.212
+(B)
+212.254.258.210
+(C)
+210.10.12.156.209
+(D)
+122.294.56.68
+(A)
+(B)
+(C)
+(D)
+20.
+1
+21.
+1
+22.
+2
+23.
+2
+(i)
+(expression)
+(ii)
+91/S
+Page 9 of 27
+P.T.O.
+17.
+Which of the following devices is essential to set up a wired LAN ?
+1
+(A)
+Modem
+(B)
+NIC
+(C)
+Repeater
+(D)
+Firewall
+18.
+Which network device serves as the entry and exit point of a network, as
+all data coming in or going out of a network must first pass through it ?
+1
+(A)
+Modem
+(B)
+Gateway
+(C)
+Switch
+(D)
+Repeater
+19.
+Which of the following IP addresses is valid ?
+1
+(A)
+122.94.96.212
+(B)
+212.254.258.210
+(C)
+210.10.12.156.209
+(D)
+122.294.56.68
+Questions 20 and 21 are Assertion (A) and Reason (R) based questions. Mark the
+correct choice as :
+(A)
+Both Assertion (A) and Reason (R) are true and Reason (R) is the
+correct explanation of the Assertion (A).
+(B)
+Both Assertion (A) and Reason (R) are true, but Reason (R) is not
+the correct explanation of the Assertion (A).
+(C)
+Assertion (A) is true, but Reason (R) is false.
+(D)
+Assertion (A) is false, but Reason (R) is true.
+20.
+Assertion (A) : Every object in Python is assigned a unique identity (ID).
+Reason (R) :
+ID remains the same for the lifetime of that object.
+1
+21.
+Assertion (A) : Foreign key column of a table cannot have NULL entries.
+Reason (R) :
+Primary key column of a table cannot have NULL entries.
+1
+SECTION B
+22.
+What is the difference between = and == in Python ? Give an example of
+each.
+2
+23.
+Give an example of each of the following :
+2
+(i)
+An expression using any one identity operator.
+(ii)
+An arithmetic expression which uses any one augmented
+assignment operator.
+91/S
+Page 10 of 27
+#
+24.
+2
+(I)
+(II)
+25.
+2
+import random
+s="War and Peace"
+a=len(s)//2
+for i in range(4):
+b=random.randrange(i,a)
+print(s[b],end='+')
+(A)
+n+P+d+a+
+(B)
+W+r+n+n+
+(C)
+e+r+W+a+
+(D)
+a+P+e+r+
+26.
+2
+n=int(input("Enter a positive integer:")
+c=0
+for i in range(n+1):
+if n%i=0:
+c+=1
+print(c)
+27.
+(I)
+1
+91/S
+Page 11 of 27
+P.T.O.
+24.
+Assuming that D1 and D2 are Python dictionaries, write the following
+statements using built-in functions/methods :
+2
+(I)
+(a)
+To delete all the elements of D1.
+OR
+(b)
+To generate a list of values of D1.
+(II)
+(a)
+To update dictionary D2 with the elements of D1.
+OR
+(b)
+To generate a tuple of keys of D2.
+25.
+Identify the correct possible output(s) of the following code segment. Also
+write the minimum and the maximum possible values of the variable b.
+2
+import random
+s="War and Peace"
+a=len(s)//2
+for i in range(4):
+b=random.randrange(i,a)
+print(s[b],end='+')
+(A)
+n+P+d+a+
+(B)
+W+r+n+n+
+(C)
+e+r+W+a+
+(D)
+a+P+e+r+
+26.
+The code provided below is intended to input a positive integer from the
+user and display the total number of its factors. However, there are syntax
+and logical errors in the code. Rewrite the code after removing all the
+errors. Underline all the corrections made.
+2
+n=int(input("Enter a positive integer:")
+c=0
+for i in range(n+1):
+if n%i=0:
+c+=1
+print(c)
+27.
+(I)
+(a)
+Write any one difference between CHAR and VARCHAR
+data types in MySQL.
+1
+OR
+(b)
+Write one difference between Primary key and Unique
+constraint.
+91/S
+Page 12 of 27
+#
+(II)
+1
+28.
+(I)
+POP, TCP
+2
+(II)
+29.
+3
+White is a mix of seven colors.
+What are these seven colors ?
+VIBGYOR – violet, indigo, blue, green, orange and red.
+When we mix all these colors we just get one light
+which is the WHITE light.
+White is a mix of seven colors.
+VIBGYOR – violet, indigo, blue, green, orange and red.
+which is the WHITE light.
+91/S
+Page 13 of 27
+P.T.O.
+(II)
+(a)
+Write an SQL command to remove a column named
+ADDRESS, from a table named CUSTOMER.
+1
+OR
+(b)
+Write an SQL command to add a column named ADDRESS,
+of type VARCHAR(20) in a table named CUSTOMER.
+28.
+(I)
+(a)
+Expand the following terms :
+POP, TCP
+(b)
+Write any one difference between a hub and a switch used in
+computer networks.
+2
+OR
+(II)
+(a)
+Write any one difference between HTTP and HTTPS.
+(b)
+Write names of any two wireless transmission media.
+SECTION C
+29.
+(a)
+Write a Python function that displays all the lines ending with a
+dot (.) from a text file "Colors.txt". For example, if the file
+contains :
+3
+White is a mix of seven colors.
+What are these seven colors ?
+VIBGYOR – violet, indigo, blue, green, orange and red.
+When we mix all these colors we just get one light
+which is the WHITE light.
+Then the output should be :
+White is a mix of seven colors.
+VIBGYOR – violet, indigo, blue, green, orange and red.
+which is the WHITE light.
+(Hint : You will have to ignore trailing white spaces to check the
+last character)
+OR
+(b)
+Write a function in Python to display the line which has the
+maximum number of vowels from a text file, "Novel.txt".
+91/S
+Page 14 of 27
+#
+30.
+(I)
+(II)
+(I)
+(II)
+91/S
+Page 15 of 27
+P.T.O.
+30.
+(a)
+A stack named KeyStack contains records of some computer
+keyboards. Each record is represented as a list containing Make,
+Keys, Connectivity. The Make and Connectivity are strings,
+and Keys is an integer. For example, a record in the stack may be
+('Hitech', 105, 'USB').
+Write the following user-defined functions in Python to perform the
+specified operations on KeyStack :
+(I)
+push_key(KeyStack, new_key): This function takes the
+stack KeyStack and a new record new_key as arguments
+and pushes this new record onto the stack.
+(II)
+pop_key(KeyStack): This function pops the topmost record
+from the stack and returns it. If the stack is already empty,
+the function should display the message “Underflow”.
+(III) isEmpty(KeyStack): This function checks whether the
+stack is empty. If the stack is empty, the function should
+return True, otherwise the function should return False.
+OR
+(b)
+Write the following user-defined functions in Python :
+(I)
+push_vowels(S,St): Here S is a string and St is a list
+representing a stack. The function should push all
+the vowels of the string S onto the stack St. For example,
+if
+the
+string
+S
+is
+"Easy
+Concepts",
+then
+the
+function
+push_vowels()
+should
+push
+the
+elements
+'E','a','o','e' onto the stack.
+(II)
+pop_one(St) : The function should pop an element from the
+stack St, and return this element. If the stack is empty, then
+the function should display the message ‘Stack Underflow’,
+and return None.
+(III) display_all(St): The function should display all the
+elements of the stack St, without deleting them. If the stack
+is empty, the function should display the message ‘Empty
+Stack’.
+91/S
+Page 16 of 27
+#
+31.
+3
+P=[3,5,7,4]
+P.insert(2,3)
+P.extend([10, 6])
+print(P)
+print(P.index(7))
+print(P[::2])
+def ALTER(Y=25):
+global X
+Y += X
+X += Y
+print(X,Y,sep="#")
+X=5; Y=15
+ALTER(Y)
+ALTER()
+print(X,Y,sep="@")
+32.
+Table : STAFF
+STAFF_ID STAFF_NAME SALARY DEPARTMENT DESIGNATION
+S101
+SUNITA
+26000
+MATHS
+TGT
+S201
+SUNIL
+80000
+COMMERCE
+PGT
+S301
+NEHA
+35000
+SCIENCE
+TGT
+S102
+MANJEET
+25000
+MATHS
+TGT
+S202
+MANNAN
+45000
+COMPUTER
+TGT
+91/S
+Page 17 of 27
+P.T.O.
+31.
+(a)
+Write the output on execution of the following Python code :
+3
+P=[3,5,7,4]
+P.insert(2,3)
+P.extend([10, 6])
+print(P)
+print(P.index(7))
+print(P[::2])
+OR
+(b)
+Write the output on execution of the following Python code :
+def ALTER(Y=25):
+global X
+Y += X
+X += Y
+print(X,Y,sep="#")
+X=5; Y=15
+ALTER(Y)
+ALTER()
+print(X,Y,sep="@")
+SECTION D
+32.
+Consider the table STAFF given below :
+Table : STAFF
+STAFF_ID STAFF_NAME SALARY DEPARTMENT DESIGNATION
+S101
+SUNITA
+26000
+MATHS
+TGT
+S201
+SUNIL
+80000
+COMMERCE
+PGT
+S301
+NEHA
+35000
+SCIENCE
+TGT
+S102
+MANJEET
+25000
+MATHS
+TGT
+S202
+MANNAN
+45000
+COMPUTER
+TGT
+91/S
+Page 18 of 27
+#
+(I)
+(II)
+STAFF_ID
+: S333
+STAFF_NAME
+: GURMEET
+SALARY
+: 15000
+DEPARTMENT
+: ADMIN
+DESIGNATION
+: CLERK
+(I)
+SELECT STAFF_NAME FROM STAFF
+WHERE SALARY BETWEEN 25000 AND 30000;
+(II)
+SELECT * FROM STAFF WHERE DEPARTMENT =
+"MATHS" AND SALARY > 25000;
+(III) SELECT STAFF_NAME, STAFF_ID FROM STAFF WHERE
+DEPARTMENT LIKE "%S";
+(IV)
+SELECT MAX(SALARY)FROM STAFF;
+33.
+[Mno, Name, Mobile, Fee]
+Mno
+–
+Name
+–
+Mobile –
+Fee
+–
+91/S
+Page 19 of 27
+P.T.O.
+(a)
+Write the suitable SQL queries to perform the following tasks : 4 1=4
+(I)
+To display the average salary of each department.
+(II)
+To insert the following record in the table, STAFF.
+STAFF_ID
+: S333
+STAFF_NAME
+: GURMEET
+SALARY
+: 15000
+DEPARTMENT
+: ADMIN
+DESIGNATION
+: CLERK
+(III) To display the unique designations from the table.
+(IV)
+To display all the details of the staff whose name is of four
+letters.
+OR
+(b)
+Write the output for the queries given below :
+(I)
+SELECT STAFF_NAME FROM STAFF
+WHERE SALARY BETWEEN 25000 AND 30000;
+(II)
+SELECT * FROM STAFF WHERE DEPARTMENT =
+"MATHS" AND SALARY > 25000;
+(III) SELECT STAFF_NAME, STAFF_ID FROM STAFF WHERE
+DEPARTMENT LIKE "%S";
+(IV)
+SELECT MAX(SALARY)FROM STAFF;
+33.
+Suman is an intern at a software startup. The company has assigned her
+a task to create a CSV file named CLUB.CSV, to store the records of the
+Club members. After discussing with Club Incharge, Suman has planned
+to store the following content of members in the file CLUB.CSV :
+[Mno, Name, Mobile, Fee]
+Where
+Mno
+–
+Member Number
+Name
+–
+Name of the Member
+Mobile –
+Member’s Mobile Number
+Fee
+–
+Fee amount
+91/S
+Page 20 of 27
+#
+(Python code)  :
+4
+34.
+Table : Work
+W_ID
+C_ID W_Name
+W_Amt
+P0001 C_01 Painting
+20000
+E0001 C_01 Electrical 50000
+D0001 C_02 Dumping
+10000
+Table : Contractor
+C_ID C_Name
+Phone email
+C_01 M. Khan & Sons
+1232311 MK@xyz.com
+C_02 Acharya Pvt. Ltd. 2323311 APL@xyz.com
+C_03 Charu Corp.
+NULL
+CCP@pqr.xyz
+(I)
+(II)
+(IV) ( )
+91/S
+Page 21 of 27
+P.T.O.
+Assuming you are asked to help Suman in her assignment, write a
+Python code for performing the following tasks with the help of
+user-defined functions :
+4
+NewMembers() : to accept records of members from the user and add
+them to the file CLUB.CSV.
+PriorityMember() : to find and display those members from the file
+CLUB.CSV, who are paying Fee more than 35000.
+34.
+Assume that you are working for ABC Corporation (ABCC). ABCC allots
+contracts to different contractors for some of its works. The data of
+Contracts and Contractors are kept in the tables Work and Contractor
+respectively. Following are a few records from these two tables of ABCC’s
+database.
+Table : Work
+W_ID
+C_ID W_Name
+W_Amt
+P0001 C_01 Painting
+20000
+E0001 C_01 Electrical 50000
+D0001 C_02 Dumping
+10000
+Table : Contractor
+C_ID C_Name
+Phone email
+C_01 M. Khan & Sons
+1232311 MK@xyz.com
+C_02 Acharya Pvt. Ltd. 2323311 APL@xyz.com
+C_03 Charu Corp.
+NULL
+CCP@pqr.xyz
+Note : The tables contain many more records than shown here.
+As an employee of ABCC, you are required to write the SQL queries for
+the following :
+(I)
+To display all the records from the Work table in alphabetical
+order of W_Name.
+(II)
+To display the names of contractors where W_Amt is more than
+15000.
+(III) To display the structure of Work table.
+(IV)
+(a)
+To count total number of records present in Work table.
+OR
+(b)
+To delete the records of contractors whose phone number is
+not known.
+91/S
+Page 22 of 27
+#
+35.
+•
+–
+string
+•
+–
+string
+•
+–
+Date
+•
+Status ( N / [N (Active/Discard))
+–
+string
+–
+root
+–
+tiger
+–
+localhost
+4
+36.
+D_ID
+–
+D_Name
+D_Dept
+(Surgery, Radiology, etc.)
+[1256, 'R. Gupta', 'Cardiology', 15]
+1+2+2=5
+(I)
+91/S
+Page 23 of 27
+P.T.O.
+35.
+Nutan Kumar is using Python connectivity with MySQL for maintaining
+data for a table named MEDICINES in a database PHARMACY. The table
+has the following attributes :
+•
+MId (Medicine number)
+–
+string
+•
+Mname (Medicine Name)
+–
+string
+•
+Expiry (Expiry Date)
+–
+Date
+•
+Status (Active/Discard)
+–
+string
+Consider the following to establish connectivity between Python and
+MySQL :
+•
+Username
+–
+root
+•
+Password
+–
+tiger
+•
+Host
+–
+localhost
+Help Nutan to write the definition of a user-defined function named
+ChangeStatus()in Python to change the Status of the Medicines whose
+Expiry is before '2022-12-31' as 'DISCARD'.
+4
+SECTION E
+36.
+Keshav is the IT Head in a hospital. He needs to manage the records of
+all the doctors in the hospital. For this, he wants to store the following
+information of each doctor in a file :
+D_ID
+–
+An integer to store Doctor ID.
+D_Name
+–
+A string to store doctor’s name.
+D_Dept
+–
+A string to store the Department of the doctor.
+(Surgery, Radiology, etc.)
+Experience – An integer to store doctor’s experience (in years)
+For example, a doctor’s information may be :
+[1256, 'R. Gupta', 'Cardiology', 15]
+As an applicant for the post of a Programmer, you have to answer the
+following questions in this context :
+1+2+2=5
+(I)
+Write one difference of storing this data in a binary file over a CSV
+file.
+91/S
+Page 24 of 27
+#
+(II)
+37.
+91/S
+Page 25 of 27
+P.T.O.
+(II)
+Assume that the data is stored in a binary file, named
+DOCTORS.DAT, and each record is stored as a list. Write a
+function, in Python, to read and display all the records from the
+file DOCTORS.DAT.
+(III) Write a function addDoctor(), in Python, which accepts a doctor’s
+data from the user and writes it in the file DOCTORS.DAT.
+37.
+‘CKNG Auto’ is a big car-selling agency having its Head Office in Delhi.
+It is planning to set up a new branch in Patiala. The Patiala branch will
+have four blocks – ADMIN, SALES, SERVICE and INSURANCE. You, as
+a network expert, need to suggest the best network-related solutions for
+them to resolve the issues/problems mentioned in points (I) to (V),
+keeping the following parameters in mind.
+Block to Block distances (in Metres)
+From
+To
+Distance
+ADMIN
+SALES
+70 m
+ADMIN
+SERVICE
+60 m
+ADMIN INSURANCE
+65 m
+SALES
+SERVICE
+80 m
+SALES
+INSURANCE
+100 m
+SERVICE INSURANCE
+60 m
+Distance of Delhi Head Office from Patiala
+branch = 250 km
+Patiala Branch
+ADMIN
+Block
+SERVICE
+Block
+SALES
+Block
+INSURANCE
+Block
+91/S
+Page 26 of 27
+#
+18
+30
+20
+10
+(I)
+(II)
+(V)
+91/S
+Page 27 of 27
+P.T.O.
+Number of computers in each block is as follows :
+Block
+No. of Computers
+ADMIN
+18
+SALES
+30
+SERVICE
+20
+INSURANCE
+10
+(I)
+Suggest the most appropriate location of the server inside the
+Patiala branch. Justify your choice.
+(II)
+What kind of network (PAN/LAN/MAN/WAN) will be formed by
+interconnecting all the computers inside a block ?
+(III) Draw the most effective cable layout to connect all four blocks of
+Patiala branch.
+(IV)
+Which device should be used to provide Internet connection to all
+the computers in the Patiala branch ?
+(V)
+(a)
+Which is the best wired medium to connect server of Patiala
+office to the head office at Delhi ?
+OR
+(b)
+Is there a need for repeater(s) in Patiala branch ? Why, or
+why not ?

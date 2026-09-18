@@ -5,6 +5,7 @@ const State = {
   questions: [],
   currentIndex: 0,
   answers: {},
+  written: {},            // globalIndex -> written answer text (for 'written' questions)
   marked: new Set(),
   timerInterval: null,
   timeLeft: 0,
@@ -354,6 +355,7 @@ function startTest() {
   State.questions = pool;
   State.currentIndex = 0;
   State.answers = {};
+  State.written = {};
   State.marked = new Set();
   State.submitted = false;
   State.started = true;
@@ -378,6 +380,7 @@ function resumeExam(examId) {
   State.questions = buildPool(exam, State.selectedTopics);
   State.currentIndex = saved.currentIndex || 0;
   State.answers = saved.answers || {};
+  State.written = saved.written || {};
   State.marked = new Set(saved.marked || []);
   State.submitted = false;
   State.started = true;
@@ -446,6 +449,7 @@ function persistCurrent() {
     startedAt: State.startedAt,
     savedAt: State.savedAt,
     answers: State.answers,
+    written: State.written,
     marked: [...State.marked],
     currentIndex: State.currentIndex,
     timeLeft: State.timeLeft,
@@ -553,28 +557,42 @@ function renderQuestion() {
       </div>`;
   }
 
-  html += `<div class="options">`;
-
-  q.options.forEach((opt, i) => {
-    let cls = 'opt';
-    if (showFeedback) {
-      cls += ' disabled';
-      if (i === q.answer) cls += ' correct';
-      else if (i === userAnswer) cls += ' incorrect';
-    } else if (userAnswer === i) {
-      cls += ' selected';
-    }
-
+  if (q.type === 'written') {
+    const val = State.written[q.globalIndex] || '';
     html += `
-      <div class="${cls}" onclick="selectOption(${i})">
-        <div class="opt-letter">${String.fromCharCode(65 + i)}</div>
-        <div class="opt-text">${opt}</div>
+      <div class="written-block">
+        <div class="written-prompt">
+          <span class="marks-tag">${q.marks} mark${q.marks > 1 ? 's' : ''}</span>
+          <span class="written-hint">Write your answer below — your answer sheet will be emailed for evaluation.</span>
+        </div>
+        <textarea class="answer-area" rows="8" placeholder="Type your answer here…"
+          oninput="saveWritten(this.value)">${escapeHTML(val)}</textarea>
+        <div class="written-count" id="writtenCount">${val.trim().length} characters written</div>
       </div>`;
-  });
+  } else {
+    html += `<div class="options">`;
 
-  html += `</div>`;
+    q.options.forEach((opt, i) => {
+      let cls = 'opt';
+      if (showFeedback) {
+        cls += ' disabled';
+        if (i === q.answer) cls += ' correct';
+        else if (i === userAnswer) cls += ' incorrect';
+      } else if (userAnswer === i) {
+        cls += ' selected';
+      }
 
-  if (showFeedback) {
+      html += `
+        <div class="${cls}" onclick="selectOption(${i})">
+          <div class="opt-letter">${String.fromCharCode(65 + i)}</div>
+          <div class="opt-text">${opt}</div>
+        </div>`;
+    });
+
+    html += `</div>`;
+  }
+
+  if (showFeedback && q.type !== 'written') {
     const correctLetter = String.fromCharCode(65 + q.answer);
     const userLetter = userAnswer !== undefined ? String.fromCharCode(65 + userAnswer) : '—';
     const isCorrect = userAnswer === q.answer;
@@ -606,19 +624,24 @@ function renderPalette() {
   const grid = $('#paletteGrid');
   if (!grid) return;
 
+  const isAnswered = (q) => q.type === 'written'
+    ? (State.written[q.globalIndex] || '').trim().length > 0
+    : State.answers[q.globalIndex] !== undefined;
+
   grid.innerHTML = State.questions.map((q, i) => {
-    const answered = State.answers[q.globalIndex] !== undefined;
+    const answered = isAnswered(q);
     const marked = State.marked.has(q.globalIndex);
     const current = i === State.currentIndex;
     let cls = 'p-btn';
+    if (q.type === 'written') cls += ' written-q';
     if (current) cls += ' current';
     else if (answered && marked) cls += ' answered-marked';
     else if (answered) cls += ' answered';
     else if (marked) cls += ' marked';
-    return `<button class="${cls}" onclick="jumpTo(${i})">${i + 1}</button>`;
+    return `<button class="${cls}" onclick="jumpTo(${i})" title="${q.type === 'written' ? 'Written answer' : 'Objective'}">${i + 1}</button>`;
   }).join('');
 
-  const answeredCount = Object.keys(State.answers).length;
+  const answeredCount = State.questions.filter(isAnswered).length;
   const ansEl = $('#statAns');
   const remEl = $('#statRem');
   if (ansEl) ansEl.textContent = answeredCount;
@@ -630,6 +653,7 @@ function renderPalette() {
    ============================== */
 function selectOption(idx) {
   const q = State.questions[State.currentIndex];
+  if (q.type === 'written') return;
   if (State.mode === 'practice' && State.answers[q.globalIndex] !== undefined) return;
   State.answers[q.globalIndex] = idx;
   if (State.mode === 'practice') {
@@ -638,6 +662,15 @@ function selectOption(idx) {
   }
   persistCurrent();
   renderQuestion();
+}
+
+function saveWritten(value) {
+  const q = State.questions[State.currentIndex];
+  if (q.type !== 'written') return;
+  State.written[q.globalIndex] = value;
+  const counter = $('#writtenCount');
+  if (counter) counter.textContent = `${value.trim().length} characters written`;
+  persistCurrent();
 }
 
 function nextQuestion() {
@@ -683,7 +716,10 @@ document.addEventListener('keydown', (e) => {
    SUBMISSION
    ============================== */
 function confirmSubmit() {
-  const answered = Object.keys(State.answers).length;
+  const isAnswered = (q) => q.type === 'written'
+    ? (State.written[q.globalIndex] || '').trim().length > 0
+    : State.answers[q.globalIndex] !== undefined;
+  const answered = State.questions.filter(isAnswered).length;
   const total = State.questions.length;
   const unanswered = total - answered;
   let msg = `You have answered ${answered} of ${total} questions.`;
@@ -701,24 +737,37 @@ function submit() {
 
   const scoring = State.exam.scoring;
   let correct = 0, incorrect = 0, unanswered = 0;
+  let mcqTotal = 0, writtenTotal = 0, writtenAnswered = 0;
   const topicStats = {};
 
   State.questions.forEach(q => {
-    const ans = State.answers[q.globalIndex];
+    const isWritten = q.type === 'written';
     if (!topicStats[q.topicName]) {
-      topicStats[q.topicName] = { total: 0, correct: 0, incorrect: 0, unanswered: 0 };
+      topicStats[q.topicName] = { total: 0, correct: 0, incorrect: 0, unanswered: 0, written: 0 };
     }
     topicStats[q.topicName].total++;
+
+    if (isWritten) {
+      writtenTotal++;
+      topicStats[q.topicName].written++;
+      if ((State.written[q.globalIndex] || '').trim().length > 0) writtenAnswered++;
+      return;
+    }
+
+    mcqTotal++;
+    const ans = State.answers[q.globalIndex];
     if (ans === undefined) { unanswered++; topicStats[q.topicName].unanswered++; }
     else if (ans === q.answer) { correct++; topicStats[q.topicName].correct++; }
     else { incorrect++; topicStats[q.topicName].incorrect++; }
   });
 
   State.results = {
-    correct, incorrect, unanswered, total: State.questions.length,
+    correct, incorrect, unanswered,
+    total: State.questions.length,
+    mcqTotal, writtenTotal, writtenAnswered,
     topicStats,
     score: correct * scoring.correct + incorrect * scoring.incorrect,
-    percentage: ((correct / State.questions.length) * 100).toFixed(1),
+    percentage: mcqTotal ? ((correct / mcqTotal) * 100).toFixed(1) : '0.0',
   };
 
   store.addHistory({
@@ -727,12 +776,13 @@ function submit() {
     mode: State.mode,
     selectedTopics: State.selectedTopics,
     answers: State.answers,
+    written: State.written,
     durationUsed: State.totalTime - State.timeLeft,
     results: State.results,
   });
   store.clearCurrent(State.exam.id);
 
-  if (parseFloat(State.results.percentage) >= 70) confetti();
+  if (mcqTotal > 0 && parseFloat(State.results.percentage) >= 70) confetti();
   renderResults();
 }
 
@@ -746,7 +796,9 @@ function renderResults() {
   const r = State.results;
   const app = $('#app');
   const scoring = State.exam.scoring;
-  const maxMarks = r.total * scoring.correct;
+  const maxMarks = (r.mcqTotal || r.total) * scoring.correct;
+  const hasWritten = (r.writtenTotal || 0) > 0;
+  const evalEmail = State.exam.writtenSubmissionEmail || '';
 
   app.innerHTML = `
     <div class="results-wrap">
@@ -757,7 +809,7 @@ function renderResults() {
         <div class="scorecard-header">
           <div class="masthead-rule"></div>
           <div class="score-main">${r.score}</div>
-          <div class="score-label">${State.exam.title} · out of ${maxMarks} · ${r.percentage}% accuracy</div>
+          <div class="score-label">${State.exam.title} · objective out of ${maxMarks} · ${r.percentage}% accuracy</div>
           <div class="masthead-rule"></div>
         </div>
 
@@ -776,22 +828,41 @@ function renderResults() {
           </div>
           <div class="score-cell">
             <div class="score-cell-val">${r.score}</div>
-            <div class="score-cell-lbl">JEE Score</div>
+            <div class="score-cell-lbl">Objective Score</div>
           </div>
         </div>
+
+        ${hasWritten ? `
+        <div class="written-note">
+          ✍ ${r.writtenAnswered} of ${r.writtenTotal} written answers composed. Written answers are <b>not auto-scored</b> — send them to
+          <b>${evalEmail}</b> for evaluation using the answer sheet below.
+        </div>` : ''}
       </div>
+
+      ${hasWritten ? renderWrittenSheet() : ''}
 
       <hr class="section-divider" />
 
       <div class="section-heading">Subject-wise Analysis</div>
       ${Object.entries(r.topicStats).map(([name, stat]) => {
-        const pct = (stat.correct / stat.total) * 100;
+        const answeredMcq = stat.total - (stat.written || 0);
+        if (answeredMcq === 0) {
+          return `
+          <div class="breakdown-item">
+            <div class="breakdown-row">
+              <span class="breakdown-name">${name}</span>
+              <span class="breakdown-pct">${stat.written} written answer(s) recorded</span>
+            </div>
+            <div class="breakdown-bar"><div class="breakdown-fill fill-ok" style="width:100%"></div></div>
+          </div>`;
+        }
+        const pct = (stat.correct / answeredMcq) * 100;
         const cls = pct >= 70 ? 'fill-good' : pct >= 40 ? 'fill-ok' : 'fill-poor';
         return `
           <div class="breakdown-item">
             <div class="breakdown-row">
               <span class="breakdown-name">${name}</span>
-              <span class="breakdown-pct">${stat.correct}/${stat.total} correct (${pct.toFixed(0)}%)</span>
+              <span class="breakdown-pct">${stat.correct}/${answeredMcq} correct (${pct.toFixed(0)}%)${stat.written ? ` · ${stat.written} written` : ''}</span>
             </div>
             <div class="breakdown-bar">
               <div class="breakdown-fill ${cls}" style="width:${pct}%"></div>
@@ -819,6 +890,162 @@ function renderResults() {
   renderReviewList();
 }
 
+/* ==============================
+   WRITTEN ANSWER SHEET (email submission)
+   ============================== */
+const studentStore = {
+  key: 'cbsexam:student',
+  load() {
+    try { return JSON.parse(localStorage.getItem(this.key)) || { name: '', roll: '' }; }
+    catch (e) { return { name: '', roll: '' }; }
+  },
+  save(data) { try { localStorage.setItem(this.key, JSON.stringify(data)); } catch (e) {} },
+};
+
+function renderWrittenSheet() {
+  const r = State.results;
+  const id = studentStore.load();
+  const writtenQs = State.questions.filter(q => q.type === 'written');
+
+  return `
+    <div class="paper written-sheet" id="writtenSheet">
+      <div class="section-heading" style="margin-top:0;">✍ Written Answer Sheet — send for evaluation</div>
+      <div class="student-row">
+        <label>Name
+          <input type="text" id="studentName" class="student-input" placeholder="Your full name" value="${escapeAttr(id.name)}" oninput="saveStudentIdentity()" />
+        </label>
+        <label>Roll / Class
+          <input type="text" id="studentRoll" class="student-input" placeholder="e.g. 12-A · Roll 07" value="${escapeAttr(id.roll)}" oninput="saveStudentIdentity()" />
+        </label>
+      </div>
+      <div class="sheet-actions">
+        <button class="btn-submit" onclick="emailAnswerSheet()">✉ Send answers to ${State.exam.writtenSubmissionEmail}</button>
+        <button class="btn-ghost" onclick="copyAnswerSheet()">⧉ Copy all answers</button>
+        <button class="btn-ghost" onclick="downloadAnswerSheet()">⬇ Download answer sheet (.txt)</button>
+      </div>
+      <div class="sheet-hint">If your answers are long, some email apps trim the message body — use <b>Download</b> and attach the file to your email instead, or paste the copied text into the mail.</div>
+
+      <div class="written-list">
+        ${writtenQs.map(q => `
+          <div class="written-item">
+            <div class="written-item-head">
+              <span class="q-number">Q${q.globalIndex + 1} · ${q.topicName}</span>
+              <span class="marks-tag">${q.marks} mark${q.marks > 1 ? 's' : ''}</span>
+            </div>
+            <div class="written-item-q">${q.q}</div>
+            <textarea class="answer-area sheet-area" rows="${Math.max(4, Math.min(10, Math.ceil((State.written[q.globalIndex] || '').length / 90) + 2))}"
+              placeholder="No answer written yet — you can type it here now."
+              oninput="updateSheetWritten(${q.globalIndex}, this.value)">${escapeHTML(State.written[q.globalIndex] || '')}</textarea>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function escapeAttr(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function saveStudentIdentity() {
+  const name = $('#studentName') ? $('#studentName').value : '';
+  const roll = $('#studentRoll') ? $('#studentRoll').value : '';
+  studentStore.save({ name, roll });
+}
+
+function updateSheetWritten(gi, value) {
+  State.written[gi] = value;
+}
+
+function buildAnswerSheetText() {
+  const id = studentStore.load();
+  const name = $('#studentName') ? $('#studentName').value : id.name;
+  const roll = $('#studentRoll') ? $('#studentRoll').value : id.roll;
+  const writtenQs = State.questions.filter(q => q.type === 'written');
+  const lines = [];
+  lines.push('CBSE Computer Science — ' + State.exam.title + ' (' + State.exam.edition + ')');
+  lines.push('Written Answer Sheet for evaluation');
+  lines.push('Name: ' + (name || '(not given)'));
+  lines.push('Roll / Class: ' + (roll || '(not given)'));
+  lines.push('Date: ' + new Date().toLocaleString());
+  lines.push('Objective score (auto-scored): ' + State.results.score + ' — ' + State.results.correct + ' correct, ' + State.results.incorrect + ' incorrect, ' + State.results.unanswered + ' unanswered');
+  lines.push('');
+  lines.push('='.repeat(60));
+  lines.push('');
+  writtenQs.forEach(q => {
+    lines.push('Q' + (q.globalIndex + 1) + ' [' + q.marks + ' mark' + (q.marks > 1 ? 's' : '') + '] ' + q.topicName);
+    const plainQ = q.q.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&#64;/g, '@').replace(/&quot;/g, '"');
+    lines.push(plainQ);
+    lines.push('--- Answer ---');
+    const ans = (State.written[q.globalIndex] || '').trim();
+    lines.push(ans || '(no answer written)');
+    lines.push('');
+  });
+  lines.push('='.repeat(60));
+  lines.push('Sent from The Candidate Gazette exam portal.');
+  return lines.join('\n');
+}
+
+function copyAnswerSheet() {
+  const text = buildAnswerSheetText();
+  const done = () => showAlert('Answer sheet copied. Paste it into your email to ' + State.exam.writtenSubmissionEmail + '.');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch (e) { showAlert('Could not copy automatically — use Download instead.'); }
+  ta.remove();
+}
+
+function downloadAnswerSheet() {
+  const text = buildAnswerSheetText();
+  const id = studentStore.load();
+  const safeName = (($('#studentName') && $('#studentName').value) || id.name || 'student').replace(/[^\w\-]+/g, '_');
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'answer-sheet-' + safeName + '-' + State.exam.id + '.txt';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+
+function emailAnswerSheet() {
+  const id = studentStore.load();
+  const name = ($('#studentName') && $('#studentName').value.trim()) || id.name;
+  const roll = ($('#studentRoll') && $('#studentRoll').value.trim()) || id.roll;
+  if (!name) { showAlert('Please enter your name before sending.'); return; }
+
+  const email = State.exam.writtenSubmissionEmail;
+  const subject = State.exam.title + ' — CS Answer Sheet — ' + name + (roll ? ' (' + roll + ')' : '');
+  const full = buildAnswerSheetText();
+
+  // mailto URLs are limited in length — keep the body safe, and ask the student
+  // to attach/paste the downloaded sheet when the answers are long.
+  const MAX_BODY = 1700;
+  let body = full;
+  if (body.length > MAX_BODY) {
+    body = body.slice(0, MAX_BODY) +
+      '\n\n[Message trimmed due to email length limits — the FULL answer sheet was downloaded as a .txt file. Please attach it to this email, or use the Copy button in the exam portal and paste the complete answers here.]';
+  }
+
+  const url = 'mailto:' + encodeURIComponent(email) +
+    '?subject=' + encodeURIComponent(subject) +
+    '&body=' + encodeURIComponent(body);
+
+  window.location.href = url;
+}
+
 function setReviewFilter(f) { reviewFilter = f; renderResults(); }
 
 function renderReviewList() {
@@ -826,6 +1053,12 @@ function renderReviewList() {
   if (!list) return;
 
   const filtered = State.questions.filter(q => {
+    if (q.type === 'written') {
+      const hasText = (State.written[q.globalIndex] || '').trim().length > 0;
+      if (reviewFilter === 'wrong' || reviewFilter === 'correct') return false;
+      if (reviewFilter === 'unanswered') return !hasText;
+      return true;
+    }
     const ans = State.answers[q.globalIndex];
     if (reviewFilter === 'wrong') return ans !== undefined && ans !== q.answer;
     if (reviewFilter === 'unanswered') return ans === undefined;
@@ -839,6 +1072,25 @@ function renderReviewList() {
   }
 
   list.innerHTML = filtered.map(q => {
+    const idx = State.questions.indexOf(q) + 1;
+    const diagram = q.diagram
+      ? `<div class="diagram-block diagram-block--review"><pre class="mermaid">${escapeHTML(q.diagram)}</pre></div>`
+      : '';
+
+    if (q.type === 'written') {
+      const writtenVal = (State.written[q.globalIndex] || '').trim();
+      return `
+        <div class="review-item">
+          <div class="review-q"><strong style="color:var(--ink-black);margin-right:0.5rem;">Q${idx}.</strong> ${q.q}</div>
+          ${diagram}
+          <div class="review-tags">
+            ${writtenVal ? `<span class="rv-tag correct-tag">✍ Written — for evaluation</span>` : `<span class="rv-tag skipped-tag">No answer written</span>`}
+            <span class="rv-tag topic-tag">${q.marks} mark${q.marks > 1 ? 's' : ''}</span>
+          </div>
+          ${writtenVal ? `<div class="review-written">${escapeHTML(writtenVal).replace(/\n/g, '<br/>')}</div>` : ''}
+        </div>`;
+    }
+
     const ans = State.answers[q.globalIndex];
     const correctLetter = String.fromCharCode(65 + q.answer);
     let tag;
@@ -850,10 +1102,6 @@ function renderReviewList() {
         ? `<span class="rv-tag correct-tag">✓ ${u}</span>`
         : `<span class="rv-tag wrong-tag">✗ ${u}</span>`;
     }
-    const idx = State.questions.indexOf(q) + 1;
-    const diagram = q.diagram
-      ? `<div class="diagram-block diagram-block--review"><pre class="mermaid">${escapeHTML(q.diagram)}</pre></div>`
-      : '';
 
     let optionsHtml = `<div class="options review-options">`;
     q.options.forEach((opt, i) => {
@@ -903,6 +1151,7 @@ function viewAttempt(examId, ts) {
   State.selectedTopics = entry.selectedTopics || [];
   State.questions = buildPool(exam, State.selectedTopics);
   State.answers = entry.answers || {};
+  State.written = entry.written || {};
   State.marked = new Set();
   State.submitted = true;
   State.results = entry.results;

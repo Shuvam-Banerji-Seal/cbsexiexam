@@ -38,8 +38,21 @@ Full coverage of the CBSE Unit-2 syllabus:
 - **IP Addressing & DNS** – 20 questions (IPv4 structure, octets, classes A–C, private/public ranges, loopback, DNS resolution)
 - **Protocols & Web Services** – 20 questions (HTTP, HTTPS, FTP, PPP, SMTP, POP3, TCP/IP, TELNET, VoIP; WWW, HTML/XML, URL, browser, server, web hosting)
 
+### September 18 Examination — CBSE Board PYQ Special (70 Qs · 3h · with written answers)
+A full board-style paper assembled from actual CBSE Class XII Computer Science question papers (2022–2026), downloaded from the official CBSE question-paper archive and extracted into `pyq-extracted/`:
+- **Section A — PYQ Objective (MCQ)** – 50 questions, auto-scored +4/−1 (Python strings/lists/dicts, operators, file handling, SQL, networking, assertion-reasoning)
+- **Section B — PYQ Short Answer (2 Marks)** – 15 questions, written out
+- **Section C — PYQ Long Answer (4–5 Marks)** – 5 questions, written out
+
+**Written submission flow:** the student types answers in the portal; after submission an
+**answer sheet** is generated with Copy / Download (.txt) / **Send by email** actions.
+Written answers are emailed to **sbs22ms076@iiserkol.ac.in** for evaluation (mailto with
+automatic subject and body; download-and-attach fallback for long answers). Every
+question carries its source paper citation; all Python output answers were verified by
+executing the code.
+
 ## Exam Mode
-- Countdown timer per paper (2h July / 2h30m August / 2h August 21 & 30)
+- Countdown timer per paper (2h July / 2h30m August / 2h August 21 & 30 / 3h September 18)
 - JEE-style scoring: **+4** for correct, **–1** for incorrect
 - Auto-submit when time expires
 
@@ -85,9 +98,9 @@ npm test
 ```
 
 The suite (`node --test`) covers:
-- **Data integrity** — question counts (120/150/120/120), valid answers/options/difficulty, no duplicates, full syllabus coverage per paper
+- **Data integrity** — question counts (120/150/120/120/70), valid answers/options/difficulty, no duplicates, full syllabus coverage per paper, written-question shape (marks, no options)
 - **Mermaid validation** — every `erDiagram` parsed with the real Mermaid parser; flowchart diagrams structurally checked
-- **Browser e2e (Playwright)** — exam hall renders all four packages, every exam flow works, all diagrams render to real SVGs, answers persist across reloads and resume correctly, submission stores history
+- **Browser e2e (Playwright)** — exam hall renders all five packages, every exam flow works, all diagrams render to real SVGs, answers persist across reloads and resume correctly, submission stores history, and the September 18 written-answer flow (textarea → answer sheet → mailto) is exercised end-to-end
 
 ---
 

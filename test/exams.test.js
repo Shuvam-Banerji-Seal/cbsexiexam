@@ -27,24 +27,30 @@ function loadExams() {
     .filter(f => f.endsWith('.js'))
     .sort()
     .forEach(f => run('exams/august30/topics/' + f));
+  fs.readdirSync(path.join(ROOT, 'exams/september18/topics'))
+    .filter(f => f.endsWith('.js'))
+    .sort()
+    .forEach(f => run('exams/september18/topics/' + f));
   run('exams/july.js');
   run('exams/august.js');
   run('exams/august21.js');
   run('exams/august30.js');
+  run('exams/september18.js');
   run('exams/index.js');
   return sandbox.EXAMS;
 }
 
 const exams = loadExams();
 
-test('registry exposes all four exam packages', () => {
+test('registry exposes all five exam packages', () => {
   assert.ok(Array.isArray(exams), 'EXAMS must be an array');
-  assert.equal(exams.length, 4);
+  assert.equal(exams.length, 5);
   const ids = exams.map(e => e.id);
   assert.ok(ids.includes('july'), 'july package present');
   assert.ok(ids.includes('august-01'), 'august-01 package present');
   assert.ok(ids.includes('august-21'), 'august-21 package present');
   assert.ok(ids.includes('august-30'), 'august-30 package present');
+  assert.ok(ids.includes('september-18'), 'september-18 package present');
 });
 
 test('July package keeps its original 120 questions, 4 topics, 2h, +4/-1', () => {
@@ -175,6 +181,42 @@ test('August 30 diagrams are flowcharts with captions', () => {
   assert.ok(diagrams >= 4, `expected >= 4 diagram questions, found ${diagrams}`);
 });
 
+test('September 18 package: 70 questions (50 MCQ + 20 written), 3 sections, 3h, +4/-1', () => {
+  const s18 = exams.find(e => e.id === 'september-18');
+  const total = s18.topics.reduce((n, t) => n + t.questions.length, 0);
+  assert.equal(s18.topics.length, 3);
+  assert.equal(total, 70);
+  assert.equal(s18.duration, 10800); // 3 hours
+  assert.equal(s18.scoring.correct, 4);
+  assert.equal(s18.scoring.incorrect, -1);
+
+  const mcq = s18.topics.flatMap(t => t.questions).filter(q => q.type !== 'written');
+  const written = s18.topics.flatMap(t => t.questions).filter(q => q.type === 'written');
+  assert.equal(mcq.length, 50, '50 objective questions');
+  assert.equal(written.length, 20, '20 written questions');
+  assert.equal(mcq.length * s18.scoring.correct, 200, 'objective max = 200');
+
+  // written questions carry 2-5 marks and an email target exists on the package
+  written.forEach((q, i) => {
+    assert.ok([2, 3, 4, 5].includes(q.marks), `written[${i}] marks=${q.marks}`);
+  });
+  assert.equal(s18.writtenSubmissionEmail, 'sbs22ms076@iiserkol.ac.in');
+});
+
+test('September 18 covers Python, file handling, SQL and networks', () => {
+  const s18 = exams.find(e => e.id === 'september-18');
+  const allText = s18.topics.flatMap(t => t.questions)
+    .map(q => q.q + ' ' + (q.explain || '') + ' ' + (q.options || []).join(' '))
+    .join(' ').toLowerCase();
+  for (const topic of ['python', 'string', 'list', 'dictionary', 'file', 'csv', 'sql', 'key', 'network', 'router', 'protocol', 'ip address']) {
+    assert.ok(allText.includes(topic), `September 18 covers "${topic}"`);
+  }
+  // every question carries its PYQ source attribution (in the stem or the explanation)
+  const qs = s18.topics.flatMap(t => t.questions);
+  const withSrc = qs.filter(q => /CBSE\s+20\d\d/.test(q.q + ' ' + (q.explain || '')));
+  assert.ok(withSrc.length >= qs.length - 2, `all questions cite their CBSE paper (${withSrc.length}/${qs.length})`);
+});
+
 test('every question is structurally valid', () => {
   const problems = [];
   for (const exam of exams) {
@@ -182,11 +224,22 @@ test('every question is structurally valid', () => {
       for (const [i, q] of topic.questions.entries()) {
         const id = `${exam.id}/${topic.key}#${i}`;
         if (typeof q.q !== 'string' || q.q.length === 0) problems.push(`${id}: empty q`);
-        if (!Array.isArray(q.options) || q.options.length !== 4) problems.push(`${id}: options != 4`);
-        if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer > 3) problems.push(`${id}: bad answer ${q.answer}`);
-        if (!['E', 'M', 'H'].includes(q.diff)) problems.push(`${id}: bad diff ${q.diff}`);
         if (typeof q.explain !== 'string' || q.explain.length === 0) problems.push(`${id}: empty explain`);
-        if (new Set(q.options).size !== 4) problems.push(`${id}: duplicate options`);
+        if (!['E', 'M', 'H'].includes(q.diff)) problems.push(`${id}: bad diff ${q.diff}`);
+
+        if (q.type === 'written') {
+          // written questions: no options/answer, must have marks
+          if (![2, 3, 4, 5, 6].includes(q.marks)) problems.push(`${id}: written question bad marks ${q.marks}`);
+          if (q.options !== undefined) problems.push(`${id}: written question must not have options`);
+          if (q.answer !== undefined) problems.push(`${id}: written question must not have an answer index`);
+        } else {
+          if (!Array.isArray(q.options) || q.options.length < 2 || q.options.length > 4) problems.push(`${id}: options must be 2-4 (got ${q.options ? q.options.length : 'none'})`);
+          if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= (q.options ? q.options.length : 0)) problems.push(`${id}: bad answer ${q.answer}`);
+          if (q.options && new Set(q.options).size !== q.options.length) problems.push(`${id}: duplicate options`);
+          if (q.options) q.options.forEach((o, oi) => {
+            if (typeof o !== 'string' || o.trim() === '') problems.push(`${id}: option[${oi}] empty or not a string`);
+          });
+        }
         if (q.diagram && typeof q.diagram !== 'string') problems.push(`${id}: diagram not a string`);
         if (q.diagram && q.diagram.length > 2000) problems.push(`${id}: diagram too large`);
       }
