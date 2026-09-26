@@ -31,26 +31,33 @@ function loadExams() {
     .filter(f => f.endsWith('.js'))
     .sort()
     .forEach(f => run('exams/september18/topics/' + f));
+  fs.readdirSync(path.join(ROOT, 'exams/september22/topics'))
+    .filter(f => f.endsWith('.js'))
+    .sort()
+    .forEach(f => run('exams/september22/topics/' + f));
+  fs.readdirSync(path.join(ROOT, 'exams/september26/topics'))
+    .filter(f => f.endsWith('.js'))
+    .sort()
+    .forEach(f => run('exams/september26/topics/' + f));
   run('exams/july.js');
   run('exams/august.js');
   run('exams/august21.js');
   run('exams/august30.js');
   run('exams/september18.js');
+  run('exams/september22.js');
+  run('exams/september26.js');
   run('exams/index.js');
   return sandbox.EXAMS;
 }
 
 const exams = loadExams();
 
-test('registry exposes all five exam packages', () => {
+test('registry exposes all seven exam packages', () => {
   assert.ok(Array.isArray(exams), 'EXAMS must be an array');
-  assert.equal(exams.length, 5);
+  assert.equal(exams.length, 7);
   const ids = exams.map(e => e.id);
-  assert.ok(ids.includes('july'), 'july package present');
-  assert.ok(ids.includes('august-01'), 'august-01 package present');
-  assert.ok(ids.includes('august-21'), 'august-21 package present');
-  assert.ok(ids.includes('august-30'), 'august-30 package present');
-  assert.ok(ids.includes('september-18'), 'september-18 package present');
+  ['july', 'august-01', 'august-21', 'august-30', 'september-18', 'september-22', 'september-26']
+    .forEach(id => assert.ok(ids.includes(id), `${id} package present`));
 });
 
 test('July package keeps its original 120 questions, 4 topics, 2h, +4/-1', () => {
@@ -201,6 +208,40 @@ test('September 18 package: 70 questions (50 MCQ + 20 written), 3 sections, 3h, 
     assert.ok([2, 3, 4, 5].includes(q.marks), `written[${i}] marks=${q.marks}`);
   });
   assert.equal(s18.writtenSubmissionEmail, 'sbs22ms076@iiserkol.ac.in');
+});
+
+test('September 22 & 26 packages: 50 questions each (30 MCQ + 20 written), 3 sections, 3h, +4/-1', () => {
+  for (const id of ['september-22', 'september-26']) {
+    const ex = exams.find(e => e.id === id);
+    const total = ex.topics.reduce((n, t) => n + t.questions.length, 0);
+    assert.equal(ex.topics.length, 3, `${id}: 3 sections`);
+    assert.equal(total, 50, `${id}: 50 questions`);
+    assert.equal(ex.duration, 10800, `${id}: 3 hours`);
+    assert.equal(ex.scoring.correct, 4);
+    assert.equal(ex.scoring.incorrect, -1);
+    assert.equal(ex.writtenSubmissionEmail, 'sbs22ms076@iiserkol.ac.in');
+
+    const mcq = ex.topics.flatMap(t => t.questions).filter(q => q.type !== 'written');
+    const written = ex.topics.flatMap(t => t.questions).filter(q => q.type === 'written');
+    assert.equal(mcq.length, 30, `${id}: 30 MCQ`);
+    assert.equal(written.length, 20, `${id}: 20 written`);
+    written.forEach((q, i) => assert.ok([2, 3, 4, 5].includes(q.marks), `${id} written[${i}] marks=${q.marks}`));
+  }
+});
+
+test('September 22 & 26 have no question text overlap with each other or September 18', () => {
+  const norm = s => s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+  const seen = new Map();
+  for (const ex of exams) {
+    for (const topic of ex.topics) {
+      for (const q of topic.questions) {
+        const key = norm(q.q);
+        const prev = seen.get(key);
+        assert.ok(!prev, `duplicate question text: ${ex.id}/${topic.key} duplicates ${prev}: ${key.slice(0, 70)}`);
+        seen.set(key, `${ex.id}/${topic.key}`);
+      }
+    }
+  }
 });
 
 test('September 18 covers Python, file handling, SQL and networks', () => {

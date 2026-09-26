@@ -51,8 +51,20 @@ automatic subject and body; download-and-attach fallback for long answers). Ever
 question carries its source paper citation; all Python output answers were verified by
 executing the code.
 
+### September 22 Examination — CBSE Board PYQ Special · Second Sitting (50 Qs · 3h)
+A second full paper with **completely new questions** from the CBSE papers (2022–2026):
+- **Section A — PYQ Objective (MCQ)** – 30 questions (global/local scope, shell outputs, assertion-reasoning, SQL DDL/DML, IP addressing, devices)
+- **Section B — PYQ Short Answer (2 Marks)** – 15 questions (dictionary methods, error correction, SQL table creation, CHAR vs VARCHAR, topology, find() vs index())
+- **Section C — PYQ Long Answer (4–5 Marks)** – 5 questions (CKNG Auto network case study, Work–Contractor SQL, CLUB.CSV, MySQL ChangeStatus, binary DOCTORS.DAT)
+
+### September 26 Examination — CBSE Board PYQ Special · Third Sitting (50 Qs · 3h)
+A third full paper, again with **fresh questions** from the CBSE papers:
+- **Section A — PYQ Objective (MCQ)** – 30 questions (slicing, degree/cardinality, file modes, SQL clauses, switching, transmission media)
+- **Section B — PYQ Short Answer (2 Marks)** – 15 questions (EvenOdd error correction, PLANTINGS/HARVESTS SQL, branding MySQL connectivity, random-output analysis, JOIN outputs)
+- **Section C — PYQ Long Answer (4–5 Marks)** – 5 questions (RESOURCES.DAT binary update, Amritsar University network case study, FruitStack, PRODUCTS SQL, States.csv → More.csv)
+
 ## Exam Mode
-- Countdown timer per paper (2h July / 2h30m August / 2h August 21 & 30 / 3h September 18)
+- Countdown timer per paper (2h July / 2h30m August / 2h August 21 & 30 / 3h September papers)
 - JEE-style scoring: **+4** for correct, **–1** for incorrect
 - Auto-submit when time expires
 
@@ -98,9 +110,9 @@ npm test
 ```
 
 The suite (`node --test`) covers:
-- **Data integrity** — question counts (120/150/120/120/70), valid answers/options/difficulty, no duplicates, full syllabus coverage per paper, written-question shape (marks, no options)
+- **Data integrity** — question counts (120/150/120/120/70/50/50), valid answers/options/difficulty, no duplicates anywhere in the registry, full syllabus coverage per paper, written-question shape (marks, no options)
 - **Mermaid validation** — every `erDiagram` parsed with the real Mermaid parser; flowchart diagrams structurally checked
-- **Browser e2e (Playwright)** — exam hall renders all five packages, every exam flow works, all diagrams render to real SVGs, answers persist across reloads and resume correctly, submission stores history, and the September 18 written-answer flow (textarea → answer sheet → mailto) is exercised end-to-end
+- **Browser e2e (Playwright)** — exam hall renders all seven packages, every exam flow works, all diagrams render to real SVGs, answers persist across reloads and resume correctly, submission stores history, and the written-answer flow (textarea → answer sheet → mailto) is exercised end-to-end across the September papers
 
 ---
 

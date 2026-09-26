@@ -56,10 +56,10 @@ async function freshHall() {
   await page.waitForSelector('.hall-card');
 }
 
-test('exam hall lists all five packages with correct metadata', async () => {
+test('exam hall lists all seven packages with correct metadata', async () => {
   await freshHall();
   const cards = await page.$$eval('.hall-card', els => els.map(e => e.textContent));
-  assert.equal(cards.length, 5);
+  assert.equal(cards.length, 7);
   assert.ok(cards[0].includes('July Examination'));
   assert.ok(cards[0].includes('120 Questions'));
   assert.ok(cards[1].includes('August 01 Examination'));
@@ -78,6 +78,13 @@ test('exam hall lists all five packages with correct metadata', async () => {
   assert.ok(cards[4].includes('70 Questions'));
   assert.ok(cards[4].includes('PYQ'));
   assert.ok(cards[4].includes('3h'));
+  assert.ok(cards[5].includes('September 22 Examination'));
+  assert.ok(cards[5].includes('50 Questions'));
+  assert.ok(cards[5].includes('Second Sitting'));
+  assert.ok(cards[5].includes('3h'));
+  assert.ok(cards[6].includes('September 26 Examination'));
+  assert.ok(cards[6].includes('50 Questions'));
+  assert.ok(cards[6].includes('Third Sitting'));
 });
 
 test('August flow: begin -> setup -> 150 questions with 2:30:00 timer', async () => {
@@ -273,4 +280,28 @@ test('September 18 flow: 70 questions (50 MCQ + 20 written), 3h timer, written s
     return h.length && Object.keys(h[0].written || {}).length;
   });
   assert.ok(storedWritten >= 1, 'history stores written answers');
+});
+
+test('September 22 & 26 flows: 50 questions each (30 MCQ + 20 written), 3h timer, written renders', async () => {
+  for (const [cardIdx, expectedMarks] of [[6, '2 marks'], [7, '2 marks']]) {
+    await freshHall();
+    await page.click(`.hall-card:nth-of-type(${cardIdx}) .btn-primary`);
+    await page.waitForSelector('.mode-card');
+    await page.click('.btn-primary');
+    await page.waitForSelector('.q-panel');
+
+    const qMeta = await page.textContent('.q-number');
+    assert.match(qMeta, /Question 1 of 50/);
+    const timer = await page.textContent('#timer');
+    assert.equal(timer, '3:00:00');
+
+    // first written question sits at index 30 (Q31)
+    await page.evaluate(() => jumpTo(30));
+    await page.waitForSelector('.answer-area');
+    const marks = await page.textContent('.marks-tag');
+    assert.ok(marks.includes(expectedMarks), `written marks tag shows "${expectedMarks}"`);
+
+    const paletteWritten = await page.$$eval('.p-btn.written-q', els => els.length);
+    assert.equal(paletteWritten, 20, 'palette marks 20 written questions');
+  }
 });
