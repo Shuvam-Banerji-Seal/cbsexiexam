@@ -66,7 +66,7 @@ test('mobile: exam hall has no horizontal overflow', async () => {
   await page.waitForSelector('.hall-card');
   await assertNoHorizontalOverflow('exam hall');
   const cards = await page.$$eval('.hall-card', els => els.length);
-  assert.equal(cards, 7);
+  assert.equal(cards, 8);
 });
 
 test('mobile: august setup screen has no horizontal overflow', async () => {
@@ -169,4 +169,35 @@ test('mobile: results page has no horizontal overflow', async () => {
   await page.evaluate(() => submit());
   await page.waitForSelector('.score-main');
   await assertNoHorizontalOverflow('results page');
+});
+
+test('mobile: Class IX (October 13) setup, diagram questions and results fit', async () => {
+  await page.goto(BASE + '/');
+  await page.waitForSelector('.hall-card');
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.waitForSelector('.hall-card');
+  await page.click('.hall-card:nth-of-type(8) .btn-primary');
+  await page.waitForSelector('.mode-card');
+  assert.equal(await page.$$eval('.topic-row', els => els.length), 13);
+  await assertNoHorizontalOverflow('Class IX setup (13 subjects)');
+
+  await page.click('.btn-primary');
+  await page.waitForSelector('.q-panel');
+  await assertNoHorizontalOverflow('Class IX exam screen');
+
+  const diagramIdx = await page.evaluate(() =>
+    State.questions.map((q, i) => (q.diagram ? i : -1)).filter(i => i >= 0));
+  for (const i of diagramIdx) {
+    await page.evaluate(idx => { State.currentIndex = idx; renderQuestion(); }, i);
+    await page.waitForSelector('#qPanel .mermaid-frame svg', { timeout: 8000 });
+    await assertNoHorizontalOverflow(`Class IX diagram Q${i + 1}`);
+  }
+
+  await page.evaluate(() => {
+    State.questions.forEach((q, i) => { if (i % 2 === 0) State.answers[q.globalIndex] = q.answer; });
+  });
+  await page.evaluate(() => submit());
+  await page.waitForSelector('.score-main');
+  await assertNoHorizontalOverflow('Class IX results page');
 });

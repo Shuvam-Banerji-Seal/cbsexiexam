@@ -39,6 +39,10 @@ function loadExams() {
     .filter(f => f.endsWith('.js'))
     .sort()
     .forEach(f => run('exams/september26/topics/' + f));
+  fs.readdirSync(path.join(ROOT, 'exams/october13/topics'))
+    .filter(f => f.endsWith('.js'))
+    .sort()
+    .forEach(f => run('exams/october13/topics/' + f));
   run('exams/july.js');
   run('exams/august.js');
   run('exams/august21.js');
@@ -46,17 +50,18 @@ function loadExams() {
   run('exams/september18.js');
   run('exams/september22.js');
   run('exams/september26.js');
+  run('exams/october13.js');
   run('exams/index.js');
   return sandbox.EXAMS;
 }
 
 const exams = loadExams();
 
-test('registry exposes all seven exam packages', () => {
+test('registry exposes all eight exam packages', () => {
   assert.ok(Array.isArray(exams), 'EXAMS must be an array');
-  assert.equal(exams.length, 7);
+  assert.equal(exams.length, 8);
   const ids = exams.map(e => e.id);
-  ['july', 'august-01', 'august-21', 'august-30', 'september-18', 'september-22', 'september-26']
+  ['july', 'august-01', 'august-21', 'august-30', 'september-18', 'september-22', 'september-26', 'october-13']
     .forEach(id => assert.ok(ids.includes(id), `${id} package present`));
 });
 
@@ -256,6 +261,85 @@ test('September 18 covers Python, file handling, SQL and networks', () => {
   const qs = s18.topics.flatMap(t => t.questions);
   const withSrc = qs.filter(q => /CBSE\s+20\d\d/.test(q.q + ' ' + (q.explain || '')));
   assert.ok(withSrc.length >= qs.length - 2, `all questions cite their CBSE paper (${withSrc.length}/${qs.length})`);
+});
+
+test('October 13 (Class IX) package: 120 MCQs, 13 topics, 2h, +4/-1, max 480', () => {
+  const o13 = exams.find(e => e.id === 'october-13');
+  const qs = o13.topics.flatMap(t => t.questions);
+  assert.equal(o13.topics.length, 13);
+  assert.equal(qs.length, 120);
+  assert.equal(o13.duration, 7200);
+  assert.equal(o13.scoring.correct, 4);
+  assert.equal(o13.scoring.incorrect, -1);
+  assert.equal(qs.length * o13.scoring.correct, 480);
+  assert.ok(o13.edition.includes('Class IX'), 'edition marks the paper as Class IX');
+  assert.equal(o13.writtenSubmissionEmail, undefined, 'objective-only paper has no email submission');
+
+  // Part A: five Employability Skills units × 8; Part B: eight IT topics × 10
+  assert.deepEqual(Array.from(o13.topics.slice(0, 5), t => t.questions.length), [8, 8, 8, 8, 8]);
+  assert.deepEqual(Array.from(o13.topics.slice(5), t => t.questions.length), [10, 10, 10, 10, 10, 10, 10, 10]);
+  qs.forEach((q, i) => {
+    assert.notEqual(q.type, 'written', `q${i}: must be objective`);
+    assert.equal(q.options.length, 4, `q${i}: four options`);
+  });
+});
+
+test('October 13 covers the Class IX Employability Skills, Basics of IT and number systems syllabus', () => {
+  const o13 = exams.find(e => e.id === 'october-13');
+  const names = o13.topics.map(t => t.name.toLowerCase());
+  for (const unit of ['communication skills', 'self-management skills', 'ict skills', 'entrepreneurial skills', 'green skills',
+    'characteristics', 'memory', 'input devices', 'output devices', 'software', 'network', 'multimedia', 'number systems']) {
+    assert.ok(names.some(n => n.includes(unit)), `topic for "${unit}"`);
+  }
+
+  const allText = o13.topics
+    .flatMap(t => t.questions.map(q => q.q + ' ' + q.options.join(' ') + ' ' + q.explain))
+    .join(' ').toLowerCase();
+  for (const noun of ['verbal', 'non-verbal', 'feedback', 'barrier',
+    'self-awareness', 'strength', 'hygiene', 'grooming', 'time management',
+    'booting', 'hardware', 'operating system', 'file extension',
+    'entrepreneur', 'hybrid business', 'sustainable development', 'renewable', 'reduce, reuse, recycle',
+    'cpu', 'alu', 'control unit', 'ram', 'rom', 'cache', 'secondary storage',
+    'scanner', 'microphone', 'monitor', 'printer', 'plotter', 'touch screen',
+    'system software', 'application software', 'device driver',
+    'pan', 'lan', 'man', 'wan', 'wi-fi', 'bluetooth', 'cloud',
+    'image', 'audio', 'video', 'animation',
+    'binary', 'octal', 'hexadecimal', 'bit', 'byte', 'nibble', 'kb', 'mb', 'gb', 'tb']) {
+    assert.ok(allText.includes(noun), `syllabus noun "${noun}" covered`);
+  }
+});
+
+test('October 13 diagrams are flowcharts with captions', () => {
+  const o13 = exams.find(e => e.id === 'october-13');
+  let diagrams = 0;
+  for (const topic of o13.topics) {
+    for (const [i, q] of topic.questions.entries()) {
+      if (!q.diagram) continue;
+      diagrams++;
+      assert.ok(q.diagram.startsWith('flowchart '), `${topic.key}#${i}: diagram must be a flowchart`);
+      assert.ok(typeof q.diagramCaption === 'string' && q.diagramCaption.length > 0,
+        `${topic.key}#${i}: diagramCaption missing`);
+    }
+  }
+  assert.ok(diagrams >= 4, `expected >= 4 diagram questions, found ${diagrams}`);
+});
+
+test('October 13 answer key is spread across A-D and options are HTML-safe', () => {
+  const o13 = exams.find(e => e.id === 'october-13');
+  const qs = o13.topics.flatMap(t => t.questions);
+  const counts = [0, 0, 0, 0];
+  qs.forEach(q => counts[q.answer]++);
+  counts.forEach((n, i) => {
+    const share = n / qs.length;
+    assert.ok(share >= 0.2 && share <= 0.3, `option ${'ABCD'[i]} is the key ${n}/${qs.length} times`);
+  });
+  for (const topic of o13.topics) {
+    const keys = new Set(topic.questions.map(q => q.answer));
+    assert.ok(keys.size >= 3, `${topic.key}: answer key uses only ${keys.size} positions`);
+    topic.questions.forEach((q, i) => q.options.forEach((o, oi) => {
+      assert.ok(!o.includes('<'), `${topic.key}#${i} option[${oi}]: raw '<' in option`);
+    }));
+  }
 });
 
 test('every question is structurally valid', () => {

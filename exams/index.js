@@ -7,4 +7,5 @@ window.EXAMS = [
   { ...window.EXAM_SEPTEMBER18 },
   { ...window.EXAM_SEPTEMBER22 },
   { ...window.EXAM_SEPTEMBER26 },
+  { ...window.EXAM_OCTOBER13 },
 ];
