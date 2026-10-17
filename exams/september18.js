@@ -7,6 +7,7 @@ window.EXAM_SEPTEMBER18 = {
   title: 'September 18 Examination',
   edition: 'CBSE Board PYQ Special — Objective + Written',
   date: 'circa September 18, 2026',
+  grade: 'XII',
   description: 'A full board-style paper assembled from actual CBSE Class XII Computer Science question papers (2022–2026): 50 objective questions scored +4/−1, plus 20 short-answer and long-answer questions to be written out and emailed for evaluation. Covers Python, file handling, SQL and networks.',
   duration: 10800, // 3 hours
   scoring: { correct: 4, incorrect: -1 },

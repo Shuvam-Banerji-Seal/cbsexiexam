@@ -14,6 +14,7 @@ const State = {
   totalTime: 0,
   startedAt: 0,
   savedAt: 0,
+  subset: null,           // globalIndex list when practising only the questions missed earlier
 };
 
 let questionCounter = 0;
@@ -31,10 +32,18 @@ function formatTime(seconds) {
 }
 
 function escapeHTML(str) {
-  const div = document.createElement('div');
-  div.innerHTML = str;
-  return div.innerHTML;
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
+
+// 7200 → "2h", 9000 → "2h 30m", 5400 → "1h 30m"
+function formatDuration(seconds) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.round((seconds % 3600) / 60);
+  return [h ? `${h}h` : '', m ? `${m}m` : ''].filter(Boolean).join(' ') || '0m';
+}
+
+const isWrittenQ = (q) => q.type === 'written';
 
 function playSound(type) {
   try {
@@ -155,19 +164,91 @@ function showAlert(msg) {
 /* ==============================
    EXAM HALL — pick an examination
    ============================== */
-function init() { renderExamHall(); }
+function init() {
+  renderDateline();
+  renderExamHall();
+}
+
+// Papers are grouped by class in the hall. Packages without a `grade` are Class XII papers.
+const GRADE_GROUPS = [
+  { grade: 'IX', label: 'Class IX', sub: 'Computer Applications (165) · Information Technology (402)' },
+  { grade: 'XII', label: 'Class XII', sub: 'Computer Science (083)' },
+];
+
+const hallPrefs = {
+  key: 'cbsexam:hall',
+  load() { try { return JSON.parse(localStorage.getItem(this.key)) || {}; } catch (e) { return {}; } },
+  save(prefs) { try { localStorage.setItem(this.key, JSON.stringify(prefs)); } catch (e) {} },
+};
+
+let hallFilter = 'all';
+let hallQuery = '';
+
+function examGrade(exam) { return exam.grade || 'XII'; }
 
 function examTotals(exam) {
   return exam.topics.reduce((n, t) => n + t.questions.length, 0);
 }
 
+function examMcqTotal(exam) {
+  return exam.topics.reduce((n, t) => n + t.questions.filter(q => !isWrittenQ(q)).length, 0);
+}
+
+// Max marks of one attempt: only objective questions are auto-scored.
+function attemptMax(exam, results) {
+  return (results.mcqTotal || results.total) * exam.scoring.correct;
+}
+
+function renderDateline() {
+  const el = $('.masthead-dateline');
+  if (!el || !window.EXAMS) return;
+  const today = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  el.innerHTML = `
+    <span>Vol. I</span><span class="masthead-separator">·</span>
+    <span>No. ${window.EXAMS.length}</span><span class="masthead-separator">·</span>
+    <span>${today}</span>`;
+}
+
 function renderExamHall() {
   const app = $('#app');
+  const exams = window.EXAMS;
+  const prefs = hallPrefs.load();
+  hallFilter = ['all', ...GRADE_GROUPS.map(g => g.grade)].includes(prefs.filter) ? prefs.filter : 'all';
+  hallQuery = '';
+
+  const totalQs = exams.reduce((n, e) => n + examTotals(e), 0);
+  const attempts = exams.reduce((n, e) => n + store.loadHistory(e.id).length, 0);
+  const inProgress = exams.filter(e => store.loadCurrent(e.id)).length;
+  const tabs = [{ grade: 'all', label: 'All' }, ...GRADE_GROUPS].map(g => ({
+    ...g,
+    count: g.grade === 'all' ? exams.length : exams.filter(e => examGrade(e) === g.grade).length,
+  }));
+
   app.innerHTML = `
     <div class="landing">
       <div class="landing-header">
         <div class="landing-title">The Examination Hall<br/>Select Your Paper</div>
         <div class="landing-subtitle">Choose an examination from the register below. Each paper carries its own syllabus, duration, and question count. Attempts are preserved on this device — you may resume or retake at any time.</div>
+      </div>
+
+      <div class="hall-ledger">
+        <div class="ledger-cell"><span class="ledger-val">${exams.length}</span><span class="ledger-lbl">Papers</span></div>
+        <div class="ledger-cell"><span class="ledger-val">${totalQs.toLocaleString('en-IN')}</span><span class="ledger-lbl">Questions</span></div>
+        <div class="ledger-cell"><span class="ledger-val">${attempts}</span><span class="ledger-lbl">Results on record</span></div>
+        <div class="ledger-cell"><span class="ledger-val">${inProgress}</span><span class="ledger-lbl">In progress</span></div>
+      </div>
+
+      <div class="hall-toolbar">
+        <div class="hall-tabs" role="tablist" aria-label="Filter papers by class">
+          ${tabs.map(t => `
+            <button class="hall-tab${hallFilter === t.grade ? ' active' : ''}" role="tab" data-filter="${t.grade}"
+                    aria-selected="${hallFilter === t.grade}" onclick="setHallFilter('${t.grade}')">
+              ${t.label}<span class="tab-count">${t.count}</span>
+            </button>`).join('')}
+        </div>
+        <input type="search" id="hallSearch" class="hall-search" autocomplete="off"
+               placeholder="Search papers &amp; subjects…"
+               aria-label="Search papers and subjects" oninput="setHallQuery(this.value)" />
       </div>
 
       <div class="hall-list" id="hallList"></div>
@@ -176,66 +257,135 @@ function renderExamHall() {
   renderHallList();
 }
 
+function setHallFilter(grade) {
+  hallFilter = grade;
+  hallPrefs.save({ ...hallPrefs.load(), filter: grade });
+  $$('.hall-tab').forEach(t => {
+    const on = t.dataset.filter === grade;
+    t.classList.toggle('active', on);
+    t.setAttribute('aria-selected', String(on));
+  });
+  renderHallList();
+}
+
+function setHallQuery(value) {
+  hallQuery = value;
+  renderHallList();
+}
+
 function renderHallList() {
   const list = $('#hallList');
-  list.innerHTML = window.EXAMS.map((exam, idx) => {
-    const total = examTotals(exam);
-    const maxMarks = total * exam.scoring.correct;
-    const current = store.loadCurrent(exam.id);
-    const history = store.loadHistory(exam.id);
-    const last = history[0];
+  if (!list) return;
+  const query = hallQuery.trim().toLowerCase();
+  const matches = (exam) => !query ||
+    [exam.title, exam.edition, exam.description, ...exam.topics.map(t => t.name)]
+      .join(' ').toLowerCase().includes(query);
 
-    let statusHtml = '';
-    if (current) {
-      const answered = Object.keys(current.answers || {}).length;
-      statusHtml += `
-        <button class="btn-primary hall-btn" onclick="resumeExam('${exam.id}')">
-          <span>Resume Examination (${answered}/${total} answered)</span><span>→</span>
-        </button>
-        <button class="hall-ghost" onclick="abandonAttempt('${exam.id}')">Discard this attempt</button>`;
-    } else {
-      statusHtml += `
-        <button class="btn-primary hall-btn" onclick="openExamSetup('${exam.id}')">
-          <span>${last ? 'Begin Another Attempt' : 'Begin Examination'}</span><span>→</span>
-        </button>`;
-    }
+  const groups = GRADE_GROUPS
+    .filter(g => hallFilter === 'all' || hallFilter === g.grade)
+    .map(g => ({ ...g, exams: window.EXAMS.filter(e => examGrade(e) === g.grade && matches(e)) }))
+    .filter(g => g.exams.length > 0);
 
-    if (history.length > 0) {
-      const best = history.reduce((b, e) => (e.results.score > b.results.score ? e : b), history[0]);
-      statusHtml += `
-        <div class="hall-history">
-          <div class="hall-history-title">Register of Past Attempts (${history.length})</div>
-          <div class="hall-history-row">
-            <span class="hall-hr-label">Best score</span>
-            <span class="hall-hr-val">${best.results.score}/${maxMarks} · ${best.results.percentage}%</span>
-            <button class="hall-link" onclick="viewAttempt('${exam.id}', '${best.ts}')">View result →</button>
-          </div>
-          ${history.slice(0, 3).map(h => `
-            <div class="hall-history-row">
-              <span class="hall-hr-label">${new Date(h.ts).toLocaleDateString()} ${new Date(h.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-              <span class="hall-hr-val">${h.results.score}/${maxMarks} · ${h.results.percentage}%</span>
-              <button class="hall-link" onclick="viewAttempt('${exam.id}', '${h.ts}')">View result →</button>
-            </div>`).join('')}
-        </div>`;
-    }
-
-    return `
-      <div class="hall-card">
-        <div class="hall-card-head">
-          <div class="hall-card-title">${exam.title}</div>
-          <div class="hall-card-edition">${exam.edition}</div>
-        </div>
-        <div class="hall-meta">
-          <span>${total} Questions</span><span class="sep">·</span>
-          <span>${Math.floor(exam.duration / 3600)}h ${(exam.duration % 3600) / 60 ? ((exam.duration % 3600) / 60) + 'm' : ''}</span><span class="sep">·</span>
-          <span>+${exam.scoring.correct} / −${Math.abs(exam.scoring.incorrect)}</span><span class="sep">·</span>
-          <span>Max ${maxMarks}</span>
-        </div>
-        <div class="hall-desc">${exam.description}</div>
-        <div class="hall-topics">${exam.topics.map(t => `<span class="hall-topic">${t.name} — ${t.questions.length}</span>`).join('')}</div>
-        <div class="hall-actions">${statusHtml}</div>
+  if (groups.length === 0) {
+    list.innerHTML = `
+      <div class="hall-empty">
+        No paper in the register matches “${escapeHTML(hallQuery.trim())}”.
+        <button class="hall-link" onclick="clearHallSearch()">Clear the search</button>
       </div>`;
-  }).join('');
+    return;
+  }
+
+  list.innerHTML = groups.map(g => `
+    <section class="hall-group" data-grade="${g.grade}">
+      <div class="hall-group-head">
+        <span class="hall-group-title">${g.label}</span>
+        <span class="hall-group-sub">${g.sub} · ${g.exams.length} paper${g.exams.length === 1 ? '' : 's'}</span>
+      </div>
+      ${g.exams.map(renderHallCard).join('')}
+    </section>`).join('');
+}
+
+function clearHallSearch() {
+  const input = $('#hallSearch');
+  if (input) { input.value = ''; input.focus(); }
+  setHallQuery('');
+}
+
+function renderHallCard(exam) {
+  const total = examTotals(exam);
+  const mcq = examMcqTotal(exam);
+  const written = total - mcq;
+  const maxMarks = mcq * exam.scoring.correct;
+  const current = store.loadCurrent(exam.id);
+  const history = store.loadHistory(exam.id);
+  const last = history[0];
+  const pct = (h) => parseFloat(h.results.percentage) || 0;
+  const best = history.length ? history.reduce((b, e) => (pct(e) > pct(b) ? e : b), history[0]) : null;
+
+  let badges = '';
+  if (current) badges += `<span class="hall-badge hall-badge--progress">In progress</span>`;
+  if (best) badges += `<span class="hall-badge hall-badge--best">Best ${best.results.percentage}%</span>`;
+
+  let statusHtml = '';
+  if (current) {
+    const pool = buildPool(exam, current.selectedTopics || [], current.subset);
+    const done = pool.filter(q => isWrittenQ(q)
+      ? ((current.written || {})[q.globalIndex] || '').trim().length > 0
+      : (current.answers || {})[q.globalIndex] !== undefined).length;
+    statusHtml += `
+      <button class="btn-primary hall-btn" onclick="resumeExam('${exam.id}')">
+        <span>Resume ${current.mode === 'practice' ? 'Practice' : 'Examination'} (${done}/${pool.length} answered)</span><span>→</span>
+      </button>
+      <button class="hall-ghost" onclick="abandonAttempt('${exam.id}')">Discard this attempt</button>`;
+  } else {
+    statusHtml += `
+      <button class="btn-primary hall-btn" onclick="openExamSetup('${exam.id}')">
+        <span>${last ? 'Begin Another Attempt' : 'Begin Examination'}</span><span>→</span>
+      </button>`;
+  }
+
+  if (history.length > 0) {
+    const when = (h) => `${new Date(h.ts).toLocaleDateString()} ${new Date(h.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    const scope = (h) => h.subset ? ' · mistakes' : (h.selectedTopics || []).length ? ' · part' : '';
+    statusHtml += `
+      <div class="hall-history">
+        <div class="hall-history-title">Register of Past Attempts (${history.length})</div>
+        <div class="hall-history-row">
+          <span class="hall-hr-label">Best score</span>
+          <span class="hall-hr-val">${best.results.score}/${attemptMax(exam, best.results)} · ${best.results.percentage}%</span>
+          <button class="hall-link" onclick="viewAttempt('${exam.id}', '${best.ts}')">View result →</button>
+        </div>
+        ${history.slice(0, 3).map(h => `
+          <div class="hall-history-row">
+            <span class="hall-hr-label">${when(h)}</span>
+            <span class="hall-hr-val">${h.results.score}/${attemptMax(exam, h.results)} · ${h.results.percentage}%${h.mode === 'practice' ? ' · practice' : ''}${scope(h)}</span>
+            <button class="hall-link" onclick="viewAttempt('${exam.id}', '${h.ts}')">View result →</button>
+          </div>`).join('')}
+      </div>`;
+  }
+
+  return `
+    <article class="hall-card${current ? ' hall-card--active' : ''}" data-exam="${exam.id}" data-grade="${examGrade(exam)}">
+      <div class="hall-card-kicker">
+        <span class="grade-badge">Class ${examGrade(exam)}</span>
+        ${exam.date ? `<span class="hall-card-date">${exam.date}</span>` : ''}
+        ${badges}
+      </div>
+      <div class="hall-card-title">${exam.title}</div>
+      <div class="hall-card-edition">${exam.edition}</div>
+      <div class="hall-meta">
+        <span>${total} Questions${written ? ` (${mcq} objective + ${written} written)` : ''}</span><span class="sep">·</span>
+        <span>${formatDuration(exam.duration)}</span><span class="sep">·</span>
+        <span>+${exam.scoring.correct} / −${Math.abs(exam.scoring.incorrect)}</span><span class="sep">·</span>
+        <span>Max ${maxMarks}</span>
+      </div>
+      <div class="hall-desc">${exam.description}</div>
+      <details class="hall-subjects">
+        <summary>${exam.topics.length} subject${exam.topics.length === 1 ? '' : 's'} in this paper</summary>
+        <div class="hall-topics">${exam.topics.map(t => `<span class="hall-topic">${t.name} — ${t.questions.length}</span>`).join('')}</div>
+      </details>
+      <div class="hall-actions">${statusHtml}</div>
+    </article>`;
 }
 
 /* ==============================
@@ -247,11 +397,13 @@ function openExamSetup(examId) {
   State.exam = exam;
   State.mode = 'exam';
   State.selectedTopics = [];
+  State.subset = null;
 
   const app = $('#app');
   app.innerHTML = `
     <div class="landing">
       <div class="landing-header">
+        <div class="landing-kicker">Class ${examGrade(exam)} · ${exam.edition}</div>
         <div class="landing-title">${exam.title}</div>
         <div class="landing-subtitle">${exam.description}</div>
         <div class="landing-meta">
@@ -278,8 +430,15 @@ function openExamSetup(examId) {
       </div>
 
       <div class="topic-section">
-        <span class="topic-label">— Choose Your Subjects —</span>
+        <div class="topic-head">
+          <span class="topic-label">— Choose Your Subjects —</span>
+          <span class="topic-tools">
+            <button type="button" class="topic-tool" onclick="selectAllTopics(true)">Select all</button>
+            <button type="button" class="topic-tool" onclick="selectAllTopics(false)">Clear</button>
+          </span>
+        </div>
         <div class="topic-grid" id="topicOptions"></div>
+        <div class="topic-summary" id="topicSummary" aria-live="polite"></div>
       </div>
 
       <button class="btn-primary" onclick="startTest()">
@@ -290,6 +449,7 @@ function openExamSetup(examId) {
     </div>`;
 
   renderTopicOptions();
+  updateTopicSummary();
 }
 
 function renderTopicOptions() {
@@ -308,29 +468,52 @@ function renderTopicOptions() {
 function selectMode(mode) {
   State.mode = mode;
   $$('.mode-card').forEach(c => c.classList.toggle('selected', c.dataset.mode === mode));
+  updateTopicSummary();
+}
+
+function syncTopicRows() {
+  $$('#topicOptions .topic-row').forEach(label => {
+    const on = State.selectedTopics.includes(label.dataset.topic);
+    label.classList.toggle('selected', on);
+    label.setAttribute('aria-checked', String(on));
+    label.querySelector('input').checked = on;
+  });
+  updateTopicSummary();
 }
 
 function toggleTopic(key, event) {
   event.preventDefault();
-  const label = event.currentTarget;
-  const checkbox = label.querySelector('input');
   if (State.selectedTopics.includes(key)) {
     State.selectedTopics = State.selectedTopics.filter(k => k !== key);
-    checkbox.checked = false;
-    label.classList.remove('selected');
-    label.setAttribute('aria-checked', 'false');
   } else {
     State.selectedTopics.push(key);
-    checkbox.checked = true;
-    label.classList.add('selected');
-    label.setAttribute('aria-checked', 'true');
   }
+  syncTopicRows();
+}
+
+function selectAllTopics(on) {
+  if (!State.exam) return;
+  State.selectedTopics = on ? State.exam.topics.map(t => t.key) : [];
+  syncTopicRows();
+}
+
+function updateTopicSummary() {
+  const el = $('#topicSummary');
+  if (!el || !State.exam) return;
+  const topics = State.exam.topics;
+  const chosen = topics.filter(t => State.selectedTopics.includes(t.key));
+  const pool = chosen.length ? chosen : topics;
+  const count = pool.reduce((n, t) => n + t.questions.length, 0);
+  const timing = State.mode === 'exam' ? `${formatTime(State.exam.duration)} on the clock` : 'untimed practice';
+  el.innerHTML = chosen.length === 0 || chosen.length === topics.length
+    ? `<b>Full paper</b> — all ${topics.length} subjects · ${count} questions · ${timing}. Tick subjects to sit only part of it.`
+    : `<b>${chosen.length} of ${topics.length} subjects</b> · ${count} questions · ${timing}.`;
 }
 
 /* ==============================
    START TEST
    ============================== */
-function buildPool(exam, selectedTopics) {
+function buildPool(exam, selectedTopics, subset) {
   let pool = [];
   questionCounter = 0;
   const addTopic = (topic) => {
@@ -344,12 +527,13 @@ function buildPool(exam, selectedTopics) {
   } else {
     exam.topics.filter(t => selectedTopics.includes(t.key)).forEach(addTopic);
   }
+  if (Array.isArray(subset)) pool = pool.filter(q => subset.includes(q.globalIndex));
   return pool;
 }
 
 function startTest() {
   if (!State.exam) return;
-  const pool = buildPool(State.exam, State.selectedTopics);
+  const pool = buildPool(State.exam, State.selectedTopics, State.subset);
   if (pool.length === 0) { alert('No questions selected.'); return; }
 
   State.questions = pool;
@@ -377,8 +561,10 @@ function resumeExam(examId) {
   State.exam = exam;
   State.mode = saved.mode;
   State.selectedTopics = saved.selectedTopics || [];
-  State.questions = buildPool(exam, State.selectedTopics);
-  State.currentIndex = saved.currentIndex || 0;
+  State.subset = Array.isArray(saved.subset) ? saved.subset : null;
+  State.questions = buildPool(exam, State.selectedTopics, State.subset);
+  if (State.questions.length === 0) { store.clearCurrent(examId); renderExamHall(); return; }
+  State.currentIndex = Math.min(saved.currentIndex || 0, State.questions.length - 1);
   State.answers = saved.answers || {};
   State.written = saved.written || {};
   State.marked = new Set(saved.marked || []);
@@ -446,6 +632,7 @@ function persistCurrent() {
     examId: State.exam.id,
     mode: State.mode,
     selectedTopics: State.selectedTopics,
+    subset: State.subset,
     startedAt: State.startedAt,
     savedAt: State.savedAt,
     answers: State.answers,
@@ -491,13 +678,21 @@ async function renderMermaidBlocks(container) {
 /* ==============================
    RENDER EXAM
    ============================== */
+let paletteFilter = 'all';
+
 function renderExam() {
   const app = $('#app');
+  paletteFilter = 'all';
+  const isExam = State.mode === 'exam';
   app.innerHTML = `
     <header class="exam-header">
       <div class="exam-brand">The Candidate Gazette</div>
-      <span class="mode-tag ${State.mode}">${State.mode === 'exam' ? '§ Examination' : '✎ Practice'}</span>
-      ${State.mode === 'exam' ? `<div class="timer-box" id="timer">${formatTime(State.timeLeft)}</div>` : ''}
+      <div class="exam-paper-name">${State.exam.title}${State.subset ? ' · Mistakes' : ''}</div>
+      <span class="mode-tag ${State.mode}">${isExam ? '§ Examination' : '✎ Practice'}</span>
+      ${isExam ? `<div class="timer-box" id="timer" role="timer" aria-label="Time remaining">${formatTime(State.timeLeft)}</div>` : ''}
+      <div class="exam-progress" role="progressbar" aria-label="Questions answered" aria-valuemin="0" aria-valuemax="${State.questions.length}">
+        <div class="exam-progress-fill" id="progressFill"></div>
+      </div>
     </header>
 
     <div class="exam-main">
@@ -517,16 +712,21 @@ function renderExam() {
         <div class="palette-legend">
           <div class="leg-item"><span class="leg-dot" style="background:var(--ink-black)"></span>Current</div>
           <div class="leg-item"><span class="leg-dot" style="background:#4a7c3f"></span>Answered</div>
-          <div class="leg-item"><span class="leg-dot" style="background:var(--brass)"></span>Marked</div>
+          <div class="leg-item"><span class="leg-dot leg-dot--marked"></span>Marked</div>
           <div class="leg-item"><span class="leg-dot" style="background:var(--paper-dark)"></span>Pending</div>
         </div>
+        <div class="palette-filters" role="group" aria-label="Show questions">
+          <button class="pf-btn active" data-pf="all" onclick="setPaletteFilter('all')">All</button>
+          <button class="pf-btn" data-pf="pending" onclick="setPaletteFilter('pending')">Unanswered</button>
+          <button class="pf-btn" data-pf="marked" onclick="setPaletteFilter('marked')">Marked</button>
+        </div>
         <div class="palette-grid" id="paletteGrid"></div>
-        <button class="btn-submit" onclick="confirmSubmit()">Conclude Examination</button>
+        <button class="btn-submit" onclick="confirmSubmit()">Conclude ${isExam ? 'Examination' : 'Practice'}</button>
+        <div class="key-hint">Keys: <kbd>A</kbd>–<kbd>D</kbd> or <kbd>1</kbd>–<kbd>4</kbd> answer · <kbd>←</kbd> <kbd>→</kbd> move · <kbd>M</kbd> mark</div>
       </aside>
     </div>`;
 
   renderQuestion();
-  renderPalette();
 }
 
 /* ==============================
@@ -557,7 +757,7 @@ function renderQuestion() {
       </div>`;
   }
 
-  if (q.type === 'written') {
+  if (isWrittenQ(q)) {
     const val = State.written[q.globalIndex] || '';
     html += `
       <div class="written-block">
@@ -570,7 +770,7 @@ function renderQuestion() {
         <div class="written-count" id="writtenCount">${val.trim().length} characters written</div>
       </div>`;
   } else {
-    html += `<div class="options">`;
+    html += `<div class="options" role="radiogroup" aria-label="Answer options">`;
 
     q.options.forEach((opt, i) => {
       let cls = 'opt';
@@ -583,18 +783,25 @@ function renderQuestion() {
       }
 
       html += `
-        <div class="${cls}" onclick="selectOption(${i})">
+        <div class="${cls}" role="radio" aria-checked="${userAnswer === i}" tabindex="${showFeedback ? -1 : 0}"
+             onclick="selectOption(${i})" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();selectOption(${i})}">
           <div class="opt-letter">${String.fromCharCode(65 + i)}</div>
           <div class="opt-text">${opt}</div>
         </div>`;
     });
 
     html += `</div>`;
+
+    if (!isPractice && userAnswer !== undefined) {
+      html += `
+        <div class="opt-tools">
+          <button class="btn-clear" onclick="clearResponse()" title="Remove your answer — unanswered questions carry no negative mark">✕ Clear response</button>
+        </div>`;
+    }
   }
 
-  if (showFeedback && q.type !== 'written') {
+  if (showFeedback && !isWrittenQ(q)) {
     const correctLetter = String.fromCharCode(65 + q.answer);
-    const userLetter = userAnswer !== undefined ? String.fromCharCode(65 + userAnswer) : '—';
     const isCorrect = userAnswer === q.answer;
     html += `
       <div class="explain-box ${isCorrect ? 'correct-verdict' : 'incorrect-verdict'}">
@@ -617,35 +824,77 @@ function renderQuestion() {
   renderMermaidBlocks(panel);
 }
 
+// After moving to another question, bring its top into view if it scrolled off (mostly on phones).
+function revealQuestion() {
+  const panel = $('#qPanel');
+  if (!panel) return;
+  const header = $('.exam-header');
+  const offset = header ? header.getBoundingClientRect().height : 0;
+  const top = panel.getBoundingClientRect().top;
+  if (top < offset || top > window.innerHeight * 0.6) {
+    window.scrollTo({ top: Math.max(0, window.scrollY + top - offset - 12), behavior: 'auto' });
+  }
+}
+
 /* ==============================
    PALETTE
    ============================== */
+function isAnsweredQ(q) {
+  return isWrittenQ(q)
+    ? (State.written[q.globalIndex] || '').trim().length > 0
+    : State.answers[q.globalIndex] !== undefined;
+}
+
+function setPaletteFilter(f) {
+  paletteFilter = f;
+  $$('.pf-btn').forEach(b => b.classList.toggle('active', b.dataset.pf === f));
+  renderPalette();
+}
+
 function renderPalette() {
   const grid = $('#paletteGrid');
   if (!grid) return;
 
-  const isAnswered = (q) => q.type === 'written'
-    ? (State.written[q.globalIndex] || '').trim().length > 0
-    : State.answers[q.globalIndex] !== undefined;
+  const multiTopic = new Set(State.questions.map(q => q.topicKey)).size > 1;
+  let lastTopic = null;
+  let html = '';
+  let shown = 0;
 
-  grid.innerHTML = State.questions.map((q, i) => {
-    const answered = isAnswered(q);
+  State.questions.forEach((q, i) => {
+    const answered = isAnsweredQ(q);
     const marked = State.marked.has(q.globalIndex);
     const current = i === State.currentIndex;
+    if (paletteFilter === 'pending' && answered && !current) return;
+    if (paletteFilter === 'marked' && !marked && !current) return;
+
+    if (multiTopic && q.topicKey !== lastTopic) {
+      html += `<div class="palette-group">${q.topicName}</div>`;
+      lastTopic = q.topicKey;
+    }
     let cls = 'p-btn';
-    if (q.type === 'written') cls += ' written-q';
+    if (isWrittenQ(q)) cls += ' written-q';
     if (current) cls += ' current';
     else if (answered && marked) cls += ' answered-marked';
     else if (answered) cls += ' answered';
     else if (marked) cls += ' marked';
-    return `<button class="${cls}" onclick="jumpTo(${i})" title="${q.type === 'written' ? 'Written answer' : 'Objective'}">${i + 1}</button>`;
-  }).join('');
+    if (marked && current) cls += ' current-marked';
+    const label = `Question ${i + 1}${answered ? ', answered' : ''}${marked ? ', marked for review' : ''}`;
+    html += `<button class="${cls}" onclick="jumpTo(${i})" title="${isWrittenQ(q) ? 'Written answer' : 'Objective'}" aria-label="${label}"${current ? ' aria-current="true"' : ''}>${i + 1}</button>`;
+    shown++;
+  });
 
-  const answeredCount = State.questions.filter(isAnswered).length;
+  grid.innerHTML = shown ? html : `<div class="palette-empty">Nothing here.</div>`;
+
+  const answeredCount = State.questions.filter(isAnsweredQ).length;
   const ansEl = $('#statAns');
   const remEl = $('#statRem');
   if (ansEl) ansEl.textContent = answeredCount;
   if (remEl) remEl.textContent = State.questions.length - answeredCount;
+  const fill = $('#progressFill');
+  if (fill) {
+    fill.style.width = `${(answeredCount / State.questions.length) * 100}%`;
+    fill.parentElement.setAttribute('aria-valuenow', String(answeredCount));
+  }
 }
 
 /* ==============================
@@ -653,7 +902,7 @@ function renderPalette() {
    ============================== */
 function selectOption(idx) {
   const q = State.questions[State.currentIndex];
-  if (q.type === 'written') return;
+  if (isWrittenQ(q)) return;
   if (State.mode === 'practice' && State.answers[q.globalIndex] !== undefined) return;
   State.answers[q.globalIndex] = idx;
   if (State.mode === 'practice') {
@@ -664,13 +913,22 @@ function selectOption(idx) {
   renderQuestion();
 }
 
+function clearResponse() {
+  const q = State.questions[State.currentIndex];
+  if (State.mode !== 'exam' || isWrittenQ(q)) return;
+  delete State.answers[q.globalIndex];
+  persistCurrent();
+  renderQuestion();
+}
+
 function saveWritten(value) {
   const q = State.questions[State.currentIndex];
-  if (q.type !== 'written') return;
+  if (!isWrittenQ(q)) return;
   State.written[q.globalIndex] = value;
   const counter = $('#writtenCount');
   if (counter) counter.textContent = `${value.trim().length} characters written`;
   persistCurrent();
+  renderPalette();
 }
 
 function nextQuestion() {
@@ -678,6 +936,7 @@ function nextQuestion() {
     State.currentIndex++;
     persistCurrent();
     renderQuestion();
+    revealQuestion();
   }
 }
 
@@ -686,6 +945,7 @@ function prevQuestion() {
     State.currentIndex--;
     persistCurrent();
     renderQuestion();
+    revealQuestion();
   }
 }
 
@@ -693,6 +953,7 @@ function jumpTo(idx) {
   State.currentIndex = idx;
   persistCurrent();
   renderQuestion();
+  revealQuestion();
 }
 
 function toggleMark() {
@@ -704,28 +965,34 @@ function toggleMark() {
 
 document.addEventListener('keydown', (e) => {
   if (!State.started || State.submitted) return;
+  if (!$('#qPanel') || document.querySelector('.confirm-overlay')) return;
+  // Typing in a written answer (or any form field) must never trigger shortcuts.
+  const t = e.target;
+  if (t && (t.tagName === 'TEXTAREA' || t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+  const q = State.questions[State.currentIndex];
+  const key = e.key.toLowerCase();
   if (e.key === 'ArrowRight') nextQuestion();
   else if (e.key === 'ArrowLeft') prevQuestion();
-  else if (/^[1-4]$/.test(e.key)) {
-    const idx = parseInt(e.key) - 1;
-    if (idx < State.questions[State.currentIndex].options.length) selectOption(idx);
-  } else if (e.key.toLowerCase() === 'm') toggleMark();
+  else if (/^[1-4]$/.test(key) || /^[a-d]$/.test(key)) {
+    if (isWrittenQ(q)) return;
+    const idx = /^[1-4]$/.test(key) ? parseInt(key, 10) - 1 : key.charCodeAt(0) - 97;
+    if (idx < q.options.length) selectOption(idx);
+  } else if (key === 'm') toggleMark();
 });
 
 /* ==============================
    SUBMISSION
    ============================== */
 function confirmSubmit() {
-  const isAnswered = (q) => q.type === 'written'
-    ? (State.written[q.globalIndex] || '').trim().length > 0
-    : State.answers[q.globalIndex] !== undefined;
-  const answered = State.questions.filter(isAnswered).length;
+  const answered = State.questions.filter(isAnsweredQ).length;
   const total = State.questions.length;
   const unanswered = total - answered;
   let msg = `You have answered ${answered} of ${total} questions.`;
   if (unanswered > 0) msg += `\n\n${unanswered} question(s) remain unanswered.`;
   if (State.marked.size > 0) msg += `\n\n${State.marked.size} question(s) marked for review.`;
-  msg += '\n\nConclude the examination now?';
+  msg += `\n\nConclude the ${State.mode === 'exam' ? 'examination' : 'practice session'} now?`;
 
   showConfirm(msg, submit);
 }
@@ -741,7 +1008,7 @@ function submit() {
   const topicStats = {};
 
   State.questions.forEach(q => {
-    const isWritten = q.type === 'written';
+    const isWritten = isWrittenQ(q);
     if (!topicStats[q.topicName]) {
       topicStats[q.topicName] = { total: 0, correct: 0, incorrect: 0, unanswered: 0, written: 0 };
     }
@@ -761,6 +1028,8 @@ function submit() {
     else { incorrect++; topicStats[q.topicName].incorrect++; }
   });
 
+  const elapsed = State.mode === 'exam' ? State.totalTime - State.timeLeft : null;
+
   State.results = {
     correct, incorrect, unanswered,
     total: State.questions.length,
@@ -768,6 +1037,7 @@ function submit() {
     topicStats,
     score: correct * scoring.correct + incorrect * scoring.incorrect,
     percentage: mcqTotal ? ((correct / mcqTotal) * 100).toFixed(1) : '0.0',
+    durationUsed: elapsed,
   };
 
   store.addHistory({
@@ -775,15 +1045,18 @@ function submit() {
     ts: Date.now(),
     mode: State.mode,
     selectedTopics: State.selectedTopics,
+    subset: State.subset,
     answers: State.answers,
     written: State.written,
-    durationUsed: State.totalTime - State.timeLeft,
+    durationUsed: elapsed,
     results: State.results,
   });
   store.clearCurrent(State.exam.id);
 
+  reviewFilter = 'all';
   if (mcqTotal > 0 && parseFloat(State.results.percentage) >= 70) confetti();
   renderResults();
+  window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 /* ==============================
@@ -792,24 +1065,47 @@ function submit() {
 let reviewFilter = 'all';
 let reviewSource = 'live';
 
+function missedQuestions() {
+  return State.questions.filter(q => !isWrittenQ(q) && State.answers[q.globalIndex] !== q.answer);
+}
+
 function renderResults() {
   const r = State.results;
   const app = $('#app');
-  const scoring = State.exam.scoring;
-  const maxMarks = (r.mcqTotal || r.total) * scoring.correct;
+  const maxMarks = attemptMax(State.exam, r);
   const hasWritten = (r.writtenTotal || 0) > 0;
   const evalEmail = State.exam.writtenSubmissionEmail || '';
+  const attempted = r.correct + r.incorrect;
+  const accuracy = attempted ? ((r.correct / attempted) * 100).toFixed(1) : '0.0';
+  const ringPct = maxMarks > 0 ? Math.max(0, Math.min(100, (r.score / maxMarks) * 100)) : 0;
+  const missed = missedQuestions().length;
+  const used = typeof r.durationUsed === 'number' ? formatTime(r.durationUsed) : null;
+  const scope = State.subset ? 'Mistakes practice'
+    : State.selectedTopics.length ? `${Object.keys(r.topicStats).length} of ${State.exam.topics.length} subjects`
+    : 'Full paper';
+
+  const weak = Object.entries(r.topicStats)
+    .map(([name, st]) => ({ name, mcq: st.total - (st.written || 0), pct: st.total - (st.written || 0) ? st.correct / (st.total - (st.written || 0)) : 1 }))
+    .filter(t => t.mcq > 0 && t.pct < 0.6)
+    .sort((a, b) => a.pct - b.pct)
+    .slice(0, 3);
 
   app.innerHTML = `
     <div class="results-wrap">
-      <div class="paper" style="margin-bottom:1.5rem;">
+      <div class="paper scorecard" style="margin-bottom:1.5rem;">
         <div class="crease"></div>
         <div class="coffee-stain coffee-stain--br"></div>
 
         <div class="scorecard-header">
           <div class="masthead-rule"></div>
-          <div class="score-main">${r.score}</div>
-          <div class="score-label">${State.exam.title} · objective out of ${maxMarks} · ${r.percentage}% accuracy</div>
+          <div class="score-kicker">${State.exam.title} · ${State.mode === 'exam' ? 'Examination' : 'Practice'} · ${scope}</div>
+          <div class="score-ring" style="--pct:${ringPct.toFixed(1)}" aria-hidden="true">
+            <div class="score-ring-inner">
+              <div class="score-main">${r.score}</div>
+              <div class="score-of">of ${maxMarks}</div>
+            </div>
+          </div>
+          <div class="score-label">Objective score out of ${maxMarks} · ${r.percentage}% of questions correct</div>
           <div class="masthead-rule"></div>
         </div>
 
@@ -832,11 +1128,23 @@ function renderResults() {
           </div>
         </div>
 
+        <div class="score-facts">
+          <span><b>${attempted}</b> of ${r.mcqTotal} attempted</span>
+          <span><b>${accuracy}%</b> right when attempted</span>
+          ${used ? `<span><b>${used}</b> time used</span>` : ''}
+          <span><b>${r.incorrect * Math.abs(State.exam.scoring.incorrect)}</b> mark${r.incorrect * Math.abs(State.exam.scoring.incorrect) === 1 ? '' : 's'} lost to negative marking</span>
+        </div>
+
         ${hasWritten ? `
         <div class="written-note">
           ✍ ${r.writtenAnswered} of ${r.writtenTotal} written answers composed. Written answers are <b>not auto-scored</b> — send them to
           <b>${evalEmail}</b> for evaluation using the answer sheet below.
         </div>` : ''}
+
+        <div class="result-actions">
+          ${missed > 0 ? `<button class="btn-primary result-practise" onclick="practiseMistakes()"><span>✎ Practise the ${missed} question${missed === 1 ? '' : 's'} you missed</span><span>→</span></button>` : ''}
+          <button class="btn-ghost" onclick="openExamSetup('${State.exam.id}')">↻ Sit this paper again</button>
+        </div>
       </div>
 
       ${hasWritten ? renderWrittenSheet() : ''}
@@ -844,6 +1152,10 @@ function renderResults() {
       <hr class="section-divider" />
 
       <div class="section-heading">Subject-wise Analysis</div>
+      ${weak.length ? `
+        <div class="revise-note">
+          <b>Revise first:</b> ${weak.map(w => `${w.name} (${Math.round(w.pct * 100)}%)`).join(' · ')}
+        </div>` : ''}
       ${Object.entries(r.topicStats).map(([name, stat]) => {
         const answeredMcq = stat.total - (stat.written || 0);
         if (answeredMcq === 0) {
@@ -888,6 +1200,18 @@ function renderResults() {
     </div>`;
 
   renderReviewList();
+}
+
+// Start an untimed practice round with only the objective questions answered wrongly or skipped.
+function practiseMistakes() {
+  const missed = missedQuestions().map(q => q.globalIndex);
+  if (missed.length === 0 || !State.exam) return;
+  if (State.timerInterval) clearInterval(State.timerInterval);
+  State.mode = 'practice';
+  State.subset = missed;
+  State.submitted = false;
+  startTest();
+  window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 /* ==============================
@@ -1126,6 +1450,7 @@ function renderReviewList() {
           <span class="rv-tag correct-ans">Ans: ${correctLetter}</span>
           <span class="rv-tag topic-tag">${q.topicName}</span>
         </div>
+        ${q.explain ? `<div class="review-explain"><span class="review-explain-lbl">Why ${correctLetter}?</span> ${q.explain}</div>` : ''}
       </div>`;
   }).join('');
 
@@ -1149,7 +1474,8 @@ function viewAttempt(examId, ts) {
   State.exam = exam;
   State.mode = entry.mode;
   State.selectedTopics = entry.selectedTopics || [];
-  State.questions = buildPool(exam, State.selectedTopics);
+  State.subset = Array.isArray(entry.subset) ? entry.subset : null;
+  State.questions = buildPool(exam, State.selectedTopics, State.subset);
   State.answers = entry.answers || {};
   State.written = entry.written || {};
   State.marked = new Set();
@@ -1158,6 +1484,7 @@ function viewAttempt(examId, ts) {
   reviewSource = 'history';
   reviewFilter = 'all';
   renderResults();
+  window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 /* ==============================

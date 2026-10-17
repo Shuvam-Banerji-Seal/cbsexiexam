@@ -55,7 +55,7 @@ async function startAugust() {
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await page.waitForSelector('.hall-card');
-  await page.click('.hall-card:nth-of-type(2) .btn-primary');
+  await page.click('.hall-card[data-exam="august-01"] .btn-primary');
   await page.waitForSelector('.mode-card');
   await page.click('.btn-primary');
   await page.waitForSelector('.q-panel');
@@ -66,13 +66,19 @@ test('mobile: exam hall has no horizontal overflow', async () => {
   await page.waitForSelector('.hall-card');
   await assertNoHorizontalOverflow('exam hall');
   const cards = await page.$$eval('.hall-card', els => els.length);
-  assert.equal(cards, 8);
+  assert.equal(cards, 12);
+  // class tabs span the width in one row and the search box sits below them
+  const tabs = await page.$$eval('.hall-tab', els => els.map(e => Math.round(e.getBoundingClientRect().top)));
+  assert.equal(new Set(tabs).size, 1, 'class tabs stay on one row');
+  await page.click('.hall-tab[data-filter="IX"]');
+  await assertNoHorizontalOverflow('exam hall (Class IX tab)');
+  await page.click('.hall-tab[data-filter="all"]');
 });
 
 test('mobile: august setup screen has no horizontal overflow', async () => {
   await page.goto(BASE + '/');
   await page.waitForSelector('.hall-card');
-  await page.click('.hall-card:nth-of-type(2) .btn-primary');
+  await page.click('.hall-card[data-exam="august-01"] .btn-primary');
   await page.waitForSelector('.mode-card');
   await assertNoHorizontalOverflow('exam setup');
   const gridCols = await page.$eval('.topic-grid', el => getComputedStyle(el).gridTemplateColumns.split(' ').length);
@@ -108,7 +114,7 @@ test('mobile touch: topic row selection is consistent everywhere (label, checkbo
   touchPage = await browser.newPage({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
   await touchPage.goto(BASE + '/');
   await touchPage.waitForSelector('.hall-card');
-  await touchPage.tap('.hall-card:nth-of-type(2) .btn-primary');
+  await touchPage.tap('.hall-card[data-exam="august-01"] .btn-primary');
   await touchPage.waitForSelector('.mode-card');
 
   const rowState = (n) => touchPage.evaluate(i => {
@@ -177,7 +183,7 @@ test('mobile: Class IX (October 13) setup, diagram questions and results fit', a
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await page.waitForSelector('.hall-card');
-  await page.click('.hall-card:nth-of-type(8) .btn-primary');
+  await page.click('.hall-card[data-exam="october-13"] .btn-primary');
   await page.waitForSelector('.mode-card');
   assert.equal(await page.$$eval('.topic-row', els => els.length), 13);
   await assertNoHorizontalOverflow('Class IX setup (13 subjects)');
@@ -200,4 +206,36 @@ test('mobile: Class IX (October 13) setup, diagram questions and results fit', a
   await page.evaluate(() => submit());
   await page.waitForSelector('.score-main');
   await assertNoHorizontalOverflow('Class IX results page');
+});
+
+test('mobile: the four new Class IX papers — spreadsheet tables, diagrams and results fit', async () => {
+  for (const id of ['october-20', 'october-24', 'october-28', 'october-31']) {
+    await page.goto(BASE + '/');
+    await page.waitForSelector('.hall-card');
+    await page.evaluate(() => localStorage.clear());
+    await page.reload();
+    await page.waitForSelector('.hall-card');
+    await page.click(`.hall-card[data-exam="${id}"] .btn-primary`);
+    await page.waitForSelector('.mode-card');
+    assert.equal(await page.$$eval('.topic-row', els => els.length), 8, `${id}: 8 subjects`);
+    await assertNoHorizontalOverflow(`${id} setup`);
+    await page.click('.btn-primary');
+    await page.waitForSelector('.q-panel');
+    await assertNoHorizontalOverflow(`${id} exam screen`);
+
+    const special = await page.evaluate(() =>
+      State.questions.map((q, i) => (q.diagram || q.q.includes('q-table') ? i : -1)).filter(i => i >= 0));
+    for (const i of special) {
+      await page.evaluate(idx => { State.currentIndex = idx; renderQuestion(); }, i);
+      if (await page.evaluate(idx => !!State.questions[idx].diagram, i)) {
+        await page.waitForSelector('#qPanel .mermaid-frame svg', { timeout: 8000 });
+      }
+      await assertNoHorizontalOverflow(`${id} Q${i + 1}`);
+    }
+
+    await page.evaluate(() => { State.questions.forEach(q => { State.answers[q.globalIndex] = q.answer; }); submit(); });
+    await page.waitForSelector('.score-main');
+    assert.equal(await page.textContent('.score-main'), '320', `${id}: full marks are 320`);
+    await assertNoHorizontalOverflow(`${id} results`);
+  }
 });

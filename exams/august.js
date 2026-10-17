@@ -6,6 +6,7 @@ window.EXAM_AUGUST = {
   title: 'August 01 Examination',
   edition: 'SQL, Databases & Relational Algebra',
   date: 'circa August 2026',
+  grade: 'XII',
   description: 'One hundred and fifty questions on database concepts, the three-schema architecture, ER diagrams, relational algebra, SQL commands, and Python-SQLite integration.',
   duration: 9000,
   scoring: { correct: 4, incorrect: -1 },

@@ -6,6 +6,14 @@ const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..');
 
+// Load the data scripts exactly as the browser does: every local <script src> in
+// index.html, in page order (app.js excluded). A package missing from index.html
+// therefore fails these tests too.
+const PAGE_SCRIPTS = [...fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8')
+  .matchAll(/<script src="([^"]+)"><\/script>/g)]
+  .map(m => m[1])
+  .filter(src => !/^https?:/.test(src) && src !== 'app.js');
+
 function loadExams() {
   const sandbox = { console };
   sandbox.window = sandbox;
@@ -14,55 +22,22 @@ function loadExams() {
   const run = (file, extra = '') =>
     vm.runInNewContext(fs.readFileSync(path.join(ROOT, file), 'utf8') + extra, sandbox, { filename: file });
 
-  run('questions.js', ';globalThis.QUESTION_BANK = QUESTION_BANK;');
-  fs.readdirSync(path.join(ROOT, 'exams/august/topics'))
-    .filter(f => f.endsWith('.js'))
-    .sort()
-    .forEach(f => run('exams/august/topics/' + f));
-  fs.readdirSync(path.join(ROOT, 'exams/august21/topics'))
-    .filter(f => f.endsWith('.js'))
-    .sort()
-    .forEach(f => run('exams/august21/topics/' + f));
-  fs.readdirSync(path.join(ROOT, 'exams/august30/topics'))
-    .filter(f => f.endsWith('.js'))
-    .sort()
-    .forEach(f => run('exams/august30/topics/' + f));
-  fs.readdirSync(path.join(ROOT, 'exams/september18/topics'))
-    .filter(f => f.endsWith('.js'))
-    .sort()
-    .forEach(f => run('exams/september18/topics/' + f));
-  fs.readdirSync(path.join(ROOT, 'exams/september22/topics'))
-    .filter(f => f.endsWith('.js'))
-    .sort()
-    .forEach(f => run('exams/september22/topics/' + f));
-  fs.readdirSync(path.join(ROOT, 'exams/september26/topics'))
-    .filter(f => f.endsWith('.js'))
-    .sort()
-    .forEach(f => run('exams/september26/topics/' + f));
-  fs.readdirSync(path.join(ROOT, 'exams/october13/topics'))
-    .filter(f => f.endsWith('.js'))
-    .sort()
-    .forEach(f => run('exams/october13/topics/' + f));
-  run('exams/july.js');
-  run('exams/august.js');
-  run('exams/august21.js');
-  run('exams/august30.js');
-  run('exams/september18.js');
-  run('exams/september22.js');
-  run('exams/september26.js');
-  run('exams/october13.js');
-  run('exams/index.js');
+  for (const src of PAGE_SCRIPTS) {
+    run(src, src === 'questions.js' ? ';globalThis.QUESTION_BANK = QUESTION_BANK;' : '');
+  }
   return sandbox.EXAMS;
 }
 
 const exams = loadExams();
 
-test('registry exposes all eight exam packages', () => {
+test('registry exposes all twelve exam packages', () => {
   assert.ok(Array.isArray(exams), 'EXAMS must be an array');
-  assert.equal(exams.length, 8);
+  assert.equal(exams.length, 12);
   const ids = exams.map(e => e.id);
-  ['july', 'august-01', 'august-21', 'august-30', 'september-18', 'september-22', 'september-26', 'october-13']
+  ['july', 'august-01', 'august-21', 'august-30', 'september-18', 'september-22', 'september-26',
+    'october-13', 'october-20', 'october-24', 'october-28', 'october-31']
     .forEach(id => assert.ok(ids.includes(id), `${id} package present`));
+  assert.equal(new Set(ids).size, ids.length, 'package ids are unique');
 });
 
 test('July package keeps its original 120 questions, 4 topics, 2h, +4/-1', () => {
@@ -410,3 +385,127 @@ test('every August ER diagram parses with the real mermaid parser', async () => 
   assert.ok(checked >= 12, `expected >= 12 erDiagram questions, found ${checked}`);
   assert.deepEqual(failures, [], 'erDiagram parse failures');
 });
+
+test('every topic file on disk is loaded by index.html, before its package file', () => {
+  const examsDir = path.join(ROOT, 'exams');
+  for (const dir of fs.readdirSync(examsDir)) {
+    const topicsDir = path.join(examsDir, dir, 'topics');
+    if (!fs.existsSync(topicsDir)) continue;
+    const pkgPos = PAGE_SCRIPTS.indexOf(`exams/${dir}.js`);
+    assert.ok(pkgPos >= 0, `exams/${dir}.js is not loaded by index.html`);
+    for (const f of fs.readdirSync(topicsDir).filter(f => f.endsWith('.js'))) {
+      const pos = PAGE_SCRIPTS.indexOf(`exams/${dir}/topics/${f}`);
+      assert.ok(pos >= 0, `exams/${dir}/topics/${f} is not loaded by index.html`);
+      assert.ok(pos < pkgPos, `exams/${dir}/topics/${f} must load before exams/${dir}.js`);
+    }
+  }
+});
+
+test('every package names its class so the hall can group it', () => {
+  for (const exam of exams) {
+    assert.ok(['IX', 'XII'].includes(exam.grade), `${exam.id}: grade must be 'IX' or 'XII' (got ${exam.grade})`);
+  }
+});
+
+// The four 80-question Class IX papers share one shape and one set of answer-key rules.
+const CLASS_IX_PAPERS = {
+  'october-20': {
+    edition: 'Cyber Safety',
+    nouns: ['https', 'padlock', 'cookie', 'privacy setting', 'digital footprint', 'public wi-fi', 'password',
+      'two-factor', 'otp', 'phishing', 'confidential', 'cyber stalking', 'cyberbullying', 'identity theft',
+      'cybercrime.gov.in', '1930', 'it act', 'virus', 'worm', 'trojan', 'adware', 'spyware', 'ransomware',
+      'antivirus', 'firewall', 'ites', 'bpo', 'bpm', 'banking', 'insurance', 'library', 'education',
+      'e-governance', 'home keys', 'guide key', 'numeric keypad', 'caps lock', 'num lock', 'ergonomic',
+      'drag', 'scroll', 'rapid typing tutor', 'touch typing', 'lesson editor', 'wpm', 'rhythm'],
+  },
+  'october-24': {
+    edition: 'Digital Documentation',
+    nouns: ['word processor', 'writer', '.odt', 'save as', 'title bar', 'status bar', 'ruler', 'undo', 'redo',
+      'paste', 'non-consecutive', 'block', 'find and replace', 'navigator', 'formatting marks', 'spelling',
+      'grammar', 'autocorrect', 'thesaurus', 'synonym', 'superscript', 'subscript', 'case', 'highlight',
+      'direct formatting', 'indent', 'hanging', 'line spacing', 'bulleted', 'numbered list', 'border',
+      'page style', 'margin', 'orientation', 'page break', 'header', 'footer', 'page number', 'columns', 'wrap',
+      'special character', 'shape', 'merge', 'split', 'table', 'print preview', 'mail merge', 'data source',
+      'main document', 'track changes', 'comment'],
+  },
+  'october-28': {
+    edition: 'Electronic Spreadsheet',
+    nouns: ['spreadsheet', 'workbook', 'worksheet', 'calc', '.ods', 'name box', 'input line', 'cell address',
+      'active cell', 'column range', 'row range', 'label', 'value', 'formula', 'operator', 'sum', 'average',
+      'max', 'min', 'count', '=if', 'fill handle', 'decimal', 'percent', 'currency', 'scientific', 'time',
+      'wrap', 'merge', '###', 'relative', 'absolute', 'mixed', '$', 'chart', 'pie', 'line', 'bar', 'column',
+      'area', 'scatter', 'legend', 'axis', 'print'],
+  },
+  'october-31': {
+    edition: 'Digital Presentation',
+    nouns: ['presentation', 'impress', '.odp', 'slide', 'template', 'layout', 'pdf', 'slide show', 'f5', 'help',
+      'duplicate slide', 'rename', 'normal', 'outline', 'notes', 'slide sorter', 'handout', 'zoom', 'bullet',
+      'background', 'watermark', 'footer', 'slide number', 'animation', 'entrance', 'emphasis', 'exit',
+      'motion path', 'transition', 'sound', 'rehearse timings', 'table', 'gallery', 'rotation', 'group',
+      'ungroup', 'slide master'],
+  },
+};
+
+for (const [id, spec] of Object.entries(CLASS_IX_PAPERS)) {
+  test(`${id} (Class IX) package: 80 MCQs in 8 × 10, 90 minutes, +4/-1, max 320`, () => {
+    const exam = exams.find(e => e.id === id);
+    assert.ok(exam, `${id} registered`);
+    const qs = exam.topics.flatMap(t => t.questions);
+    assert.equal(exam.grade, 'IX');
+    assert.ok(exam.edition.startsWith('Class IX') && exam.edition.includes(spec.edition), exam.edition);
+    assert.deepEqual(Array.from(exam.topics, t => t.questions.length), [10, 10, 10, 10, 10, 10, 10, 10]);
+    assert.equal(exam.duration, 5400);
+    assert.equal(exam.scoring.correct, 4);
+    assert.equal(exam.scoring.incorrect, -1);
+    assert.equal(qs.length * exam.scoring.correct, 320);
+    assert.equal(new Set(exam.topics.map(t => t.key)).size, 8, 'topic keys are unique');
+    qs.forEach((q, i) => {
+      assert.notEqual(q.type, 'written', `q${i}: must be objective`);
+      assert.equal(q.options.length, 4, `q${i}: four options`);
+    });
+  });
+
+  test(`${id} answer key: exactly 20 per letter, varied within each subject, no 3-in-a-row`, () => {
+    const exam = exams.find(e => e.id === id);
+    const qs = exam.topics.flatMap(t => t.questions);
+    const counts = [0, 0, 0, 0];
+    qs.forEach(q => counts[q.answer]++);
+    assert.deepEqual(counts, [20, 20, 20, 20]);
+    for (const topic of exam.topics) {
+      const keys = topic.questions.map(q => q.answer);
+      assert.ok(new Set(keys).size >= 3, `${topic.key}: key uses only ${new Set(keys).size} letters`);
+      [0, 1, 2, 3].forEach(k => assert.ok(keys.filter(a => a === k).length <= 4, `${topic.key}: letter ${'ABCD'[k]} used more than 4 times`));
+      keys.forEach((k, i) => assert.ok(i < 2 || !(k === keys[i - 1] && k === keys[i - 2]), `${topic.key}#${i}: same letter three times running`));
+    }
+    const hard = qs.filter(q => q.diff === 'H').length;
+    assert.ok(hard >= 8 && hard <= 16, `${id}: ${hard} hard questions`);
+  });
+
+  test(`${id} diagrams, tables and options are well-formed`, () => {
+    const exam = exams.find(e => e.id === id);
+    let diagrams = 0;
+    for (const topic of exam.topics) {
+      for (const [i, q] of topic.questions.entries()) {
+        q.options.forEach((o, oi) => assert.ok(!o.includes('<'), `${topic.key}#${i} option[${oi}]: raw '<'`));
+        const tables = (q.q.match(/<table/g) || []).length;
+        assert.equal(tables, (q.q.match(/<table class="q-table">/g) || []).length, `${topic.key}#${i}: tables use class q-table`);
+        assert.equal(tables, (q.q.match(/<\/table>/g) || []).length, `${topic.key}#${i}: unclosed table`);
+        if (!q.diagram) continue;
+        diagrams++;
+        assert.match(q.diagram, /^flowchart (TD|LR)\n/, `${topic.key}#${i}: flowchart TD/LR`);
+        assert.ok(q.diagram.length <= 600, `${topic.key}#${i}: diagram too large`);
+        assert.ok(!/</.test(q.diagram), `${topic.key}#${i}: no HTML in diagram code`);
+        assert.ok(/^Figure: /.test(q.diagramCaption || ''), `${topic.key}#${i}: caption`);
+      }
+    }
+    assert.ok(diagrams >= 3 && diagrams <= 5, `${id}: ${diagrams} diagram questions`);
+  });
+
+  test(`${id} covers its Class IX syllabus`, () => {
+    const exam = exams.find(e => e.id === id);
+    const text = exam.topics.flatMap(t => t.questions.map(q => [q.q, ...q.options, q.explain, q.diagram || ''].join(' ')))
+      .join(' ').toLowerCase();
+    const missing = spec.nouns.filter(n => !text.includes(n));
+    assert.deepEqual(missing, [], `syllabus terms not covered in ${id}`);
+  });
+}

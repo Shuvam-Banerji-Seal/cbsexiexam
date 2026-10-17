@@ -5,6 +5,7 @@ window.EXAM_JULY = {
   title: 'July Examination',
   edition: 'Full Syllabus — Revision',
   date: 'circa July 2026',
+  grade: 'XII',
   description: 'One hundred and twenty questions across Python fundamentals, exception handling, functions, and file handling.',
   duration: 7200,
   scoring: { correct: 4, incorrect: -1 },

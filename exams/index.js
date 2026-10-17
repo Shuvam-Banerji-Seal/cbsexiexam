@@ -8,4 +8,8 @@ window.EXAMS = [
   { ...window.EXAM_SEPTEMBER22 },
   { ...window.EXAM_SEPTEMBER26 },
   { ...window.EXAM_OCTOBER13 },
+  { ...window.EXAM_OCTOBER20 },
+  { ...window.EXAM_OCTOBER24 },
+  { ...window.EXAM_OCTOBER28 },
+  { ...window.EXAM_OCTOBER31 },
 ];

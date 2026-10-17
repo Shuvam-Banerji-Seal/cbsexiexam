@@ -1,11 +1,11 @@
 # CBSE Computer Science Mock Test
 
-A browser-based exam platform for CBSE Class XII Computer Science practice, now with a Class IX Information Technology paper.  
+A browser-based exam platform for CBSE Class XII Computer Science (083) and Class IX Computer Applications (165) / Information Technology (402) practice.  
 Designed for both real-exam simulation and guided revision — no dependencies, no backend, entirely client-side.
 
 ## Examination Hall
 
-The landing page is an **Examination Hall** where students select which paper to take. Each package carries its own syllabus, duration, and question count:
+The landing page is an **Examination Hall** where students select which paper to take. Papers are grouped by class (**Class IX** and **Class XII**) behind tabs that remember the student's choice, and a search box filters papers by title, description or subject. A ledger strip shows the number of papers and questions, the results on record and any attempts in progress. Each package carries its own syllabus, duration, and question count:
 
 ### July Examination — Full Syllabus Revision (120 Qs · 2h)
 - **Revision of Python (Class XI)** – 30 questions  
@@ -85,8 +85,30 @@ An objective-only paper for **CBSE Class IX**, covering the Employability Skills
 
 Four questions use rendered diagrams: the communication cycle, a computer block diagram, the memory hierarchy, and a PAN. The answer key is spread evenly across A–D, and every arithmetic answer was checked by computation.
 
+### October 20 Examination — Class IX: Cyber Safety, IT-ITeS Industry & Data Entry (80 Qs · 1h 30m)
+Computer Applications (165) Unit 2 and Information Technology (402) Part B Units 1–2.
+- **Safe Browsing & Social Networks** · **Passwords, Privacy & Confidentiality** · **Cyber Stalking, Bullying & Reporting** (cybercrime.gov.in, helpline 1930) · **Malware: Viruses, Adware & More**
+- **IT, ITeS & the IT-BPM Industry** · **IT in Everyday Life** · **Keyboard & Keyboarding Skills** (home and guide keys, finger allocation, ergonomics) · **Mouse Operations & Typing Tutor** (Rapid Typing Tutor, typing speed)
+
+### October 24 Examination — Class IX: Digital Documentation in LibreOffice Writer (80 Qs · 1h 30m)
+Information Technology (402) Part B Unit 3 and the word-processor part of Computer Applications (165) Unit 3.
+- **Word Processing & the Writer Window** · **Selecting & Editing Text** · **Find & Replace, Navigation & Proofing** · **Formatting Text**
+- **Formatting Paragraphs & Lists** · **Page Layout, Headers, Footers & Objects** · **Working with Tables** · **Printing, Mail Merge & Review**
+
+### October 28 Examination — Class IX: Electronic Spreadsheet in LibreOffice Calc (80 Qs · 1h 30m)
+Information Technology (402) Part B Unit 4 and the spreadsheet part of Computer Applications (165) Unit 3. Formula questions show the cells as a small spreadsheet grid, and every result was computed.
+- **Spreadsheets & the Calc Window** · **Cells, Addresses & Ranges** · **Entering Data: Labels, Values & Formulas** · **Formulas & Operators**
+- **Functions: SUM, AVERAGE, MAX, MIN, COUNT & IF** · **Formatting Cells & the Fill Handle** · **Relative, Absolute & Mixed References** · **Charts in a Spreadsheet**
+
+### October 31 Examination — Class IX: Digital Presentation in LibreOffice Impress (80 Qs · 1h 30m)
+Information Technology (402) Part B Unit 5 and the presentation part of Computer Applications (165) Unit 3.
+- **Presentations: Concept & Effectiveness** · **The Impress Window & Creating a Presentation** · **Working with Slides** · **Presentation Views**
+- **Formatting Text & Slides** · **Animations, Sound & Rehearse Timings** · **Tables, Images & Drawing Objects** · **Slide Master & Transitions**
+
+Each of the four 80-question papers has an exactly balanced answer key (20 per letter), 3–4 diagram questions, and was written against the official CBSE Class IX curriculum (cbseacademic.nic.in) and then fact-checked independently. Software questions follow the LibreOffice suite used by the CBSE IT (402) textbook.
+
 ## Exam Mode
-- Countdown timer per paper (2h July / 2h30m August / 2h August 21 & 30 / 3h September papers / 2h October 13)
+- Countdown timer per paper (2h July / 2h30m August / 2h August 21 & 30 / 3h September papers / 2h October 13 / 1h30m October 20, 24, 28 & 31)
 - JEE-style scoring: **+4** for correct, **–1** for incorrect
 - Auto-submit when time expires
 
@@ -96,18 +118,21 @@ Four questions use rendered diagrams: the communication cycle, a computer block 
 - Explanation shown immediately per question
 
 ## Results, Review & Persistence
-- Final score, accuracy %, and JEE scorecard
-- Topic-wise performance breakdown
-- Full answer review with filters (All / Correct / Wrong / Skipped)
+- Score ring (marks out of the maximum), correct / incorrect / unanswered counts, questions attempted, accuracy on attempted questions, time used and marks lost to negative marking
+- Subject-wise breakdown with a **"Revise first"** note naming the weakest subjects
+- Full answer review with filters (All / Correct / Wrong / Skipped), and the **explanation for every question**
+- **Practise the questions you missed**: one click starts an untimed practice round of only the wrong and skipped questions (it can be resumed like any attempt)
 - **Everything is stored in the browser's localStorage**: in-progress attempts are autosaved (refresh/resume-safe), and the last 5 finished attempts are kept in a "Register of Past Attempts" with one-click result review and retake.
 
 ## Diagrams
 ER diagrams and architecture figures are written in **Mermaid** and rendered to SVG at runtime. Every diagram in the question bank is validated by the test suite.
 
 ## UX
-- Question palette for quick navigation
-- Mark-for-review support
-- Keyboard shortcuts (1–4 to pick answers, M to mark, arrow keys to navigate)
+- Sticky exam header: the timer stays in view while scrolling, with a progress bar of answered questions
+- Question palette grouped by subject, with All / Unanswered / Marked filters and a ★ on marked questions
+- **Clear response** in exam mode: leaving a question blank costs nothing under −1 marking
+- Setup screen: Select all / Clear for subjects, with a live summary of the questions and time
+- Keyboard shortcuts (A–D or 1–4 to pick answers, M to mark, arrow keys to navigate); they never fire while typing a written answer
 - Sound feedback + celebration effects on high scores
 
 ---
@@ -132,10 +157,11 @@ npm test
 ```
 
 The suite (`node --test`) covers:
-- **Data integrity** — question counts (120/150/120/120/70/50/50/120), valid answers/options/difficulty, no duplicates anywhere in the registry, full syllabus coverage per paper, written-question shape (marks, no options), and a balanced A–D answer key for the Class IX paper
+- **Data integrity** — the data is loaded from `index.html`'s own script list (so an unregistered paper fails), question counts (120/150/120/120/70/50/50/120/80/80/80/80), valid answers/options/difficulty, no duplicates anywhere in the registry, full syllabus coverage per paper, written-question shape (marks, no options), and balanced A–D answer keys for the Class IX papers
 - **Mermaid validation** — every `erDiagram` parsed with the real Mermaid parser; flowchart diagrams structurally checked
-- **Browser e2e (Playwright)** — exam hall renders all eight packages, every exam flow works, all diagrams render to real SVGs, answers persist across reloads and resume correctly, submission stores history, and the written-answer flow (textarea → answer sheet → mailto) is exercised end-to-end across the September papers
-- **Results checking (Class IX paper)** — answers are entered through the real UI and the paper is concluded via the confirm dialog. The test checks the exact score (60 correct, 20 wrong, 40 skipped → 220/480, 50.0%), every subject's breakdown row, the Wrong/Skipped/Correct/All review filters, the saved history entry, and practice-mode instant verdicts
+- **Browser e2e (Playwright)** — the exam hall groups all twelve packages by class, the class tabs and search filter it, every exam flow works, all diagrams render to real SVGs, answers persist across reloads and resume correctly, submission stores history, and the written-answer flow (textarea → answer sheet → mailto) is exercised end-to-end across the September papers
+- **Results checking (Class IX paper)** — answers are entered through the real UI and the paper is concluded via the confirm dialog. The test checks the exact score (60 correct, 20 wrong, 40 skipped → 220/480, 50.0%), every subject's breakdown row, the Wrong/Skipped/Correct/All review filters, the saved history entry, and practice-mode instant verdicts. Each new Class IX paper is also sat in the browser (50 right, 10 wrong, 20 skipped → 190/320)
+- **New UI** — Select all / Clear and the setup summary, A–D keys, Clear response, palette filters and subject groups, the progress bar and sticky timer, keyboard shortcuts never firing inside written answers, explanations in the review, and the "practise the questions you missed" round (including resuming it after a reload)
 
 ---
 
